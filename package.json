@@ -1,0 +1,27 @@
+{
+  "name": "vtms-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.12.4",
+    "jade": "^1.10.0",
+    "mysql": "^2.7.0",
+    "sequelize": "^3.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/henrymatt/vtms-node.git"
+  },
+  "author": "Matt Henry <henrymatt@me.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/henrymatt/vtms-node/issues"
+  },
+  "homepage": "https://github.com/henrymatt/vtms-node"
+}
