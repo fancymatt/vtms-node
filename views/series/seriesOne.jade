@@ -15,7 +15,7 @@ block content
         th Title
       each languageSery in series.languageSeries
         tr
-          td= languageSery.fkLanguage
-          td= languageSery.fkLevel
+          td= languageSery.language.name
+          td= languageSery.level.name
           td
             a(href='/languageSeries/#{languageSery.id}')= languageSery.title

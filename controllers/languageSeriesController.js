@@ -7,7 +7,7 @@ router.get('/:languageSeries', function(req, res) {
     where: {
       id: req.params.languageSeries
     }, 
-    include: [ models.Series, models.Lesson],
+    include: [ models.Series, models.Lesson, models.Level, models.Language ],
     order: [ 'lessons.number' ]
   }).then(function(languageSeries) {
     res.render('languageSeries/languageSeries', {

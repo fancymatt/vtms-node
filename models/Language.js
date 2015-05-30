@@ -1,0 +1,19 @@
+var db = require('./database.js'),
+    Sequelize = require('sequelize');
+  
+var Language = db.define('language', {
+  id: {
+    type: Sequelize.INTEGER
+  },
+  name: {
+    type: Sequelize.STRING
+  },
+  code: {
+    type: Sequelize.STRING
+  }
+}, {
+  timestamps: false,
+  freezeTableName: true
+});
+
+module.exports = Language;
