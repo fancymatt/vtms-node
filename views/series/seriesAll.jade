@@ -1,0 +1,13 @@
+extends ../layouts/index
+
+block content
+  div.series-list
+    table.table
+      tr
+        th Title
+        th Code
+      each serie in series
+        tr
+          td
+            a(href="series/#{serie.id}")= serie.title
+          td= serie.code

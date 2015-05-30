@@ -4,7 +4,7 @@ var express = require('express'),
 
 router.get('/', function(req, res) {
   Series.findAll().then(function(series) {
-    res.render('main', {
+    res.render('series/seriesAll', {
       title: "Series",
       series: series
     });
