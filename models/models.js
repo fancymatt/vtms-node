@@ -3,9 +3,9 @@ var db = require('./database.js'),
 
 var models = {};
 
-models.Series = require('./series.js');
-models.LanguageSeries = require('./languageSeries.js');
-models.Lesson = require('./lesson.js');
+models.Series = require('./Series.js');
+models.LanguageSeries = require('./LanguageSeries.js');
+models.Lesson = require('./Lesson.js');
 
 models.Series.hasMany(models.LanguageSeries, { foreignKey: 'fkSeries' } );
 models.LanguageSeries.belongsTo(models.Series, { foreignKey: 'fkSeries'} );
