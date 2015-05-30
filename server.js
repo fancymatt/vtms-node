@@ -17,4 +17,6 @@ app.use('/languageSeries', languageSeriesController);
 app.use('/lesson', lessonController);
 app.use('/', mainController);
 
-app.listen(8080);
+var port = process.env.PORT || 3030;
+
+app.listen(port);
