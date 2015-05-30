@@ -1,7 +1,7 @@
 var db = require('./database.js'),
     Sequelize = require('sequelize');
-
-module.exports = db.define('series', {
+  
+var Series = db.define('series', {
   id: {
     type: Sequelize.INTEGER
   },
@@ -29,3 +29,5 @@ module.exports = db.define('series', {
 }, {
   timestamps: false
 });
+
+module.exports = Series;

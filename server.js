@@ -1,6 +1,7 @@
 var express = require('express'),
     app = express(),
     series = require('./controllers/series.js'),
+    languageSeries = require('./controllers/languageSeries.js'),
     home = require('./controllers/home.js'),
     lessons = require('./controllers/lessons.js');
 
