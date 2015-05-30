@@ -3,7 +3,7 @@ extends ../layouts/index
 block content
   ol.breadcrumb
     li
-      a(href='/series') Series List
+      a(href='/db') Series List
     li.active= series.title
   
   h2= series.title
@@ -13,8 +13,9 @@ block content
         th Language
         th Level
         th Title
-      each langserie in series.languageSeries
+      each languageSery in series.languageSeries
         tr
-          td= langserie.fkLanguage
-          td= langserie.fkLevel
-          td= langserie.title
+          td= languageSery.fkLanguage
+          td= languageSery.fkLevel
+          td
+            a(href='/languageSeries/#{languageSery.id}')= languageSery.title

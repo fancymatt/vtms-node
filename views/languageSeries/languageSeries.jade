@@ -1,0 +1,23 @@
+extends ../layouts/index
+
+block content
+  ol.breadcrumb
+    li
+      a(href='/db') Series List
+    li
+      a(href='/series/#{languageSeries.series.id}')= languageSeries.series.title
+    li.active= languageSeries.title
+  
+  h2= languageSeries.title
+  div.series-list
+    table.table
+      tr
+        th Number
+        th Title
+        th TRT
+      each lesson in languageSeries.lessons
+        tr
+          td= lesson.number
+          td
+            a(href="/lesson/#{lesson.id}")= lesson.title
+          td= lesson.trt

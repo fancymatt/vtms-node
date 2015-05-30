@@ -1,4 +1,13 @@
 extends ../layouts/index
 
 block content
-  p It's the lesson page
+  ol.breadcrumb
+    li
+      a(href='/db') Series List
+    li
+      a(href='/series/#{lesson.languageSery.series.id}')= lesson.languageSery.series.title
+    li
+      a(href='/languageSeries/#{lesson.languageSery.id}')= lesson.languageSery.title
+    li.active= lesson.title
+  
+  h2= lesson.title

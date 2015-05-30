@@ -1,9 +1,9 @@
 var express = require('express'),
     router = express.Router(),
-    LanguageSeries = require('../models/languageSeries.js');
+    models = require('../models/models.js');
 
 router.get('/', function(req, res) {
-  LanguageSeries.findAll().then(function(languageSeries) {
+  models.Series.findAll({ order: [ 'title' ] }).then(function(series) {
     res.render('series/seriesAll', {
       title: "Series",
       series: series
