@@ -11,7 +11,7 @@ router.get('/:series', function(req, res) {
     order: [ 'languageSeries.seriesTitle', 'languageSeries.fkLevel' ]
   }).then(function(series) {
     res.render('series/seriesOne', {
-      title: "SeriesOne",
+      title: series.title + " | VTMS",
       series: series
     });
   });

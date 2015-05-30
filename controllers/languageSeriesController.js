@@ -11,7 +11,7 @@ router.get('/:languageSeries', function(req, res) {
     order: [ 'lessons.number' ]
   }).then(function(languageSeries) {
     res.render('languageSeries/languageSeries', {
-      title: "languageSeries",
+      title: languageSeries.title + " | VTMS",
       languageSeries: languageSeries
     });
   });

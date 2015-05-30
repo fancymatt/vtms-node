@@ -5,7 +5,7 @@ var express = require('express'),
 router.get('/', function(req, res) {
   models.Series.findAll({ order: [ 'title' ] }).then(function(series) {
     res.render('series/seriesAll', {
-      title: "Series",
+      title: "Lesson DB | VTMS",
       series: series
     });
   });
