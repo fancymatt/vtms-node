@@ -8,6 +8,9 @@ router.get('/:lesson', function(req, res) {
       id: req.params.lesson
     }, 
     include: [
+      {
+        model: models.Shot
+      },
       { 
         model: models.LanguageSeries, 
         include: [

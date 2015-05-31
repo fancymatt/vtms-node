@@ -15,9 +15,11 @@ block content
         th Number
         th Title
         th TRT
+        th Publish Date
       each lesson in languageSeries.lessons
         tr
           td= lesson.number
           td
             a(href="/lesson/#{lesson.id}")= lesson.title
           td= lesson.trt
+          td= lesson.publishDateSite

@@ -11,3 +11,16 @@ block content
     li.active= lesson.title
   
   h2= lesson.title
+  div.script
+  table.table
+    tr
+      th Section
+      th Shot
+      th Script
+      th Script English
+    each shot in lesson.shots
+      tr
+        td= shot.section
+        td= shot.shot
+        td= shot.script
+        td= shot.scriptEnglish
