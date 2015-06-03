@@ -35,7 +35,7 @@ passport.use(new LocalStrategy(
     console.log("querying the DB with a username of " + username);
     models.User.find({ where: {username: username}}).then(function(user) {
       console.log(user);
-      if(user) {
+      if(user && user.authenticate(password)) {
         return done(null, user);
       } else {
         return done(null, false);

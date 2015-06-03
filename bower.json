@@ -21,6 +21,7 @@
     "angular-route": "~1.4.0",
     "toastr": "~2.1.1",
     "jquery": "~2.1.4",
-    "angular": "~1.4.0"
+    "angular": "~1.4.0",
+    "bootstrap": "~3.3.4"
   }
 }
