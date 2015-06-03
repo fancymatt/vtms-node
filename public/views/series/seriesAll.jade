@@ -1,13 +1,5 @@
 extends ../layouts/index
 
 block content
-  div.series-list
-    table.table
-      tr
-        th Title
-        th Code
-      each sery in series
-        tr
-          td
-            a(href="series/#{sery.id}")= sery.title
-          td= sery.code
+  h1 This is a Partial
+  h2 {{ myVar }}

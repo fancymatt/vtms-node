@@ -17,4 +17,11 @@ router.get('/:series', function(req, res) {
   });
 });
 
+router.post('/', function(req, res) {
+  models.Series.create({
+    code: req.body.code,
+    title: req.body.title
+  });
+});
+
 module.exports = router;

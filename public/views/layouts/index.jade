@@ -1,8 +1,24 @@
-doctype html
-head
-  title= title 
-  include ../partials/scripts.jade
-body
-  include ../partials/navigation.jade
-  div.container-fluid
-    block content
+extends ../includes/layout
+
+block content
+  nav.navbar.navbar-default
+    div.container-fluid
+      div.navbar-header
+        a.navbar-brand(href='/') VTMS
+      div.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href='/db') Lesson DB
+  section.content
+    div(ng-view)
+  div.series-list
+    table.table
+      tr
+        th Series
+        th Code
+      each sery in series
+        tr
+          td= sery.title
+          td= sery.code
+  footer.container.text-center
+    p Copyright 2005 Matt Henry
