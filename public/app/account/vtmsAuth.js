@@ -11,6 +11,14 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q) {
         }
       });
       return dfd.promise;
+    },
+    logoutUser: function() {
+      var dfd = $q.defer();
+      $http.post('/logout', {logout: true}).then(function() {
+        vtmsIdentity.currentUser = undefined;
+        dfd.resolve();
+      });
+      return dfd.promise;
     }
   };
 });
