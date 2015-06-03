@@ -1,4 +1,4 @@
-var db = require('./database.js'),
+var db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
   
 var Level = db.define('level', {
