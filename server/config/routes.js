@@ -7,10 +7,7 @@ module.exports = function(app) {
   });
 
   app.post('/login', function(req, res, next) {
-    console.log("running login route function");
-    console.log(req.body);
     var auth = passport.authenticate('local', function(err, user) {
-      console.log(user);
       if(err) {return next(err);}
       if(!user) {res.send({success:false});}
       req.logIn(user, function(err) {
