@@ -1,29 +1,19 @@
 var express = require('express'),
-    app = express(),
-    logger = require('morgan'),
-    bodyParser = require('body-parser'),
-    models = require('./models/models.js');
+    models = require('./server/models/models.js');
 
-app.set('view engine', 'jade');
-app.set('views', __dirname + '/public/views/');
-app.use(logger('dev'));
-app.use(bodyParser());
-app.use(express.static('public'));
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-app.get('/partials/*', function(req, res) {
-  res.render('../../public/app/' + req.params[0]);
-});
+var config = require('./server/config/config.js')[env];
 
-var allSeries;
-models.Series.findAll().then(function(series) {
-  allSeries = series;
-});
+var app = express();
 
-app.get('*', function(req, res) {
-  res.render('layouts/index', {series: allSeries});
-});
+require('./server/config/express')(app, config);
 
-var port = process.env.PORT || 3030;
+require('./server/config/sequelize');
 
-app.listen(port);
-console.log("Listening on port: " + port);
+require('./server/config/routes')(app);
+
+console.log(config.path);
+
+app.listen(config.port);
+console.log("Listening on port: " + config.port);
