@@ -9,6 +9,7 @@ models.Lesson = require('./Lesson.js');
 models.Language = require('./Language.js');
 models.Level = require('./Level.js');
 models.Shot = require('./Shot.js');
+models.User = require('./User.js');
 
 models.Series.hasMany(models.LanguageSeries, { foreignKey: 'fkSeries' } );
 models.LanguageSeries.belongsTo(models.Series, { foreignKey: 'fkSeries' } );
