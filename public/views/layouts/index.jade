@@ -11,14 +11,5 @@ block content
             a(href='/db') Lesson DB
   section.content
     div(ng-view)
-  div.series-list
-    table.table
-      tr
-        th Series
-        th Code
-      each sery in series
-        tr
-          td= sery.title
-          td= sery.code
   footer.container.text-center
     p Copyright 2005 Matt Henry
