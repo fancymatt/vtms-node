@@ -31,10 +31,7 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    console.log("DB!!");
-    console.log("querying the DB with a username of " + username);
     models.User.find({ where: {username: username}}).then(function(user) {
-      console.log(user);
       if(user && user.authenticate(password)) {
         return done(null, user);
       } else {
@@ -45,8 +42,6 @@ passport.use(new LocalStrategy(
 ));
 
 require('./server/config/routes')(app);
-
-console.log(config.path);
 
 app.listen(config.port);
 console.log("Listening on port: " + config.port);
