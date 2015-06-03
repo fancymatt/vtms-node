@@ -7,6 +7,7 @@ var express = require('express'),
     mainController = require('./controllers/mainController.js');
 
 app.set('view engine', 'jade');
+app.set('views', __dirname + '/public/views/');
 
 app.use(express.static('public'));
 
