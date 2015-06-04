@@ -40,7 +40,7 @@ models.Level.hasMany(models.LanguageSeries, { foreignKey: 'fkLevel' } );
 models.Shot.belongsTo(models.Lesson, { foreignKey: 'fkLesson' } );
 models.Shot.belongsTo(models.Talent, { foreignKey: 'fkTalent' } );
 
-models.User.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
+//models.User.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
 
 models.Shift.belongsTo(models.Activity, { foreignKey: 'fkShift' } );
 
@@ -63,7 +63,7 @@ models.TaskComment.belongsTo(models.Activity, { foreignKey: 'fkActivity' } );
 models.TaskGlobal.hasMany(models.Task, { foreignKey: 'fkTaskGlobal' } );
 models.TaskGlobal.belongsTo(models.Series, { foreignKey: 'fkSeries' } );
 
-models.TeamMember.hasMany(models.User, { foreignKey: 'fkTeamMember' } );
+//models.TeamMember.hasMany(models.User, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Shift, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Task, { foreignKey: 'fkTeamMember' } );
 
