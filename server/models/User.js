@@ -7,7 +7,6 @@ var User = db.define('user', {
     type: Sequelize.INTEGER,
     unique: true,
     allowNull: false,
-    primaryKey: true,
     autoIncrement: true
   },
   firstName: {
@@ -23,6 +22,9 @@ var User = db.define('user', {
     type: Sequelize.STRING
   },
   hashed_pwd: {
+    type: Sequelize.STRING
+  },
+  role: {
     type: Sequelize.STRING
   }
 }, {
@@ -42,6 +44,14 @@ User.sync({force: true}).then(function() {
     firstName: "Matt", 
     lastName: "Henry", 
     username: "henrymatt",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "admin"
+  });
+  User.create({
+    firstName: "Jaimee", 
+    lastName: "Haaland", 
+    username: "jhaaland",
     salt: salt,
     hashed_pwd: hash
   });
