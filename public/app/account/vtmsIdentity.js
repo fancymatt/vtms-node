@@ -1,7 +1,8 @@
-angular.module('vtms').factory('vtmsIdentity', function($window) {
+angular.module('vtms').factory('vtmsIdentity', function($window, vtmsUser) {
   var currentUser;
   if(!!$window.bootstrappedUserObject) {
-    currentUser = $window.bootstrappedUserObject;
+    currentUser = new vtmsUser();
+    angular.extend(currentUser, $window.bootstrappedUserObject);
   }
   return {
     currentUser: currentUser,
