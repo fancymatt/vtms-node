@@ -4,6 +4,9 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
   var routeRoleChecks = {
     admin: {auth: function(vtmsAuth) {
       return vtmsAuth.authorizeCurrentUserForRoute('admin')
+      }},
+    user: {auth: function(vtmsAuth) {
+      return vtmsAuth.authorizeAuthenticatedUserForRoute()
       }}
     }
   $locationProvider.html5Mode(true);
@@ -20,6 +23,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/signup', { 
       templateUrl: '/partials/account/signup', 
       controller: 'vtmsSignupController' 
+    })
+    .when('/profile', { 
+      templateUrl: '/partials/account/profile', 
+      controller: 'vtmsProfileController', resolve: routeRoleChecks.user
     });
 });
 

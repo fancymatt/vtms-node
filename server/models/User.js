@@ -33,6 +33,9 @@ var User = db.define('user', {
   instanceMethods: {
     authenticate: function(passwordToMatch) {
       return encrypt.hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
+    },
+    hasRole: function(role) {
+      return this.role === role;
     }
   }
   
