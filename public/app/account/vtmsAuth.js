@@ -2,7 +2,7 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
   return {
     authenticateUser: function(username, password) {
       var dfd = $q.defer();
-      $http.post('/login', {username:username, password:password}).then(function(response) {
+      $http.post('/login', {username: username, password: password}).then(function(response) {
         if(response.data.success) {
           var user = new vtmsUser();
           angular.extend(user, response.data.user);
@@ -12,6 +12,22 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
           dfd.resolve(false);
         }
       });
+      return dfd.promise;
+    },
+    
+    createUser: function(newUserData) {
+      var newUser = new vtmsUser(newUserData);
+      var dfd = $q.defer();
+      console.log("user created");
+      
+      newUser.$save().then(function() {
+        console.log("user saved");
+        vtmsIdentity.currentUser = newUser;
+        dfd.resolve();
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+      
       return dfd.promise;
     },
     

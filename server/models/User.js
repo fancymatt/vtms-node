@@ -1,6 +1,6 @@
 var db = require('../config/sequelize.js'),
     Sequelize = require('sequelize'),
-    crypto = require('crypto');
+    encrypt = require('../utilities/encryption');
   
 var User = db.define('user', {
   id: {
@@ -16,7 +16,8 @@ var User = db.define('user', {
     type: Sequelize.STRING
   },
   username: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    unique: true
   },
   salt: {
     type: Sequelize.STRING
@@ -31,15 +32,15 @@ var User = db.define('user', {
   timestamps: true,
   instanceMethods: {
     authenticate: function(passwordToMatch) {
-      return hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
+      return encrypt.hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
     }
   }
   
 });
 
 User.sync({force: true}).then(function() {
-  var salt = createSalt();
-  var hash = hashPwd(salt, 'pikachu');
+  var salt = encrypt.createSalt();
+  var hash = encrypt.hashPwd(salt, 'pikachu');
   User.create({
     firstName: "Matt", 
     lastName: "Henry", 
@@ -56,14 +57,5 @@ User.sync({force: true}).then(function() {
     hashed_pwd: hash
   });
 });
-
-function createSalt() {
-  return crypto.randomBytes(128).toString('base64');
-}
-
-function hashPwd(salt, pwd) {
-  var hmac = crypto.createHmac('sha1', salt);
-  return hmac.update(pwd).digest('hex');
-}
 
 module.exports = User;

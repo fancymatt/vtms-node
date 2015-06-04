@@ -8,11 +8,18 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     }
   $locationProvider.html5Mode(true);
   $routeProvider
-    .when('/', { templateUrl: '/partials/main/main', controller: 'vtmsMainController'})
+    .when('/', { 
+      templateUrl: '/partials/main/main', 
+      controller: 'vtmsMainController'
+    })
     .when('/admin/users', { 
       templateUrl: '/partials/admin/user-list', 
       controller: 'vtmsUserListController',
       resolve: routeRoleChecks.admin
+    })
+    .when('/signup', { 
+      templateUrl: '/partials/account/signup', 
+      controller: 'vtmsSignupController' 
     });
 });
 
