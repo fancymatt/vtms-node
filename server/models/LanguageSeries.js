@@ -14,6 +14,12 @@ var LanguageSeries = db.define('languageSeries', {
   fkLevel: {
     type: Sequelize.INTEGER
   },
+  fkChannel: {
+    type: Sequelize.INTEGER
+  },
+  fkTalent: {
+    type: Sequelize.INTEGER
+  },
   title: {
     type: Sequelize.STRING,
     field: 'seriesTitle'
