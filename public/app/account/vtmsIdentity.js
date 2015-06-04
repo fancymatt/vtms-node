@@ -8,6 +8,9 @@ angular.module('vtms').factory('vtmsIdentity', function($window, vtmsUser) {
     currentUser: currentUser,
     isAuthenticated: function() {
       return !!this.currentUser;
+    },
+    isAuthorized: function(role) {
+      return !!this.currentUser && this.currentUser.role === role;
     }
   }
 });

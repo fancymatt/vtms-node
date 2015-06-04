@@ -14,6 +14,7 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
       });
       return dfd.promise;
     },
+    
     logoutUser: function() {
       var dfd = $q.defer();
       $http.post('/logout', {logout: true}).then(function() {
@@ -21,6 +22,14 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
         dfd.resolve();
       });
       return dfd.promise;
+    },
+    
+    authorizeCurrentUserForRoute: function(role) {
+      if(vtmsIdentity.isAuthorized(role)) { 
+        return true;
+      } else {
+        return $q.reject('not authorized');
+      }
     }
   };
 });
