@@ -27,6 +27,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/profile', { 
       templateUrl: '/partials/account/profile', 
       controller: 'vtmsProfileController', resolve: routeRoleChecks.user
+    })
+    .when('/series', { 
+      templateUrl: '/partials/series/series-list', 
+      controller: 'vtmsSeriesListController'
     });
 });
 
