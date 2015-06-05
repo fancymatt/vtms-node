@@ -1,6 +1,7 @@
 var auth = require('./auth'),
     users = require('../controllers/users'),
     series = require('../controllers/series'),
+    languageSeries = require('../controllers/languageSeries'),
     models = require('../models/models');
 
 module.exports = function(app) {
@@ -11,6 +12,8 @@ module.exports = function(app) {
   
   app.get('/api/series/:id', series.getSeriesById);
   app.get('/api/series', series.getSeries);
+  
+  app.get('/api/languageSeries/:id', languageSeries.getLanguageSeriesById);
   
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/' + req.params[0]);
