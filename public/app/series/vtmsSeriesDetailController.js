@@ -5,4 +5,6 @@ angular.module('vtms').controller('vtmsSeriesDetailController', function($scope,
     {value: "title", text: "Sort by Title"},
     {value: "language.name", text: "Sort by Language"}
   ];
+  
+  $scope.selectedSortOption = $scope.sortOptions[0].value;
 });

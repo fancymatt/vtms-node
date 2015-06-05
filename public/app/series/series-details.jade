@@ -1,3 +1,8 @@
+.container-fluid
+  ol.breadcrumb
+    li
+      a(href="/series") Series List
+    li.active {{series.title}}
 .container
   h1 {{series.title}}
   .pull-right
@@ -5,7 +10,7 @@
       .form-group
         input.form-control(ng-model="searchText", placeholder="Filter")
       .form-group
-        select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
+        select.form-control(ng-model="selectedSortOption", ng-options="item.value as item.text for item in sortOptions")
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
@@ -13,7 +18,8 @@
         th Title
         th Level
     tbody
-      tr(ng-repeat="langSery in series.languageSeries | filter:searchText | orderBy: sortOrder")
+      tr(ng-repeat="langSery in series.languageSeries | filter:searchText | orderBy: selectedSortOption")
         td {{langSery.language.name}}
-        td {{langSery.title}}
+        td
+          a(href="/languageSeries/{{langSery.id}}") {{langSery.title}}
         td {{langSery.level.name}}

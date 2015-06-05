@@ -1,0 +1,30 @@
+.container-fluid
+  ol.breadcrumb
+    li
+      a(href="/series") Series List
+    li
+      a(href="/series/{{languageSeries.series.id}}") {{languageSeries.series.title}}
+    li.active {{languageSeries.title}}
+.container
+  h1 {{languageSeries.title}}
+  .pull-right
+    form.form-inline
+      .form-group
+        input.form-control(ng-model="searchText", placeholder="Filter")
+      .form-group
+        select.form-control(ng-model="selectedSortOption", ng-options="item.value as item.text for item in sortOptions")
+  table.table.table-hover.table-striped.table-condensed
+    thead
+      tr
+        th Number
+        th Title
+        th TRT
+        th Publish Date Site
+        th Publish Date YouTube
+    tbody
+      tr(ng-repeat="lesson in languageSeries.lessons | filter:searchText | orderBy: selectedSortOption")
+        td {{lesson.number}}
+        td {{lesson.title}}
+        td {{lesson.trt | secondsToDateTime | date:'m:ss' }}
+        td {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'EEE, MMM d, yyyy'): "Not Set"}}
+        td {{lesson.publishDateYouTube !== '0000-00-00'?(lesson.publishDateYouTube | date:'EEE, MMM d, yyyy'): "Not Set"}}
