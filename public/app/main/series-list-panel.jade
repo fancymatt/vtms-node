@@ -2,4 +2,5 @@
   .panel-heading.text-center Series List
   .panel-body
     .row(ng-repeat="sery in series | orderBy: 'title'")
-      .col-md-12 {{sery.title}}
+      .col-md-12
+        a(href="/series/{{sery.id}}") {{sery.title}}

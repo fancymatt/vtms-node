@@ -9,6 +9,7 @@ module.exports = function(app) {
   app.post('/api/users', users.createUser);
   app.put('/api/users', users.updateUser);
   
+  app.get('/api/series/:id', series.getSeriesById);
   app.get('/api/series', series.getSeries);
   
   app.get('/partials/*', function(req, res) {
