@@ -6,9 +6,15 @@ block content
       div.navbar-header
         a.navbar-brand(href='/') VTMS
       div.collapse.navbar-collapse
-        ul.nav.navbar-nav
+        ul.nav.navbar-nav(ng-controller="vtmsNavBarController")
           li
             a(href='/series') Lesson DB
+          li.dropdown
+            a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Team Members
+              span.caret
+            ul.dropdown-menu(role="menu")
+              li(ng-repeat="teamMember in teamMembers")
+                a(href="teamMember/{{teamMember.id}}") {{teamMember.nameFull}}
         div(ng-include="'/partials/account/navbar-login'")
   section.content
     div(ng-view)

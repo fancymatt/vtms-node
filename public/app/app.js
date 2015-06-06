@@ -45,6 +45,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/languageSeries/language-series-details', 
       controller: 'vtmsLanguageSeriesDetailController'
     })
+    .when('/teamMembers', {
+      templateUrl: '/partials/teamMembers/team-member-list',
+      controller: 'vtmsTeamMemberListController'
+    })
     .when('/lesson/:id', {
       templateUrl: '/partials/lessons/lesson-details',
       controller: 'vtmsLessonDetailsController'

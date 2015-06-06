@@ -1,0 +1,7 @@
+.panel.panel-primary
+  .panel-heading.text-center Team Member List
+  .panel-body
+    .row(ng-repeat="teamMember in teamMembers")
+      .col-md-12
+        a(href="/teamMember/{{teamMember.id}}") {{teamMember.nameFull}} 
+        span(ng-show="teamMember.tasks[0]") {{teamMember.tasks[0].lesson.languageSery.title + " #" + teamMember.tasks[0].lesson.number + " - " + teamMember.tasks[0].taskGlobal.name}}
