@@ -16,8 +16,12 @@ angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function
 
     angular.extend(thisLanguageSeries, newData);
     
-    thisLanguageSeries.update().then(function() {
-      vtmsNotifier.notify('This Language Series has been updated');
+    thisLanguageSeries.update(newData).then(function() {
+      var string = "Updated Language Series: ";
+      for(var key in newData) {
+        string += key + " changed to \"" + newData[key] + "\" ";
+      }
+      vtmsNotifier.notify(string);
     }, function(reason) {
       vtmsNotifier.error(reason);
     });

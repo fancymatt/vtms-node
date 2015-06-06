@@ -13,7 +13,9 @@ exports.getLanguageSeriesById = function(req, res) {
 exports.updateLanguageSeries = function(req, res) {
   
   models.LanguageSeries.findById(req.body.id).then(function(languageSeries) {
-    languageSeries.title = req.body.title;
+    for(var key in req.query) {
+      languageSeries[key] = req.query[key];
+    }
     languageSeries.save()
       .then(function(languageSeries) {
         res.status(200);
