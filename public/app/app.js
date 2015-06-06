@@ -1,4 +1,4 @@
-angular.module('vtms', ['ngResource', 'ngRoute', 'xeditable']);
+angular.module('vtms', ['ngResource', 'ngRoute', 'xeditable', 'ui.bootstrap']);
 
 angular.module('vtms').run(function(editableOptions) {
   editableOptions.theme = 'bs3';
@@ -44,6 +44,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/languageSeries/:id', { 
       templateUrl: '/partials/languageSeries/language-series-details', 
       controller: 'vtmsLanguageSeriesDetailController'
+    })
+    .when('/lesson/:id', {
+      templateUrl: '/partials/lessons/lesson-details',
+      controller: 'vtmsLessonDetailsController'
     });
 });
 

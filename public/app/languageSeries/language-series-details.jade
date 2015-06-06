@@ -25,7 +25,8 @@
     tbody
       tr(ng-repeat="lesson in languageSeries.lessons | filter:searchText | orderBy: selectedSortOption")
         td {{lesson.number}}
-        td {{lesson.title}}
+        td 
+          a(href="/lesson/{{lesson.id}}") {{lesson.title}}
         td {{lesson.trt | secondsToDateTime | date:'m:ss' }}
         td {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'EEE, MMM d, yyyy'): "Not Set"}}
         td {{lesson.publishDateYouTube !== '0000-00-00'?(lesson.publishDateYouTube | date:'EEE, MMM d, yyyy'): "Not Set"}}
