@@ -22,6 +22,7 @@
         th TRT
         th Publish Date Site
         th Publish Date YouTube
+        th Status
     tbody
       tr(ng-repeat="lesson in languageSeries.lessons | filter:searchText | orderBy: selectedSortOption")
         td {{lesson.number}}
@@ -30,3 +31,8 @@
         td {{lesson.trt | secondsToDateTime | date:'m:ss' }}
         td {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'EEE, MMM d, yyyy'): "Not Set"}}
         td {{lesson.publishDateYouTube !== '0000-00-00'?(lesson.publishDateYouTube | date:'EEE, MMM d, yyyy'): "Not Set"}}
+        td 
+          span.glyphicon.glyphicon-font(aria-hidden="true", ng-show="lesson.checkedLanguage")
+          span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
+          span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")
+          span.glyphicon.glyphicon-cloud-upload(aria-hidden="true", ng-show="lesson.isDetected")
