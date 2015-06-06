@@ -33,8 +33,6 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
     
     updateCurrentUser: function(newUserData) {
       var dfd = $q.defer();
-      console.log("updateCurrentUser in vtmsAuth.js");
-      console.log(newUserData);
       var clone = angular.copy(vtmsIdentity.currentUser);
       angular.extend(clone, newUserData);
       clone.$update().then(function() {

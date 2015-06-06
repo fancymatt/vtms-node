@@ -13,7 +13,11 @@ module.exports = function(app) {
   app.get('/api/series/:id', series.getSeriesById);
   app.get('/api/series', series.getSeries);
   
+  //app.get('/api/languageSeries', languageSeries.getAllLanguageSeries); // not implemented
+  //app.post('/api/languageSeries', languageSeries.newLanguageSeries); // not implemented
   app.get('/api/languageSeries/:id', languageSeries.getLanguageSeriesById);
+  app.put('/api/languageSeries/:id', languageSeries.updateLanguageSeries);
+  //app.delete('/api/languageSeries/:id', languageSeries.deleteLanguageSeries); // not implemented
   
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/' + req.params[0]);
