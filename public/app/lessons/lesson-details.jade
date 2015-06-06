@@ -1,0 +1,45 @@
+.container-fluid
+  ol.breadcrumb
+    li
+      a(href="/series") Series List
+    li
+      a(href="/series/{{lesson.languageSery.series.id}}") {{lesson.languageSery.series.title}}
+    li
+      a(href="/languageSeries/{{lesson.languageSery.id}}") {{lesson.languageSery.title}}
+    li.active {{lesson.title}}
+.container
+  h1
+    a(href="#", editable-text="lesson.title", onbeforesave="update({title: $data})") {{lesson.title}}
+  p Publish Date: {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
+  p YouTube Date: {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
+  p YouTube Code: 
+    a(href="#", editable-text="lesson.ytCode", onbeforesave="update({ytCode: $data})") {{lesson.ytCode ? lesson.ytCode : "none"}}
+  table.table.table-hover.table-striped.table-condensed#tasks
+    thead
+      tr
+        th Name
+        th Person Responsible
+        th Status
+    tbody
+      tr(ng-repeat="task in lesson.tasks | filter:searchText | orderBy: selectedSortOption")
+        td {{task.taskGlobal.name}}
+        td {{task.teamMember.nameFull}}
+        td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date:'MMM d, yyyy') : "") : ""}}
+.container
+  .pull-right
+    form.form-inline
+      .form-group
+        input.form-control(ng-model="shotSearchText", placeholder="Filter")
+  table.table.table-hover.table-striped.table-condensed#shots
+    thead
+      tr
+        th Section
+        th Shot
+        th Script
+        th Script English
+    tbody
+      tr(ng-repeat="shot in lesson.shots | filter:shotSearchText | orderBy: ['section', 'shot']" )
+        td {{shot.section}}
+        td {{shot.shot}}
+        td {{shot.script}}
+        td {{shot.scriptEnglish}}
