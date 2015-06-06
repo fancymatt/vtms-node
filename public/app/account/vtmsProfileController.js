@@ -9,8 +9,6 @@ angular.module('vtms').controller('vtmsProfileController', function($scope, vtms
       firstName: $scope.firstName,
       lastName: $scope.lastName
     }
-    console.log("$scope.update in vtmsProfileController.js");
-    console.log(newUserData);
     if($scope.password && $scope.password.length > 0) {
       newUserData.password = $scope.password;
     }

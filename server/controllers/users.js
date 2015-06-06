@@ -27,12 +27,10 @@ exports.createUser = function(req, res, next) {
 exports.updateUser = function(req, res) {
   var userUpdates = req.body;
   console.log(req);
-  console.log(userUpdates);
   if(req.user.id != userUpdates.id && !req.user.hasRole('admin')) {
     res.status(403);
     return res.end();
   }
-  
   req.user.firstName = userUpdates.firstName;
   req.user.lastName = userUpdates.lastName;
   req.user.username = userUpdates.username;

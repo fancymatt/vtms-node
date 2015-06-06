@@ -6,7 +6,8 @@
       a(href="/series/{{languageSeries.series.id}}") {{languageSeries.series.title}}
     li.active {{languageSeries.title}}
 .container
-  h1 {{languageSeries.title}}
+  h1
+    a(href="#", editable-text="languageSeries.title", onbeforesave="update({title: $data})") {{languageSeries.title}}
   .pull-right
     form.form-inline
       .form-group

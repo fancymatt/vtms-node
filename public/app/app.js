@@ -1,4 +1,8 @@
-angular.module('vtms', ['ngResource', 'ngRoute']);
+angular.module('vtms', ['ngResource', 'ngRoute', 'xeditable']);
+
+angular.module('vtms').run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});
 
 angular.module('vtms').config(function($routeProvider, $locationProvider) {
   var routeRoleChecks = {
@@ -26,7 +30,8 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     })
     .when('/profile', { 
       templateUrl: '/partials/account/profile', 
-      controller: 'vtmsProfileController', resolve: routeRoleChecks.user
+      controller: 'vtmsProfileController', 
+      resolve: routeRoleChecks.user
     })
     .when('/series', { 
       templateUrl: '/partials/series/series-list', 

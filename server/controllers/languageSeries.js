@@ -9,3 +9,20 @@ exports.getLanguageSeriesById = function(req, res) {
     res.send(languageSeries);
   });
 };
+
+exports.updateLanguageSeries = function(req, res) {
+  
+  models.LanguageSeries.findById(req.body.id).then(function(languageSeries) {
+    languageSeries.title = req.body.title;
+    languageSeries.save()
+      .then(function(languageSeries) {
+        res.status(200);
+        return res.send();
+      })
+      .catch(function(err) {
+        res.status(400);
+        return res.send({reason: err.toString()});
+      });
+  
+  });
+};
