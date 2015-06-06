@@ -10,6 +10,10 @@ var TeamMember = db.define('teamMember', {
   },
   nameLast: {
     type: Sequelize.STRING
+  },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+    field: 'active'
   }
 }, {
   getterMethods: {

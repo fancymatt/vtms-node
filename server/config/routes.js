@@ -3,6 +3,7 @@ var auth = require('./auth'),
     series = require('../controllers/series'),
     languageSeries = require('../controllers/languageSeries'),
     lesson = require('../controllers/lesson'),
+    teamMembers = require('../controllers/teamMember'),
     models = require('../models/models');
 
 module.exports = function(app) {
@@ -25,6 +26,9 @@ module.exports = function(app) {
   app.get('/api/lessons/:id', lesson.getLessonById);
   app.put('/api/lessons/:id', lesson.updateLesson);
   //app.delete('/api/lessons/:id', lesson.deleteLesson); // not implemented
+  
+  app.get('/api/teamMembers', teamMembers.getAllTeamMembers);
+  app.get('/api/teamMembers/:id', teamMembers.getTeamMemberById);
   
   
   app.get('/partials/*', function(req, res) {
