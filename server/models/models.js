@@ -18,6 +18,7 @@ models.Task = require('./Task.js');
 models.TaskComment = require('./TaskComment.js');
 models.TaskGlobal = require('./TaskGlobal.js');
 models.TeamMember = require('./TeamMember.js');
+models.PublishDate = require('./PublishDate.js');
 
 models.Series.hasMany(models.LanguageSeries, { foreignKey: 'fkSeries' } );
 models.Series.hasMany(models.TaskGlobal, { foreignKey: 'fkSeries' } );
@@ -32,6 +33,7 @@ models.LanguageSeries.hasMany(models.Lesson, { foreignKey: 'fkLanguageSeries' } 
 models.Lesson.belongsTo(models.LanguageSeries, { foreignKey: 'fkLanguageSeries'} );
 models.Lesson.hasMany(models.Shot, { foreignKey: 'fkLesson' } );
 models.Lesson.hasMany(models.Task, { foreignKey: 'fkLesson' } );
+models.Lesson.hasMany(models.PublishDate, {foreignKey: 'fkLesson'} );
 
 models.Language.hasMany(models.LanguageSeries, { foreignKey: 'fkLanguage' } );
 
@@ -66,5 +68,7 @@ models.TaskGlobal.belongsTo(models.Series, { foreignKey: 'fkSeries' } );
 //models.TeamMember.hasMany(models.User, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Shift, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Task, { foreignKey: 'fkTeamMember' } );
+
+models.PublishDate.belongsTo(models.Lesson, { foreignKey: 'fkLesson'} ); 
 
 module.exports = models;
