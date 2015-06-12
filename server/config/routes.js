@@ -57,6 +57,18 @@ module.exports = function(app) {
   app.get('/api/publishDates', controllers.publishDate.getPublishDates);
   app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);
   
+  app.get('/api/shots', controllers.shot.getShots);
+  app.get('/api/shots/:id', controllers.shot.getShotById);
+  
+  app.get('/api/talents', controllers.talent.getTalents);
+  app.get('/api/talents/:id', controllers.talent.getTalentById);
+  
+  app.get('/api/taskComments', controllers.taskComment.getTaskComments);
+  app.get('/api/taskComments/:id', controllers.taskComment.getTaskCommentById);
+  
+  app.get('/api/taskGlobals', controllers.taskGlobal.getTaskGlobals);
+  app.get('/api/taskGlobals/:id', controllers.taskGlobal.getTaskGlobalById);
+  
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/' + req.params[0]);
   });
