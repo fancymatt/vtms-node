@@ -1,40 +1,61 @@
 var auth = require('./auth'),
-    users = require('../controllers/users'),
-    series = require('../controllers/series'),
-    languageSeries = require('../controllers/languageSeries'),
-    lesson = require('../controllers/lesson'),
-    teamMembers = require('../controllers/teamMember'),
+    controllers = require('../controllers/controllers')
     models = require('../models/models');
 
 module.exports = function(app) {
   
-  app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
-  app.post('/api/users', users.createUser);
-  app.put('/api/users', users.updateUser);
+  app.get('/api/users', auth.requiresRole('admin'), controllers.user.getUsers);
+  app.post('/api/users', controllers.user.createUser);
+  app.put('/api/users', controllers.user.updateUser);
   
-  app.get('/api/series/:id', series.getSeriesById);
-  app.get('/api/series', series.getSeries);
-  app.get('/api/series/:id/languageSeries', series.getLanguageSeriesForSeriesWithId);
+  app.get('/api/series/:id', controllers.series.getSeriesById);
+  app.get('/api/series', controllers.series.getSeries);
+  app.get('/api/series/:id/languageSeries', controllers.series.getLanguageSeriesForSeriesWithId);
   
-  app.get('/api/languageSeries', languageSeries.getLanguageSeries);
-  //app.post('/api/languageSeries', languageSeries.newLanguageSeries); // not implemented
-  app.get('/api/languageSeries/:id', languageSeries.getLanguageSeriesById);
-  app.put('/api/languageSeries/:id', languageSeries.updateLanguageSeries);
-  app.get('/api/languageSeries/:id/lessons', languageSeries.getLessonsForLanguageSeriesWithId);
-  //app.delete('/api/languageSeries/:id', languageSeries.deleteLanguageSeries); // not implemented
+  app.get('/api/languageSeries', controllers.languageSeries.getLanguageSeries);
+  //app.post('/api/languageSeries', controllers.languageSeries.newLanguageSeries); // not implemented
+  app.get('/api/languageSeries/:id', controllers.languageSeries.getLanguageSeriesById);
+  app.put('/api/languageSeries/:id', controllers.languageSeries.updateLanguageSeries);
+  app.get('/api/languageSeries/:id/lessons', controllers.languageSeries.getLessonsForLanguageSeriesWithId);
+  //app.delete('/api/languageSeries/:id', controllers.languageSeries.deleteLanguageSeries); // not implemented
   
-  app.get('/api/lessons', lesson.getLessons);
-  //app.post('/api/lessons', lesson.newLesson); // not implemented
-  app.get('/api/lessons/:id', lesson.getLessonById);
-  app.get('/api/lessons/:id/tasks', lesson.getTasksForLessonWithId);
-  app.get('/api/lessons/:id/shots', lesson.getShotsForLessonWithId);
-  app.put('/api/lessons/:id', lesson.updateLesson);
-  //app.delete('/api/lessons/:id', lesson.deleteLesson); // not implemented
+  app.get('/api/lessons', controllers.lesson.getLessons);
+  //app.post('/api/lessons', controllers.lesson.newLesson); // not implemented
+  app.get('/api/lessons/:id', controllers.lesson.getLessonById);
+  app.get('/api/lessons/:id/tasks', controllers.lesson.getTasksForLessonWithId);
+  app.get('/api/lessons/:id/shots', controllers.lesson.getShotsForLessonWithId);
+  app.put('/api/lessons/:id', controllers.lesson.updateLesson);
+  //app.delete('/api/lessons/:id', controllers.lesson.deleteLesson); // not implemented
   
-  app.get('/api/teamMembers', teamMembers.getTeamMembers);
-  app.get('/api/teamMembers/:id', teamMembers.getTeamMemberById);
-  app.get('/api/teamMembers/:id/tasks', teamMembers.getTasksForTeamMemberWithId);
+  app.get('/api/teamMembers', controllers.teamMember.getTeamMembers);
+  app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
+  app.get('/api/teamMembers/:id/tasks/actionable', controllers.teamMember.getActionableTasksForTeamMemberWithId);
+  //app.get('/api/teamMembers/:id/shifts', controllers.teamMember.getShiftsForTeamMemberWithId);
   
+  app.get('/api/tasks', controllers.task.getTasks);
+  app.get('/api/tasks/active', controllers.task.getActiveTasks);
+  app.get('/api/tasks/actionable', controllers.task.getActionableTasks);
+  app.get('/api/tasks/recent', controllers.task.getRecentTasks);
+  app.get('/api/tasks/:id', controllers.task.getTaskById);
+  
+  app.get('/api/activities', controllers.activity.getActivities);
+  app.get('/api/activities/:id', controllers.activity.getActivityById);
+  
+  app.get('/api/shifts', controllers.shift.getShifts);
+  app.get('/api/shifts/:id', controllers.shift.getShiftById);
+  //app.get('/api/shifts/:id/activities', controllers.shift.getActivitiesForShiftWithId);
+  
+  app.get('/api/channels', controllers.channel.getChannels);
+  app.get('/api/channels/:id', controllers.channel.getChannelById);
+  
+  app.get('/api/languages', controllers.language.getLanguages);
+  app.get('/api/languages/:id', controllers.language.getLanguageById);
+  
+  app.get('/api/levels', controllers.level.getLevels);
+  app.get('/api/levels/:id', controllers.level.getLevelById);
+  
+  app.get('/api/publishDates', controllers.publishDate.getPublishDates);
+  app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);
   
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/' + req.params[0]);
