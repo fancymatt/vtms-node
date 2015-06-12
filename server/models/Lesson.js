@@ -110,7 +110,7 @@ var Lesson = db.define('lesson', {
   freezeTableName: true
 });
 
-
+/*
 Lesson.sync().then(function() {
   Lesson.findAll().then(function(lessons) {
     lessons.forEach(function(lesson) {
@@ -130,7 +130,7 @@ Lesson.sync().then(function() {
     })
   })
 });
-
+*/
 
 
 module.exports = Lesson;

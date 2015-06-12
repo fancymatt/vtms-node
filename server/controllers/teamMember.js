@@ -27,26 +27,27 @@ exports.getTeamMembers = function(req, res) {
   });
 };
 
-exports.getTasksForTeamMemberWithId = function(req, res) {
+exports.getActionableTasksForTeamMemberWithId = function(req, res) {
   models.Task.findAll({
-    where: {fkTeamMember: req.params.id, isCompleted: false},
-    include: [models.TaskGlobal, {
-      model: models.Lesson, 
-      include: [{
-        model: models.PublishDate,
-        required: true
-      },{
-        model: models.LanguageSeries
-      }]
-    }],
-    orderBy: ["lesson.publishDates.date", "ASC"],
-    limit: 100
+    where: {
+      isActive: false,
+      isCompleted: false,
+      fkTeamMember: req.params.id
+           },
+    include: [
+      {model: models.Lesson, include: [models.LanguageSeries, {model: models.PublishDate, required: true}] }, 
+      {model: models.TeamMember}, 
+      {model: models.TaskGlobal}],
+    order: [[models.Lesson, models.PublishDate, 'date', 'ASC']],
+    limit: 50
   }).then(function(tasks) {
     if(tasks) {
-      res.send(tasks);
+      res.send({tasks: tasks});
     } else {
-      res.status(404).send({error: "No tasks were found for a team member with that ID."});
+      res.status(404).send({error: "There are no actionable tasks."});
     }
+  }).catch(function(err) {
+    res.status(500).send({error: err})
   });
 };
 // Due date = lowest dueDate item - taskGlobal.completionValue
