@@ -9,7 +9,7 @@ angular.module('vtms').factory('vtmsLanguageSeries', function($resource, $q) {
     this.$update(newData).then(function() {
       dfd.resolve();
     }, function(response) {
-      dfd.reject(response.data.reason);
+      dfd.reject("You don't have permission to edit.");
     });
     return dfd.promise;
   };

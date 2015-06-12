@@ -6,7 +6,7 @@ module.exports = function(app) {
   
   app.get('/api/users', auth.requiresRole('admin'), controllers.user.getUsers);
   app.post('/api/users', controllers.user.createUser);
-  app.put('/api/users', controllers.user.updateUser);
+  app.put('/api/users', auth.requiresRole('admin'),  controllers.user.updateUser);
   
   app.get('/api/series/:id', controllers.series.getSeriesById);
   app.get('/api/series', controllers.series.getSeries);
@@ -15,7 +15,7 @@ module.exports = function(app) {
   app.get('/api/languageSeries', controllers.languageSeries.getLanguageSeries);
   //app.post('/api/languageSeries', controllers.languageSeries.newLanguageSeries); // not implemented
   app.get('/api/languageSeries/:id', controllers.languageSeries.getLanguageSeriesById);
-  app.put('/api/languageSeries/:id', controllers.languageSeries.updateLanguageSeries);
+  app.put('/api/languageSeries/:id', auth.requiresRole('admin'),  controllers.languageSeries.updateLanguageSeries);
   app.get('/api/languageSeries/:id/lessons', controllers.languageSeries.getLessonsForLanguageSeriesWithId);
   //app.delete('/api/languageSeries/:id', controllers.languageSeries.deleteLanguageSeries); // not implemented
   
@@ -24,7 +24,7 @@ module.exports = function(app) {
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
   app.get('/api/lessons/:id/tasks', controllers.lesson.getTasksForLessonWithId);
   app.get('/api/lessons/:id/shots', controllers.lesson.getShotsForLessonWithId);
-  app.put('/api/lessons/:id', controllers.lesson.updateLesson);
+  app.put('/api/lessons/:id', auth.requiresRole('admin'), controllers.lesson.updateLesson);
   //app.delete('/api/lessons/:id', controllers.lesson.deleteLesson); // not implemented
   
   app.get('/api/teamMembers', controllers.teamMember.getTeamMembers);
