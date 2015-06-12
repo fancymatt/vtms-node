@@ -14,21 +14,26 @@ module.exports = function(app) {
   
   app.get('/api/series/:id', series.getSeriesById);
   app.get('/api/series', series.getSeries);
+  app.get('/api/series/:id/languageSeries', series.getLanguageSeriesForSeriesWithId);
   
-  //app.get('/api/languageSeries', languageSeries.getAllLanguageSeries); // not implemented
+  app.get('/api/languageSeries', languageSeries.getLanguageSeries);
   //app.post('/api/languageSeries', languageSeries.newLanguageSeries); // not implemented
   app.get('/api/languageSeries/:id', languageSeries.getLanguageSeriesById);
   app.put('/api/languageSeries/:id', languageSeries.updateLanguageSeries);
+  app.get('/api/languageSeries/:id/lessons', languageSeries.getLessonsForLanguageSeriesWithId);
   //app.delete('/api/languageSeries/:id', languageSeries.deleteLanguageSeries); // not implemented
   
-  // app.get('/api/lessons', lesson.getAllLessons); // not implemented
+  app.get('/api/lessons', lesson.getLessons);
   //app.post('/api/lessons', lesson.newLesson); // not implemented
   app.get('/api/lessons/:id', lesson.getLessonById);
+  app.get('/api/lessons/:id/tasks', lesson.getTasksForLessonWithId);
+  app.get('/api/lessons/:id/shots', lesson.getShotsForLessonWithId);
   app.put('/api/lessons/:id', lesson.updateLesson);
   //app.delete('/api/lessons/:id', lesson.deleteLesson); // not implemented
   
-  app.get('/api/teamMembers', teamMembers.getAllTeamMembers);
+  app.get('/api/teamMembers', teamMembers.getTeamMembers);
   app.get('/api/teamMembers/:id', teamMembers.getTeamMemberById);
+  app.get('/api/teamMembers/:id/tasks', teamMembers.getTasksForTeamMemberWithId);
   
   
   app.get('/partials/*', function(req, res) {

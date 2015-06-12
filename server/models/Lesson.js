@@ -1,4 +1,7 @@
 var db = require('../config/sequelize.js'),
+    Task = require('./Task.js'),
+    Lesson = require('./Lesson.js'),
+    TaskGlobal = require('./TaskGlobal.js'),
     Sequelize = require('sequelize');
   
 var Lesson = db.define('lesson', {
@@ -98,10 +101,36 @@ var Lesson = db.define('lesson', {
   customYtField: {
     type: Sequelize.STRING,
     field: 'customYTfield'
+  },
+  completionValue: {
+    type: Sequelize.INTEGER
   }
 }, {
   timestamps: false,
   freezeTableName: true
 });
+
+
+Lesson.sync().then(function() {
+  Lesson.findAll().then(function(lessons) {
+    lessons.forEach(function(lesson) {
+      lesson.completionValue = 0;
+      lesson.save(); 
+    });
+  })
+  .then(function() {
+    Task.findAll({include: [Lesson, TaskGlobal]}).then(function(tasks) {
+      tasks.forEach(function(task) {
+        if(task.isCompleted === 1) {
+          Lesson.findOne({id: task.fkLesson}).then(function(lesson) {
+            lesson.completionValue +=task.TaskGlobal.completionValue;
+          });          
+        }
+      });
+    })
+  })
+});
+
+
 
 module.exports = Lesson;
