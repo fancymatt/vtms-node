@@ -1,0 +1,17 @@
+.container
+  h1 Recent Shifts
+  .col-md-12(ng-repeat="shift in shifts")
+    .panel.panel-primary
+      .panel-heading.text-center {{shift.teamMember.nameFull}}: {{shift.clockIn | date: 'MMM d, yyyy, h:mm a'}} - {{shift.clockOut | date: 'MMM d, yyyy, h:mm a'}}
+      .panel-body
+        table.table.table-hover.table-striped.table-condensed#tasks
+          thead
+            tr
+              th Start Time
+              th End Time
+              th Activity
+          tbody
+            tr(ng-repeat="activity in shift.activities | filter:searchText | orderBy: selectedSortOption")
+              td {{activity.timeStart | date: 'MMM d, yyyy, h:mm a'}}
+              td {{activity.timeEnd | date: 'MMM d, yyyy, h:mm a'}}
+              td {{activity.activity}}

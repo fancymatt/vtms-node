@@ -1,4 +1,5 @@
-var models = require('../models/models');
+var models = require('../models/models'),
+    sequelize = require('../config/sequelize');
 
 exports.getTasks = function(req, res) {
   models.Task.findAll().then(function(tasks) {
@@ -53,7 +54,7 @@ exports.getActionableTasks = function(req, res) {
       isCompleted: false
            },
     include: [ 
-      {model: models.Lesson, include: [models.LanguageSeries, {model: models.PublishDate, required: true}] }, 
+      {model: models.Lesson, include: [{model: models.PublishDate, attributes: ['id', 'id'], required: true}] }, 
       {model: models.TeamMember}, 
       {model: models.TaskGlobal}],
     order: [[models.Lesson, models.PublishDate, 'date', 'ASC']],
@@ -106,17 +107,15 @@ exports.getTasksForLessonWithId = function (req, res) {
 
 exports.getActionableTasksForTeamMemberWithId = function(req, res) {
   models.Task.findAll({
-    where: {
-      isActive: false,
-      isCompleted: false,
-      fkTeamMember: req.params.id
-           },
+    where: {isActive: false, isCompleted: false},
     include: [
-      {model: models.Lesson, include: [models.LanguageSeries, {model: models.PublishDate, required: true}] }, 
-      {model: models.TeamMember}, 
-      {model: models.TaskGlobal}],
-    order: [[models.Lesson, models.PublishDate, 'date', 'ASC']],
-    limit: 500
+      {
+        model: models.Lesson, 
+        attributes: [[sequelize.fn('min', 'lesson.publishDates.date'), 'dueDate']],
+        include: [models.PublishDate]
+      }
+    ],
+    limit: 50
   }).then(function(tasks) {
     if(tasks) {
       res.send(tasks);

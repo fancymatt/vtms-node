@@ -14,7 +14,7 @@ block content
               span.caret
             ul.dropdown-menu(role="menu")
               li(ng-repeat="teamMember in teamMembers")
-                a(href="teamMember/{{teamMember.id}}") {{teamMember.nameFull}}
+                a(href="teamMembers/{{teamMember.id}}") {{teamMember.nameFull}}
         div(ng-include="'/partials/account/navbar-login'")
   section.content
     div(ng-view)
