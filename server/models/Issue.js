@@ -1,7 +1,7 @@
 var db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
   
-var TaskComment = db.define('taskComment', {
+var Issue = db.define('issue', {
   id: {
     type: Sequelize.INTEGER
   },
@@ -31,7 +31,7 @@ var TaskComment = db.define('taskComment', {
   }
 }, {
   timestamps: false,
-  freezeTableName: true
+  tableName: 'taskComment'
 });
 
-module.exports = TaskComment;
+module.exports = Issue;
