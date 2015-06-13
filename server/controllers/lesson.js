@@ -1,5 +1,4 @@
-var models = require('../models/models'),
-    sequelize = require('Sequelize');
+var models = require('../models/models');
 
 exports.getLessons = function (req, res) {
   models.Lesson.findAll().then(function (lessons) {
