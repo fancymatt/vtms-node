@@ -1,5 +1,5 @@
 var auth = require('./auth'),
-    controllers = require('../controllers/controllers')
+    controllers = require('../controllers/controllers'),
     models = require('../models/models');
 
 module.exports = function(app) {
@@ -63,8 +63,8 @@ module.exports = function(app) {
   app.get('/api/talents', controllers.talent.getTalents);
   app.get('/api/talents/:id', controllers.talent.getTalentById);
   
-  app.get('/api/taskComments', controllers.taskComment.getTaskComments);
-  app.get('/api/taskComments/:id', controllers.taskComment.getTaskCommentById);
+  app.get('/api/issues', controllers.issue.getIssues);
+  app.get('/api/issues/:id', controllers.issue.getIssueById);
   
   app.get('/api/taskGlobals', controllers.taskGlobal.getTaskGlobals);
   app.get('/api/taskGlobals/:id', controllers.taskGlobal.getTaskGlobalById);

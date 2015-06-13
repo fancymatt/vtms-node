@@ -15,7 +15,7 @@ models.Activity = require('./Activity.js');
 models.Channel = require('./Channel.js');
 models.Talent = require('./Talent.js');
 models.Task = require('./Task.js');
-models.TaskComment = require('./TaskComment.js');
+models.Issue = require('./Issue.js');
 models.TaskGlobal = require('./TaskGlobal.js');
 models.TeamMember = require('./TeamMember.js');
 models.PublishDate = require('./PublishDate.js');
@@ -47,7 +47,7 @@ models.Shot.belongsTo(models.Talent, { foreignKey: 'fkTalent' } );
 models.Shift.hasMany(models.Activity, { foreignKey: 'fkShift' } );
 
 models.Activity.belongsTo(models.Shift, { foreignKey: 'fkShift' } );
-models.Activity.hasMany(models.TaskComment, { foreignKey: 'fkActivity' } );
+models.Activity.hasMany(models.Issue, { foreignKey: 'fkActivity' } );
 // Activity Foreign Keys may need to be modeled differently
 
 models.Channel.hasMany(models.LanguageSeries, { foreignKey: 'fkChannel' } );
@@ -57,10 +57,10 @@ models.Talent.hasMany(models.Shot, { foreignKey: 'fkTalent' } );
 models.Task.belongsTo(models.TaskGlobal, { foreignKey: 'fkTaskGlobal' } );
 models.Task.belongsTo(models.Lesson, { foreignKey: 'fkLesson' } );
 models.Task.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
-models.Task.hasMany(models.TaskComment, { foreignKey: 'fkTask' } );
+models.Task.hasMany(models.Issue, { foreignKey: 'fkTask' } );
 
-models.TaskComment.belongsTo(models.Task, { foreignKey: 'fkTask' } );
-models.TaskComment.belongsTo(models.Activity, { foreignKey: 'fkActivity' } );
+models.Issue.belongsTo(models.Task, { foreignKey: 'fkTask' } );
+models.Issue.belongsTo(models.Activity, { foreignKey: 'fkActivity' } );
 
 models.TaskGlobal.hasMany(models.Task, { foreignKey: 'fkTaskGlobal' } );
 models.TaskGlobal.belongsTo(models.Series, { foreignKey: 'fkSeries' } );
