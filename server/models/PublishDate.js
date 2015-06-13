@@ -1,5 +1,5 @@
 var db = require('../config/sequelize.js'),
-    Lesson = require('./lesson.js'),
+    Lesson = require('./Lesson.js'),
     Sequelize = require('sequelize');
   
 var PublishDate = db.define('publishDate', {
