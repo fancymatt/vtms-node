@@ -1,6 +1,7 @@
 angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
   var LessonResource = $resource('/api/lessons/:id', {id: "@id"}, {
-    update: {method:'PUT', isArray: false}
+    update: {method:'PUT', isArray: false},
+    getList: {method:'GET', url: '/api/languageSeries/:id/lessons', isArray:true}
   });
   
   LessonResource.prototype.update = function(newData) {

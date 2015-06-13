@@ -1,8 +1,8 @@
-angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, $routeParams, vtmsNotifier) {
+angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsShot, vtmsTask, $routeParams, vtmsNotifier) {
   
-  var thisLesson = vtmsLesson.get({id: $routeParams.id}, function() {
-    $scope.lesson = thisLesson;
-  });
+  $scope.lesson = vtmsLesson.get({id: $routeParams.id});
+  $scope.shotList = vtmsShot.getList({id: $routeParams.id});
+  $scope.taskList = vtmsTask.getList({id: $routeParams.id});
   
   $scope.update = function(newData) {
 

@@ -21,7 +21,7 @@
         th Person Responsible
         th Status
     tbody
-      tr(ng-repeat="task in lesson.tasks | filter:searchText | orderBy: selectedSortOption")
+      tr(ng-repeat="task in taskList | filter:searchText | orderBy: selectedSortOption")
         td {{task.taskGlobal.name}}
         td {{task.teamMember.nameFull}}
         td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date:'MMM d, yyyy') : "") : ""}}
@@ -38,7 +38,7 @@
         th Script
         th Script English
     tbody
-      tr(ng-repeat="shot in lesson.shots | filter:shotSearchText | orderBy: ['section', 'shot']" )
+      tr(ng-repeat="shot in shotList | filter:shotSearchText | orderBy: ['section', 'shot']" )
         td {{shot.section}}
         td {{shot.shot}}
         td {{shot.script}}

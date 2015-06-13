@@ -88,3 +88,18 @@ exports.getRecentTasks = function(req, res) {
     res.status(500).send({error: err})
   });
 };
+
+exports.getTasksForLessonWithId = function (req, res) {
+  models.Task.findAll({
+    where: {fkLesson: req.params.id},
+    include: [models.TeamMember, models.TaskGlobal]
+  }).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks);
+    } else {
+      res.status(404).send({error: "There are no tasks for the lesson with that ID."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
