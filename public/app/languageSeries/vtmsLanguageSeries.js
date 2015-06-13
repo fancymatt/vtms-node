@@ -1,6 +1,7 @@
 angular.module('vtms').factory('vtmsLanguageSeries', function($resource, $q) {
   var LanguageSeriesResource = $resource('/api/languageSeries/:id', {id: "@id"}, {
-    update: {method:'PUT', isArray: false}
+    update: {method:'PUT', isArray: false},
+    getList: {method: 'GET', url: '/api/series/:id/languageSeries', isArray: true}
   });
   
   LanguageSeriesResource.prototype.update = function(newData) {

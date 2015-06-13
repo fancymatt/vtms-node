@@ -14,7 +14,8 @@ exports.getLanguageSeries = function(req, res) {
 
 exports.getLanguageSeriesById = function(req, res) {
   models.LanguageSeries.find({
-    where: {id: req.params.id}
+    where: {id: req.params.id},
+    include: [models.Series]
   }).then(function(languageSeries) {
     if(languageSeries) {
       res.send(languageSeries);

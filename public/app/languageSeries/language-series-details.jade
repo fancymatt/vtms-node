@@ -23,7 +23,7 @@
         th Due Date
         th Status
     tbody
-      tr(ng-repeat="lesson in languageSeries.lessons | filter:searchText | orderBy: selectedSortOption")
+      tr(ng-repeat="lesson in lessonList | filter:searchText | orderBy: selectedSortOption")
         td {{lesson.number}}
         td 
           a(href="/lesson/{{lesson.id}}") {{lesson.title}}

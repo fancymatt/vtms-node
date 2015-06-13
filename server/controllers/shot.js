@@ -23,3 +23,17 @@ exports.getShotById = function(req, res) {
     res.status(500).send({error: err});
   });
 };
+
+exports.getShotsForLessonWithId = function (req, res) {
+  models.Shot.findAll({
+    where: {fkLesson: req.params.id}
+  }).then(function (shots) {
+    if(shots) {
+      res.send(shots);
+    } else {
+      res.status(404).send({error: "There are no shots for the lesson with that ID."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
+};

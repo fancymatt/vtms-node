@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function($scope, vtmsLanguageSeries, $routeParams, vtmsNotifier) {
+angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function($scope, vtmsLanguageSeries, vtmsLesson, $routeParams, vtmsNotifier) {
   
   $scope.sortOptions = [
     {value: "number", text: "Sort by Number"},
@@ -8,15 +8,15 @@ angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function
   
   $scope.selectedSortOption = $scope.sortOptions[0].value;
   
-  var thisLanguageSeries = vtmsLanguageSeries.get({id: $routeParams.id}, function() {
-    $scope.languageSeries = thisLanguageSeries;
-  });
+  $scope.languageSeries = vtmsLanguageSeries.get({id: $routeParams.id});
+  
+  $scope.lessonList = vtmsLesson.getList({id: $routeParams.id});
   
   $scope.update = function(newData) {
 
     angular.extend(thisLanguageSeries, newData);
     
-    thisLanguageSeries.update(newData).then(function() {
+    languageSeries.update(newData).then(function() {
       var string = "Updated Language Series: ";
       for(var key in newData) {
         string += key + " changed to \"" + newData[key] + "\" ";

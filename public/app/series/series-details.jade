@@ -18,7 +18,7 @@
         th Title
         th Level
     tbody
-      tr(ng-repeat="langSery in series.languageSeries | filter:searchText | orderBy: selectedSortOption")
+      tr(ng-repeat="langSery in languageSeriesList | filter:searchText | orderBy: selectedSortOption")
         td {{langSery.language.name}}
         td
           a(href="/languageSeries/{{langSery.id}}") {{langSery.title}}
