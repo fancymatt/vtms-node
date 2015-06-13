@@ -1,4 +1,5 @@
-var models = require('../models/models');
+var models = require('../models/models'),
+    sequelize = require('Sequelize');
 
 exports.getLessons = function (req, res) {
   models.Lesson.findAll().then(function (lessons) {
@@ -44,3 +45,56 @@ exports.updateLesson = function (req, res) {
       });
   });
 };
+
+exports.getUpcomingLessons = function (req, res) {
+    models.Lesson.findAll({
+      include: {
+        model: models.PublishDate, 
+        required: true, 
+        //attributes: ['date', [sequelize.literal('MIN(date)')]]
+      },
+      where: { filesMoved: false },
+      groupBy: models.Lesson,
+      limit: 50
+    }).then(function (lessons) {
+    if (lessons) {
+      res.send(lessons);
+    } else {
+      res.send(404).send({error: "No lessons found."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
+};
+
+
+exports.getQALessons = function (req, res) {
+  models.Lesson.findAll({
+    where: {
+      filesMoved: false
+    },
+    include: {
+      model: models.PublishDate,
+      required: true
+    },
+    limit: 50,
+    order: [[models.PublishDate, 'date', 'ASC']],
+  }).then(function (lessons) {
+  if (lessons) {
+    res.send(lessons);
+  } else {
+    res.send(404).send({error: "No lessons found."});
+  }
+}).catch(function (err) {
+  res.status(500).send({error: err});
+});
+};
+/*
+exports.getLanguageCheckLessons = function (req, res) {
+
+exports.getVideoCheckLessons = function (req, res) {
+
+exports.getArchiveLessons = function (req, res) {
+
+exports.getRecentlyCompletedLessons = function (req, res) {
+*/

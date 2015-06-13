@@ -69,6 +69,6 @@ models.TaskGlobal.belongsTo(models.Series, { foreignKey: 'fkSeries' } );
 models.TeamMember.hasMany(models.Shift, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Task, { foreignKey: 'fkTeamMember' } );
 
-models.PublishDate.belongsTo(models.Lesson, { foreignKey: 'fkLesson'} ); 
+models.PublishDate.belongsTo(models.Lesson, { foreignKey: 'fkLesson'} );
 
 module.exports = models;

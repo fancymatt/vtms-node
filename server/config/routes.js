@@ -21,6 +21,12 @@ module.exports = function(app) {
   
   app.get('/api/lessons', controllers.lesson.getLessons);
   //app.post('/api/lessons', controllers.lesson.newLesson); // not implemented
+  app.get('/api/lessons/upcoming', controllers.lesson.getUpcomingLessons);
+  //app.get('/api/lessons/qa', controllers.lesson.getQALessons);
+  //app.get('/api/lessons/needLanguageCheck', controllers.lesson.getLanguageCheckLessons);
+  //app.get('/api/lessons/needVideoCheck', controllers.lesson.getVideoCheckLessons);
+  //app.get('/api/lessons/needArchive', controllers.lesson.getArchiveLessons);
+  //app.get('/api/lessons/recentlyCompleted', controllers.lesson.getRecentlyCompletedLessons);
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
   app.get('/api/lessons/:id/tasks', controllers.task.getTasksForLessonWithId);
   app.get('/api/lessons/:id/shots', controllers.shot.getShotsForLessonWithId);
@@ -28,8 +34,8 @@ module.exports = function(app) {
   //app.delete('/api/lessons/:id', controllers.lesson.deleteLesson); // not implemented
   
   app.get('/api/teamMembers', controllers.teamMember.getTeamMembers);
+  app.get('/api/teamMembers/:id/tasks/actionable', controllers.task.getActionableTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
-  app.get('/api/teamMembers/:id/tasks/actionable', controllers.teamMember.getActionableTasksForTeamMemberWithId);
   //app.get('/api/teamMembers/:id/shifts', controllers.teamMember.getShiftsForTeamMemberWithId);
   
   app.get('/api/tasks', controllers.task.getTasks);

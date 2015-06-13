@@ -103,3 +103,29 @@ exports.getTasksForLessonWithId = function (req, res) {
     res.status(500).send({error: err});
   });
 };
+
+exports.getActionableTasksForTeamMemberWithId = function(req, res) {
+  models.Task.findAll({
+    where: {
+      isActive: false,
+      isCompleted: false,
+      fkTeamMember: req.params.id
+           },
+    include: [
+      {model: models.Lesson, include: [models.LanguageSeries, {model: models.PublishDate, required: true}] }, 
+      {model: models.TeamMember}, 
+      {model: models.TaskGlobal}],
+    order: [[models.Lesson, models.PublishDate, 'date', 'ASC']],
+    limit: 500
+  }).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks);
+    } else {
+      res.status(404).send({error: "There are no actionable tasks."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err})
+  });
+};
+// Due date = lowest dueDate item - taskGlobal.completionValue
+// Actionable = if(the sum of all the completed tasks' taskGlobal's completion value >= the )
