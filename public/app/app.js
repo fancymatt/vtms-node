@@ -33,6 +33,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsProfileController', 
       resolve: routeRoleChecks.user
     })
+    .when('/shifts', { 
+      templateUrl: '/partials/shift/recent-shifts', 
+      controller: 'vtmsRecentShiftsController'
+    })
     .when('/series', { 
       templateUrl: '/partials/series/series-list', 
       controller: 'vtmsSeriesListController'

@@ -21,7 +21,7 @@ var PublishDate = db.define('publishDate', {
   freezeTableName: true
 });
 
-
+/*
 PublishDate.sync({force: true}).then(function() {
   console.log("Publish Date migration: Searching for levels...");
   Lesson.findAll().then(function(lessons) {
@@ -43,6 +43,6 @@ PublishDate.sync({force: true}).then(function() {
     });
   });
 });
-
+*/
 
 module.exports = PublishDate;

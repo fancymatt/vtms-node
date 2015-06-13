@@ -1,9 +1,13 @@
 var models = require('../models/models');
 
 exports.getShifts = function(req, res) {
-  models.Shift.findAll().then(function(shifts) {
+  models.Shift.findAll({
+    include: [{model: models.Activity}, {model: models.TeamMember}],
+    order: [['clockIn', 'DESC']],
+    limit: 25
+  }).then(function(shifts) {
     if(shifts) {
-      res.send({shifts: shifts});
+      res.send(shifts);
     } else {
       res.status(404).send({error: "No shifts were found."})
     }

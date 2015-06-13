@@ -45,6 +45,7 @@ models.Shot.belongsTo(models.Talent, { foreignKey: 'fkTalent' } );
 //models.User.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
 
 models.Shift.hasMany(models.Activity, { foreignKey: 'fkShift' } );
+models.Shift.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
 
 models.Activity.belongsTo(models.Shift, { foreignKey: 'fkShift' } );
 models.Activity.hasMany(models.Issue, { foreignKey: 'fkActivity' } );
