@@ -101,9 +101,6 @@ var Lesson = db.define('lesson', {
   customYtField: {
     type: Sequelize.STRING,
     field: 'customYTfield'
-  },
-  completionValue: {
-    type: Sequelize.INTEGER
   }
 }, {
   timestamps: false,
