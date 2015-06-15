@@ -65,6 +65,9 @@ module.exports = function(app) {
   
   app.get('/api/shots', controllers.shot.getShots);
   app.get('/api/shots/:id', controllers.shot.getShotById);
+  app.post('/api/shots', controllers.shot.createShot);
+  app.delete('/api/shots/:id', controllers.shot.deleteShot);
+  app.put('/api/shots/:id', controllers.shot.updateShot);
   
   app.get('/api/talents', controllers.talent.getTalents);
   app.get('/api/talents/:id', controllers.talent.getTalentById);
