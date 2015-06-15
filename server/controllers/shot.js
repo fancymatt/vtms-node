@@ -37,3 +37,46 @@ exports.getShotsForLessonWithId = function (req, res) {
     res.status(500).send({error: err});
   });
 };
+
+exports.createShot = function (req, res, next) {
+  var userData = req.body;
+  models.Shot.create(userData).then(function(shot) {
+    shot.dataValues.id = shot.null;
+    return res.send(shot);
+  }).catch(function(err) {
+      console.log(err);
+      res.status(400);
+      return res.send({reason: err.errors[0].message});
+    });
+};
+
+exports.updateShot = function (req, res) {
+  models.Shot.findById(req.params.id).then(function (shot) {
+    for (var key in req.query) {
+      shot[key] = req.query[key];
+    }
+    shot.save()
+      .then(function (shot) {
+        res.status(200);
+        return res.send();
+      })
+      .catch(function (err) {
+        res.status(400);
+        return res.send({reason: err.toString()});
+      });
+  });
+};
+
+exports.deleteShot = function (req, res) {
+  models.Shot.findById(req.params.id).then(function (shot) {
+    if(shot) {
+      shot.destroy().then(function() {
+        res.status(200);
+      });
+    } else {
+      res.status(404).send({error: "No shot was found with that ID."})
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};

@@ -11,7 +11,7 @@
               th End Time
               th Activity
           tbody
-            tr(ng-repeat="activity in shift.activities | filter:searchText | orderBy: selectedSortOption")
+            tr(ng-repeat="activity in shift.activities | filter:searchText | orderBy: 'activity.timeStart'")
               td {{activity.timeStart | date: 'MMM d, yyyy, h:mm a'}}
               td {{activity.timeEnd | date: 'MMM d, yyyy, h:mm a'}}
               td {{activity.activity}}
