@@ -38,7 +38,6 @@
         th Shot
         th Type
         th Script
-        th Script English
         th Actions
     tbody
       tr(ng-repeat="shot in shotList | filter:shotSearchText | orderBy: ['section', 'shot']" )
@@ -47,7 +46,6 @@
         td {{shot.shot}}
         td {{shot.type}}
         td {{shot.script}}
-        td {{shot.scriptEnglish}}
         td
           button.btn.btn-xs(ng-click="deleteShot(shot)") X
       tr
@@ -62,8 +60,6 @@
           input(ng-model="newShotValues.type")
         td
           input(ng-model="newShotValues.script")
-        td
-          input(ng-model="newShotValues.scriptEnglish")
         td
           button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
   

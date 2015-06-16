@@ -11,7 +11,6 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     $scope.newShotValues.shot = "";
     $scope.newShotValues.script = "";
     $scope.newShotValues.type = "";
-    $scope.newShotValues.scriptEnglish =  "";
   };
   
   $scope.getAssetNameForTaskId = function(taskId) {
