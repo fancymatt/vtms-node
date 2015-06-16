@@ -8,7 +8,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   $scope.assetList = vtmsTask.getAssets({id: $routeParams.id});
   
   function resetNewShotValues() {
-    $scope.newShotValues.shot = "";
+    $scope.newShotValues.shot++;
     $scope.newShotValues.script = "";
     $scope.newShotValues.type = "";
   };
