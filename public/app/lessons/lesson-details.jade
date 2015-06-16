@@ -36,6 +36,7 @@
         th Asset
         th Section
         th Shot
+        th Type
         th Script
         th Script English
         th Actions
@@ -44,6 +45,7 @@
         td {{getAssetNameForTaskId(shot.fkAsset)}}
         td {{shot.section}}
         td {{shot.shot}}
+        td {{shot.type}}
         td {{shot.script}}
         td {{shot.scriptEnglish}}
         td
@@ -56,6 +58,8 @@
           input(ng-model="newShotValues.section")
         td
           input(ng-model="newShotValues.shot", id="newShot")
+        td
+          input(ng-model="newShotValues.type")
         td
           input(ng-model="newShotValues.script")
         td

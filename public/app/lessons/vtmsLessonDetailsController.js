@@ -10,6 +10,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   function resetNewShotValues() {
     $scope.newShotValues.shot = "";
     $scope.newShotValues.script = "";
+    $scope.newShotValues.type = "";
     $scope.newShotValues.scriptEnglish =  "";
   };
   
