@@ -5,11 +5,19 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   $scope.shotList = vtmsShot.getList({id: $routeParams.id});
   $scope.newShotValues;
   $scope.taskList = vtmsTask.getList({id: $routeParams.id});
+  $scope.assetList = vtmsTask.getAssets({id: $routeParams.id});
   
   function resetNewShotValues() {
     $scope.newShotValues.shot = "";
     $scope.newShotValues.script = "";
     $scope.newShotValues.scriptEnglish =  "";
+  };
+  
+  $scope.getAssetNameForTaskId = function(taskId) {
+    for(var i = 0; i < $scope.assetList.length; i++) {
+      if($scope.assetList[i].id === taskId) return $scope.assetList[i].taskGlobal.name;
+    }
+    return false;
   };
   
   $scope.newShot = function() {
@@ -34,4 +42,16 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     $scope.shotList.splice(indexToDelete, 1);
     vtmsNotifier.notify("Deleted a shot.");
   }
+}).directive('convertToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(val) {
+        return parseInt(val, 10);
+      });
+      ngModel.$formatters.push(function(val) {
+        return '' + val;
+      });
+    }
+  };
 });

@@ -13,6 +13,21 @@ exports.getTasks = function(req, res) {
   });
 };
 
+exports.getAssetsForLessonWithId = function(req, res) {
+  models.Task.findAll({
+    where: {fkLesson: req.params.id}, 
+    include: [{model: models.TaskGlobal, required: true, where: {isAsset: true}}]
+  }).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks);
+    } else {
+      res.status(404).send({error: "No tasks were found."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err})
+  });
+};
+
 exports.getTaskById = function(req, res) {
   models.Task.findOne({
     where: {id: req.params.id},
