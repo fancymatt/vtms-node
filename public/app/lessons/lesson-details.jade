@@ -57,9 +57,9 @@
         td
           input(ng-model="newShotValues.shot", id="newShot")
         td
-          textarea(ng-model="newShotValues.type" auto-grow)
+          input(ng-model="newShotValues.type")
         td
-          input(ng-model="newShotValues.script")
+          textarea(ng-model="newShotValues.script" auto-grow)
         td
           button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
   
