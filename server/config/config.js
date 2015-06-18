@@ -19,7 +19,7 @@ module.exports = {
   "production" : {
     "path" : rootPath,
     "db" : {
-      "host" : "128.199.92.213",
+      "host" : "localhost",
       "username" : "root",
       "password" : "ketchup100%OK",
       "dialect" : "mysql",
