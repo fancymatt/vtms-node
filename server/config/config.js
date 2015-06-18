@@ -17,7 +17,7 @@ module.exports = {
   },
   
   "production" : {
-    "path" : rootPath + 'vtms/',
+    "path" : rootPath,
     "db" : {
       "host" : "hmvtms.db.5770926.hostedresource.com",
       "username" : "hmvtms",
