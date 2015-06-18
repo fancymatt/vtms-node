@@ -14,6 +14,6 @@ module.exports = function(app, config) {
   app.use(session({secret: 'matt is so secretive'}));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(config.path + 'vtms/public'));
+  app.use(express.static(config.path + 'public'));
 
 };
