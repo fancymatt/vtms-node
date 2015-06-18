@@ -19,11 +19,12 @@ module.exports = {
   "production" : {
     "path" : rootPath,
     "db" : {
-      "host" : "10.130.119.225",
+      "host" : "128.199.92.213",
       "username" : "root",
       "password" : "ketchup100%OK",
       "dialect" : "mysql",
-      "dbname" : "vtms"
+      "dbname" : "vtms",
+      "port" : 3306
     },
     "port" : process.env.PORT || 8080,
     "url" : '10.130.119.225'
