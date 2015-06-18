@@ -12,7 +12,8 @@ module.exports = {
       "dialect" : "mysql",
       "dbname" : "vtms-local"
     },
-    "port" : process.env.PORT || 3030
+    "port" : process.env.PORT || 3030,
+    "url" : ''
   },
   
   "production" : {
@@ -24,6 +25,7 @@ module.exports = {
       "dialect" : "mysql",
       "dbname" : "hmvtms"
     },
-    "port" : process.env.PORT || 80
+    "port" : process.env.PORT || 8080,
+    "url" : '10.130.119.225'
   }
 };
