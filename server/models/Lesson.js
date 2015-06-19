@@ -20,6 +20,12 @@ var Lesson = db.define('lesson', {
   publishDateYouTube: {
     type: Sequelize.DATEONLY
   },
+  isShot: {
+    type: Sequelize.BOOLEAN
+  },
+  isCheckable: {
+    type: Sequelize.BOOLEAN
+  },
   trt: {
     type: Sequelize.INTEGER
   },
@@ -109,25 +115,29 @@ var Lesson = db.define('lesson', {
 
 /*
 Lesson.sync().then(function() {
-  Lesson.findAll().then(function(lessons) {
+  Lesson.findAll({where: {filesMoved: false}, include: [{model: Task, include: [TaskGlobal]}]}).then(function(lessons) {
     lessons.forEach(function(lesson) {
-      lesson.completionValue = 0;
-      lesson.save(); 
-    });
-  })
-  .then(function() {
-    Task.findAll({include: [Lesson, TaskGlobal]}).then(function(tasks) {
-      tasks.forEach(function(task) {
-        if(task.isCompleted === 1) {
-          Lesson.findOne({id: task.fkLesson}).then(function(lesson) {
-            lesson.completionValue +=task.TaskGlobal.completionValue;
-          });          
+      var completionValue = 0;
+      console.log("Evaluating lesson with id of " + lesson.id);
+      lesson.tasks.forEach(function(task) {
+        if(task.isCompleted) {
+          completionValue += task.taskGlobal.completionValue;
+          console.log("Lesson + " + lesson.id + " completion value is now " + completionValue);
         }
       });
-    })
-  })
+      lesson.tasks.forEach(function(task) {
+        if(task.taskGlobal.actionableAt <= completionValue) {
+          task.isActionable = true;
+          console.log("Lesson + " + lesson.id + "'s completion value of " + completionValue + " is greater than actionable threshold of " + task.taskGlobal.actionableAt);
+        } else {
+          task.isActionable = false;
+          console.log("Lesson + " + lesson.id + "'s completion value of " + completionValue + " is less than actionable threshold of " + task.taskGlobal.actionableAt);
+        }
+        task.save();
+      });
+    });
+  });
 });
 */
-
 
 module.exports = Lesson;

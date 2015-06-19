@@ -33,6 +33,7 @@
             li(ng-repeat="date in lesson.publishDates")
               span {{date.date | date:'MMM d, yyyy'}} ({{date.type | lowercase}})
         td 
+          span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="lesson.isShot")
           span.glyphicon.glyphicon-font(aria-hidden="true", ng-show="lesson.checkedLanguage")
           span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
           span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")

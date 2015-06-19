@@ -70,14 +70,13 @@ exports.getUpcomingLessons = function (req, res) {
 exports.getQALessons = function (req, res) {
   models.Lesson.findAll({
     where: {
-      filesMoved: false
+      filesMoved: false,
+      isCheckable: true
     },
     include: {
       model: models.PublishDate,
       required: true
-    },
-    limit: 50,
-    order: [[models.PublishDate, 'date', 'ASC']],
+    }
   }).then(function (lessons) {
   if (lessons) {
     res.send(lessons);

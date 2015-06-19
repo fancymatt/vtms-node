@@ -46,6 +46,9 @@ var Task = db.define('task', {
   },
   isDelivered: {
     type: Sequelize.BOOLEAN
+  },
+  isActionable: {
+    type: Sequelize.BOOLEAN
   }
 }, {
   timestamps: false,
