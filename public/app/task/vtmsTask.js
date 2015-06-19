@@ -7,13 +7,15 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   });
   
   TaskResource.prototype.dueDate = function() {
-    var publishDates = this.lesson.publishDates;
-    for(var i = 1, lowest = new Date(publishDates[0].date); i < publishDates.length; i++) {
-      compare = new Date(publishDates[i].date);
-      if(compare < lowest) { lowest = compare; }
-    };
-    return lowest.setDate(lowest.getDate()-this.taskGlobal.dueDateOffset);
-  };
+    var earliestDate = new Date(this.lesson.publishDates[0].date);
+    if(this.lesson.publishDates.length > 1) {
+      for(var i = 1, dateToCompare; i < this.lesson.publishDates.length; i++) {
+        dateToCompare = new Date(this.lesson.publishDates[i].date);
+        if(dateToCompare < earliestDate) earliestDate = dateToCompare;
+      }
+    }
+    return earliestDate.setDate(earliestDate.getDate()-this.taskGlobal.dueDateOffset);
+  }
   
   TaskResource.prototype.update = function(newData) {
     var dfd = $q.defer();
