@@ -40,7 +40,7 @@ module.exports = Series;
 if(env === 'production') {
 Series.sync().then(function() {
   console.log("Migration...");
-  Series.findAll(}).then(function(series) {
+  Series.findAll().then(function(series) {
     series.forEach(function(sery) {
       LanguageSeries.findAll({where: {fkSeries: sery.id}}).then(function(languageSeries) {
         languageSeries.forEach(function(languageSery) {
