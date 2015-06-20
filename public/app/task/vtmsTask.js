@@ -2,7 +2,8 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   var TaskResource = $resource('/api/task/:id', {id: "@id"}, {
     update: {method:'PUT', isArray: false},
     getList: {method:'GET', url:'/api/lessons/:id/tasks', isArray:true},
-    getListForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/actionable', isArray:true},
+    getActionableTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/actionable', isArray:true},
+    getActiveTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/active', isArray:true},
     getAssets: {method:'GET', url:'/api/lessons/:id/assets', isArray:true}
   });
   

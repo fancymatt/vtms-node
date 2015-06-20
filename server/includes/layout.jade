@@ -1,13 +1,13 @@
 doctype
-html
+html(ng-app='vtms')
   head
-    title= title 
+    title VTMS {{pageTitle}} 
     base(href="/")
     link(rel='stylesheet', href='assets/libs/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='assets/libs/toastr/toastr.css')
     link(rel='stylesheet', href='assets/libs/angular-xeditable/dist/css/xeditable.css')
     meta(name="viewport", content="initial-scale=1, maximum-scale=1")
-  body(ng-app='vtms')
+  body
     include currentUser
     block content
     include scripts

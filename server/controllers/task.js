@@ -53,12 +53,33 @@ exports.getActiveTasks = function(req, res) {
       {model: models.TaskGlobal}]   
   }).then(function(tasks) {
     if(tasks) {
-      res.send({tasks: tasks});
+      res.send(tasks);
     } else {
       res.status(404).send({error: "There are no active tasks."});
     }
   }).catch(function(err) {
     res.status(500).send({error: err})
+  });
+};
+
+exports.getActiveTasksForTeamMemberWithId = function(req,  res) {
+  models.Task.findAll({
+    where: {
+      isActive: true,
+      fkTeamMember: req.params.id
+    },
+    include: [
+      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.TaskGlobal}
+    ]
+  }).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks)
+    } else {
+      res.status(404).send({error: "There are no active tasks."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
   });
 };
 

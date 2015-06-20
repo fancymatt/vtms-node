@@ -1,4 +1,15 @@
 .container
+  h1 User Admin
   table.table
+    thead
+      th Full Name
+      th Username
+      th Role
+      th Connected Team Member
     tr(ng-repeat="user in users")
       td {{user.firstName + ' ' + user.lastName}}
+      td {{user.username}}
+      td {{user.role}}
+      td 
+        select(ng-model="user.fkTeamMember" convert-to-number)
+            option(ng-repeat="teamMember in teamMembers", value="{{teamMember.id}}") {{teamMember.nameFull}}
