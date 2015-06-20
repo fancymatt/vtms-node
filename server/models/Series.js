@@ -37,7 +37,6 @@ var Series = db.define('series', {
 
 module.exports = Series;
 
-if(env === 'production') {
 Series.sync().then(function() {
   console.log("Migration...");
   Series.findAll().then(function(series) {
@@ -70,4 +69,3 @@ Series.sync().then(function() {
     }); // Series.forEach()
   }); // Series.findAll()
 });
-}
