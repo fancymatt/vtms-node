@@ -5,13 +5,15 @@
       tr
         th Lesson
         th Task
-        th Due Date
+        th Actions
     tbody
       tr(ng-repeat="task in activeTasks")
         td 
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td {{task.taskGlobal.name}}
         td {{task.dueDate() | date: 'MMM d, yyyy'}}
+        td 
+          button.btn.btn-warning(ng-click="deactivateTask(task)") Deactivate
   .pull-right
     form.form-inline
       .form-group
@@ -24,9 +26,12 @@
         th Lesson
         th Task
         th Due Date
+        th Actions
     tbody
       tr(ng-repeat="task in actionableTasks | filter:searchText | orderBy: selectedSortOption")
         td 
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td {{task.taskGlobal.name}}
         td {{task.dueDate() | date: 'MMM d, yyyy'}}
+        td 
+          button.btn.btn-primary(ng-click="activateTask(task)") Activate
