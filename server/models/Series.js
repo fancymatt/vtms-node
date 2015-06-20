@@ -3,6 +3,7 @@ var db = require('../config/sequelize.js'),
     LanguageSeries = require('./LanguageSeries.js'),
     Lesson = require('./Lesson.js'),
     Task = require('./Task.js'),
+    config = require('../config/config.js');
     TaskGlobal = require('./TaskGlobal.js');
   
 var Series = db.define('series', {
@@ -35,10 +36,11 @@ var Series = db.define('series', {
 });
 
 module.exports = Series;
-/*
+
+if(env === 'production') {
 Series.sync().then(function() {
   console.log("Migration...");
-  Series.findAll({where: {id: 1}}).then(function(series) {
+  Series.findAll(}).then(function(series) {
     series.forEach(function(sery) {
       LanguageSeries.findAll({where: {fkSeries: sery.id}}).then(function(languageSeries) {
         languageSeries.forEach(function(languageSery) {
@@ -68,4 +70,4 @@ Series.sync().then(function() {
     }); // Series.forEach()
   }); // Series.findAll()
 });
-*/
+}
