@@ -24,6 +24,7 @@
     "angular": "~1.4.0",
     "bootstrap": "~3.3.4",
     "angular-bootstrap": "~0.13.0",
-    "angular-xeditable": "~0.1.9"
+    "angular-xeditable": "~0.1.9",
+    "moment": "~2.10.3"
   }
 }

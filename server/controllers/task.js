@@ -44,6 +44,23 @@ exports.getTaskById = function(req, res) {
   });
 };
 
+exports.updateTaskById = function(req, res) {
+  models.Task.findById(req.body.id).then(function (task) {
+    for (var key in req.query) {
+      task[key] = req.query[key];
+    }
+    task.save()
+      .then(function (task) {
+        res.status(200);
+        return res.send();
+      })
+      .catch(function (err) {
+        res.status(400);
+        return res.send({reason: err.toString()});
+      });
+  });
+};
+
 exports.getActiveTasks = function(req, res) {
   models.Task.findAll({
     where: {isActive: true},

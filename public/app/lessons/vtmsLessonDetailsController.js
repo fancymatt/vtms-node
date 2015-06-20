@@ -35,9 +35,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   
   $scope.deleteShot = function(shot) {
     var indexToDelete = $scope.shotList.indexOf(shot);
-    console.log("item at " + indexToDelete + " will be deleted");
     var shotToDelete = $scope.shotList[indexToDelete];
-    console.log(shotToDelete);
     shotToDelete.$delete();
     $scope.shotList.splice(indexToDelete, 1);
     vtmsNotifier.notify("Deleted a shot.");

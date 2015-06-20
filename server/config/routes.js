@@ -45,6 +45,7 @@ module.exports = function(app) {
   app.get('/api/tasks/actionable', controllers.task.getActionableTasks);
   app.get('/api/tasks/recent', controllers.task.getRecentTasks);
   app.get('/api/tasks/:id', controllers.task.getTaskById);
+  app.put('/api/tasks/:id', controllers.task.updateTaskById);
   
   app.get('/api/activities', controllers.activity.getActivities);
   app.get('/api/activities/:id', controllers.activity.getActivityById);
