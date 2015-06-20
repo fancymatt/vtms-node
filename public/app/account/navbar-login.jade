@@ -16,6 +16,8 @@
       ul.dropdown-menu
         li(ng-show="identity.currentUser.isAdmin()")
           a(href="/admin/users") User Admin
+        li(ng-show="identity.currentUser.isTeamMember()")
+          a(href="/tasklist") My Task List
         li
           a(href="/profile") Profile
         li

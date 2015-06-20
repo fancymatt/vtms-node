@@ -2,7 +2,7 @@ angular.module('vtms').controller('vtmsSignupController', function($scope, vtmsA
   
   $scope.signup = function() {
     var newUserData = {
-      username: $scope.email,
+      username: $scope.username,
       password: $scope.password,
       firstName: $scope.firstName,
       lastName: $scope.lastName

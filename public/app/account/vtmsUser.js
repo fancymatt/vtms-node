@@ -7,5 +7,9 @@ angular.module('vtms').factory('vtmsUser', function($resource) {
     return this.role === 'admin';
   }
   
+  UserResource.prototype.isTeamMember = function() {
+    return this.fkTeamMember > 0;
+  }
+  
   return UserResource;
 });

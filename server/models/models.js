@@ -42,7 +42,7 @@ models.Level.hasMany(models.LanguageSeries, { foreignKey: 'fkLevel' } );
 models.Shot.belongsTo(models.Lesson, { foreignKey: 'fkLesson' } );
 models.Shot.belongsTo(models.Talent, { foreignKey: 'fkTalent' } );
 
-//models.User.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
+models.User.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
 
 models.Shift.hasMany(models.Activity, { foreignKey: 'fkShift' } );
 models.Shift.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );

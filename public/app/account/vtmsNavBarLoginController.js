@@ -5,8 +5,11 @@ angular.module('vtms').controller('vtmsNavBarLoginController', function($scope, 
     vtmsAuth.authenticateUser(username, password).then(function(success) {
       if(success) {
         vtmsNotifier.notify('You have successfully signed in!');
+        if(vtmsAuth.authorizeCurrentUserIsTeamMember()) {
+          $location.path('/tasklist');
+        }
       } else {
-        vtmsNotifier.notify('The username or password was incorrect.');
+        vtmsNotifier.error('The username or password was incorrect.');
       }
     });
   };

@@ -27,6 +27,9 @@ var User = db.define('user', {
   },
   role: {
     type: Sequelize.STRING
+  },
+  fkTeamMember: {
+    type: Sequelize.INTEGER
   }
 }, {
   timestamps: true,
@@ -50,7 +53,8 @@ User.sync({force: true}).then(function() {
     username: "henrymatt",
     salt: salt,
     hashed_pwd: hash,
-    role: "admin"
+    role: "admin",
+    fkTeamMember: 1
   });
   User.create({
     firstName: "Jaimee", 

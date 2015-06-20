@@ -1,4 +1,4 @@
-angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtmsUser) {
+angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtmsUser, $location, vtmsNotifier) {
   return {
     authenticateUser: function(username, password) {
       var dfd = $q.defer();
@@ -65,8 +65,26 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
       if(vtmsIdentity.isAuthenticated()) { 
         return true;
       } else {
-        return $q.reject('not authorized');
+        return $q.reject('not logged in');
       }
+    },
+    
+    authorizeCurrentUserIsTeamMember: function() {
+      var dfd = $q.defer();
+      if(vtmsIdentity.isAuthenticated()) {
+        if(vtmsIdentity.currentUser.fkTeamMember) {
+          dfd.resolve(true);
+        } else {
+          dfd.reject('not a member.');
+          $location.path('/');
+          vtmsNotifier.error("The user you are logged in as is not associated with a team member.");
+        }
+      } else {
+        dfd.reject('not logged in');
+        $location.path('/');
+        vtmsNotifier.error("You must be logged in to view a task list.");
+      }
+      return dfd.promise;
     }
   };
 });

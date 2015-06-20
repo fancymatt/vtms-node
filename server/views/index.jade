@@ -9,7 +9,7 @@ block content
         ul.nav.navbar-nav(ng-controller="vtmsNavBarController")
           li
             a(href='/series') Lesson DB
-          li.dropdown
+          li.dropdown(ng-show="identity.currentUser.isAdmin()")
             a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Team Members
               span.caret
             ul.dropdown-menu(role="menu")

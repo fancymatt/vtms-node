@@ -11,6 +11,9 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       }},
     user: {auth: function(vtmsAuth) {
       return vtmsAuth.authorizeAuthenticatedUserForRoute()
+      }},
+    teamMember: {auth: function(vtmsAuth) {
+      return vtmsAuth.authorizeCurrentUserIsTeamMember();
       }}
     }
   $locationProvider.html5Mode(true);
@@ -60,6 +63,11 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/lesson/:id', {
       templateUrl: '/partials/lessons/lesson-details',
       controller: 'vtmsLessonDetailsController'
+    })
+    .when('/tasklist', {
+      templateUrl: '/partials/task/team-member-task-list',
+      controller: 'vtmsTeamMemberTaskListController',
+      resolve: routeRoleChecks.teamMember
     });
 });
 

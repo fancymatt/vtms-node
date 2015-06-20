@@ -1,5 +1,17 @@
 .container
   h1 {{teamMember.nameFull}}
+  table.table.table-hover.table-striped.table-condensed(ng-show="activeTasks.length")
+    thead
+      tr
+        th Lesson
+        th Task
+        th Due Date
+    tbody
+      tr(ng-repeat="task in activeTasks")
+        td 
+          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
+        td {{task.taskGlobal.name}}
+        td {{task.dueDate() | date: 'MMM d, yyyy'}}
   .pull-right
     form.form-inline
       .form-group
@@ -13,8 +25,8 @@
         th Task
         th Due Date
     tbody
-      tr(ng-repeat="task in tasks | filter:searchText | orderBy: selectedSortOption")
+      tr(ng-repeat="task in actionableTasks | filter:searchText | orderBy: selectedSortOption")
         td 
-          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}
+          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td {{task.taskGlobal.name}}
         td {{task.dueDate() | date: 'MMM d, yyyy'}}
