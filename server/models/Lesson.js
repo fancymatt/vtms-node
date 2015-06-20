@@ -113,7 +113,7 @@ var Lesson = db.define('lesson', {
   freezeTableName: true
 });
 
-/*
+if(env === 'production') {
 Lesson.sync().then(function() {
   Lesson.findAll({where: {filesMoved: false}, include: [{model: Task, include: [TaskGlobal]}]}).then(function(lessons) {
     lessons.forEach(function(lesson) {
@@ -138,6 +138,6 @@ Lesson.sync().then(function() {
     });
   });
 });
-*/
+}
 
 module.exports = Lesson;
