@@ -14,11 +14,14 @@ var PublishDate = db.define('publishDate', {
   fkPlatform: {
     type: Sequelize.INTEGER
   },
-  type: {
-    type: Sequelize.ENUM('SITE', 'YOUTUBE', 'ROKU')
-  },
   date: {
     type: Sequelize.DATEONLY
+  },
+  isDelivered: {
+    type: Sequelize.BOOLEAN
+  },
+  deliveredTime: {
+    type: Sequelize.DATE
   }
 }, {
   freezeTableName: true

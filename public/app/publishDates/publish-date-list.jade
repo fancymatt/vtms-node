@@ -1,11 +1,11 @@
-h1 Publishing
 .container
+  h1 Publishing
   .pull-right
     form.form-inline
       .form-group
-        input.form-control(ng-model="searchText", placeholder="Filter")
-      .form-group
-        select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
+        label(class="radio-inline", ng-repeat="platform in platforms")
+          input(type="radio", name="selectedPlatform", ng-model="$parent.selectedPlatform", ng-value="platform")
+          | {{platform.display}}
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
@@ -13,8 +13,11 @@ h1 Publishing
         th Platform
         th Date
     tbody
-      tr(ng-repeat="publishDate in publishDates | orderBy: date")
+      tr(ng-repeat="publishDate in publishDates | filter: selectedPlatform.tableValue")
         td
-          a(href="lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.languageSery.title}} {{publishDate.lesson.number}}
+          a(href="languageSeries/{{publishDate.lesson.languageSery.id}}") {{publishDate.lesson.languageSery.title}} 
+          a(href="lesson/{{publishDate.lesson.id}}") {{"#" + publishDate.lesson.number}} "{{publishDate.lesson.title}}"
         td {{publishDate.platform.name}}
         td {{publishDate.date | date:'MMM d, yyyy'}}
+        td 
+          button.btn.btn-primary(ng-click="deliverPublishDate(publishDate)") Deliver

@@ -13,13 +13,18 @@ exports.getPublishDates = function(req, res) {
 };
 
 exports.getIncompletePublishDates = function(req, res) {
-  models.PublishDate.findAll({include: [
-    models.Platform,
-    {model: models.Lesson, 
+  models.PublishDate.findAll({
+    order: [["date", "ASC"]],
+    limit: 50,
+    where: {
+      isDelivered: false
+    },
     include: [
-      models.LanguageSeries
-    ]}
-  ]}).then(function(publishDates) {
+      models.Platform,
+      {
+        model: models.Lesson, 
+        include: [models.LanguageSeries]
+      }]}).then(function(publishDates) {
     if(publishDates) {
       res.send(publishDates);
     } else {
@@ -39,5 +44,22 @@ exports.getPublishDateById = function(req, res) {
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
+  });
+};
+
+exports.updatePublishDate = function(req, res) {
+  models.PublishDate.findById(req.body.id).then(function (publishDate) {
+    for (var key in req.query) {
+      publishDate[key] = req.query[key];
+    }
+    publishDate.save()
+      .then(function (publishDate) {
+        res.status(200);
+        return res.send();
+      })
+      .catch(function (err) {
+        res.status(400);
+        return res.send({reason: err.toString()});
+      });
   });
 };
