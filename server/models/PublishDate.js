@@ -11,6 +11,9 @@ var PublishDate = db.define('publishDate', {
   fkLesson: {
     type: Sequelize.INTEGER
   },
+  fkPlatform: {
+    type: Sequelize.INTEGER
+  },
   type: {
     type: Sequelize.ENUM('SITE', 'YOUTUBE', 'ROKU')
   },
@@ -29,14 +32,14 @@ PublishDate.sync({force: true}).then(function() {
       if(lesson.publishDateSite > 0) {
         PublishDate.create({
           fkLesson: lesson.id,
-          type: 'SITE',
+          fkPlatform: 1,
           date: lesson.publishDateSite
         });
       }
       if(lesson.publishDateYouTube > 0) {
         PublishDate.create({
           fkLesson: lesson.id,
-          type: 'YOUTUBE',
+          fkPlatform: 2,
           date: lesson.publishDateYouTube
         });
       }

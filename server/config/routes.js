@@ -23,9 +23,8 @@ module.exports = function(app) {
   //app.post('/api/lessons', controllers.lesson.newLesson); // not implemented
   app.get('/api/lessons/upcoming', controllers.lesson.getUpcomingLessons);
   app.get('/api/lessons/qa', controllers.lesson.getQALessons);
-  //app.get('/api/lessons/needLanguageCheck', controllers.lesson.getLanguageCheckLessons);
-  //app.get('/api/lessons/needVideoCheck', controllers.lesson.getVideoCheckLessons);
-  //app.get('/api/lessons/needArchive', controllers.lesson.getArchiveLessons);
+  app.get('/api/lessons/needVideoCheck', controllers.lesson.getVideoCheckableLessons);
+  app.get('/api/lessons/needArchive', controllers.lesson.getArchiveableLessons);
   //app.get('/api/lessons/recentlyCompleted', controllers.lesson.getRecentlyCompletedLessons);
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
   app.get('/api/lessons/:id/tasks', controllers.task.getTasksForLessonWithId);
