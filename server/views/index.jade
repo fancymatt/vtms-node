@@ -15,6 +15,8 @@ block content
             ul.dropdown-menu(role="menu")
               li(ng-repeat="teamMember in teamMembers")
                 a(href="teamMembers/{{teamMember.id}}") {{teamMember.nameFull}}
+          li(ng-show="identity.currentUser.isAdmin()")
+            a(href='/publishing') Publishing
         div(ng-include="'/partials/account/navbar-login'")
   section.content
     div(ng-view)

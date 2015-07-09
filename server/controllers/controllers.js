@@ -7,6 +7,7 @@ controllers.languageSeries = require('./languageSeries');
 controllers.lesson = require('./lesson');
 controllers.level = require('./level');
 controllers.publishDate = require('./publishDate');
+controllers.platform = require('./platform');
 controllers.series = require('./series');
 controllers.shift = require('./shift');
 controllers.shot = require('./shot');

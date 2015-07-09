@@ -14,7 +14,8 @@ var Platform = db.define('platform', {
     type: Sequelize.TEXT
   }
 }, {
-  freezeTableName: true
+  freezeTableName: true,
+  timestamps: false
 });
 
 module.exports = Platform;
