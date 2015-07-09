@@ -68,6 +68,11 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/task/team-member-task-list',
       controller: 'vtmsTeamMemberTaskListController',
       resolve: routeRoleChecks.teamMember
+    })
+    .when('/publishing', {
+      templateUrl: '/partials/publishDates/publish-date-list',
+      controller: 'vtmsPublishDateListController',
+      resolve: routeRoleChecks.admin
     });
 });
 

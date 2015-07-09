@@ -63,7 +63,11 @@ module.exports = function(app) {
   app.get('/api/levels/:id', controllers.level.getLevelById);
   
   app.get('/api/publishDates', controllers.publishDate.getPublishDates);
+  app.get('/api/publishDates/incomplete', controllers.publishDate.getIncompletePublishDates);
   app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);
+  
+  app.get('/api/platforms', controllers.platform.getPlatforms);
+  app.get('/api/platforms/:id', controllers.platform.getPlatformById);
   
   app.get('/api/shots', controllers.shot.getShots);
   app.get('/api/shots/:id', controllers.shot.getShotById);
