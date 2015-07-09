@@ -70,29 +70,71 @@ exports.getUpcomingLessons = function (req, res) {
 exports.getQALessons = function (req, res) {
   models.Lesson.findAll({
     where: {
-      filesMoved: false,
-      isCheckable: true
+      checkedLanguage: false,
+      isCheckable: true,
+      exportedTime: {
+        $gt: 0
+      }
     },
     include: {
       model: models.PublishDate,
       required: true
     }
   }).then(function (lessons) {
-  if (lessons) {
-    res.send(lessons);
-  } else {
-    res.send(404).send({error: "No lessons found."});
-  }
-}).catch(function (err) {
-  res.status(500).send({error: err});
-});
+    if (lessons) {
+      res.send(lessons);
+    } else {
+      res.send(404).send({error: "No lessons found."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
 };
-/*
-exports.getLanguageCheckLessons = function (req, res) {
 
-exports.getVideoCheckLessons = function (req, res) {
+exports.getVideoCheckableLessons = function (req, res) {
+  models.Lesson.findAll({
+    where: {
+      checkedVideo: false,
+      isCheckable: true,
+      exportedTime: {
+        $gt: 0
+      }
+    },
+    include: {
+      model: models.PublishDate,
+      required: true
+    }
+  }).then(function (lessons) {
+    if (lessons) {
+      res.send(lessons);
+    } else {
+      res.send(404).send({error: "No lessons found."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
+};
 
-exports.getArchiveLessons = function (req, res) {
-
-exports.getRecentlyCompletedLessons = function (req, res) {
-*/
+exports.getArchiveableLessons = function (req, res) {
+  models.Lesson.findAll({
+    where: {
+      checkedVideo: true,
+      checkedLanguage: true,
+      exportedTime: {
+        $gt: 0
+      }
+    },
+    include: {
+      model: models.PublishDate,
+      required: true
+    }
+  }).then(function (lessons) {
+    if (lessons) {
+      res.send(lessons);
+    } else {
+      res.send(404).send({error: "No lessons found."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
+};

@@ -19,6 +19,7 @@ models.Issue = require('./Issue.js');
 models.TaskGlobal = require('./TaskGlobal.js');
 models.TeamMember = require('./TeamMember.js');
 models.PublishDate = require('./PublishDate.js');
+models.Platform = require('./Platform.js');
 
 models.Series.hasMany(models.LanguageSeries, { foreignKey: 'fkSeries' } );
 models.Series.hasMany(models.TaskGlobal, { foreignKey: 'fkSeries' } );
@@ -71,5 +72,8 @@ models.TeamMember.hasMany(models.Shift, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Task, { foreignKey: 'fkTeamMember' } );
 
 models.PublishDate.belongsTo(models.Lesson, { foreignKey: 'fkLesson'} );
+models.PublishDate.belongsTo(models.Platform, { foreignKey: 'fkPlatform'} );
+
+models.Platform.hasMany(models.PublishDate, { foreignKey: 'fkPlatform'} );
 
 module.exports = models;
