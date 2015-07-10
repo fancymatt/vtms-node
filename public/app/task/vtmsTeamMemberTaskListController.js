@@ -24,6 +24,19 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
     });
   }
   
+  $scope.completeTask = function(task) {
+    task.complete().then(function(newData) {
+      var indexToDelete = $scope.activeTasks.indexOf(task);
+      $scope.activeTasks.splice(indexToDelete, 1);
+      angular.extend(task, newData);
+      $scope.actionableTasks.push(task);
+      
+      var lessonString = task.lesson.languageSery.title + " #" + task.lesson.number + " - " + task.taskGlobal.name;
+      var durationString = moment.duration(newData.timeRunning, 'seconds');
+      vtmsNotifier.success("Completed " + lessonString + ". It took " + durationString.humanize() + ".");
+    });
+  }
+  
   $scope.deactivateTask = function(task) {
     task.deactivate().then(function(newData) {
       var indexToDelete = $scope.activeTasks.indexOf(task);
