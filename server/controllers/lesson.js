@@ -138,3 +138,46 @@ exports.getArchiveableLessons = function (req, res) {
     res.status(500).send({error: err});
   });
 };
+
+exports.getQueuedLessons = function (req, res) {
+  models.Lesson.findAll({
+    where: {
+      filesMoved: false,
+      isQueued: true
+    },
+    include: [
+      models.LanguageSeries,
+      {model: models.PublishDate, required: true}
+    ]
+  }).then(function (lessons) {
+    if (lessons.length > 0) {
+      res.send(lessons);
+    } else {
+      res.status(404).send({error: "No lessons found."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
+};
+
+exports.getReadyToRenderLessons = function (req, res) {
+  models.Lesson.findAll({
+    where: {
+      filesMoved: false,
+      isCheckable: true,
+      isQueued: false
+    },
+    include: [
+      models.LanguageSeries,
+      {model: models.PublishDate, required: true}
+    ]
+  }).then(function (lessons) {
+    if (lessons) {
+      res.send(lessons);
+    } else {
+      res.status(404).send({error: "No lessons found."});
+    }
+  }).catch(function (err) {
+    res.status(500).send({error: err});
+  });
+};

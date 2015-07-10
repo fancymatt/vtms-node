@@ -73,6 +73,11 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/publishDates/publish-date-list',
       controller: 'vtmsPublishDateListController',
       resolve: routeRoleChecks.admin
+    })
+    .when('/renderQueue', {
+      templateUrl: '/partials/lessons/render-queue',
+      controller: 'vtmsRenderQueueController',
+      resolve: routeRoleChecks.admin
     });
 });
 

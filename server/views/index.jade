@@ -15,8 +15,14 @@ block content
             ul.dropdown-menu(role="menu")
               li(ng-repeat="teamMember in teamMembers")
                 a(href="teamMembers/{{teamMember.id}}") {{teamMember.nameFull}}
-          li(ng-show="identity.currentUser.isAdmin()")
-            a(href='/publishing') Publishing
+          li.dropdown(ng-show="identity.currentUser.isAdmin()")
+            a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Management
+              span.caret
+            ul.dropdown-menu
+              li
+                a(href='/publishing') Publishing
+              li
+                a(href='/renderQueue') Render Queue
         div(ng-include="'/partials/account/navbar-login'")
   section.content
     div(ng-view)
