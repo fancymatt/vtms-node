@@ -5,6 +5,7 @@
       tr
         th Lesson
         th Task
+        th Due Date
         th Actions
     tbody
       tr(ng-repeat="task in activeTasks")
@@ -12,8 +13,10 @@
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td {{task.taskGlobal.name}}
         td {{task.dueDate() | date: 'MMM d, yyyy'}}
-        td 
-          button.btn.btn-warning(ng-click="deactivateTask(task)") Deactivate
+        td
+          .btn-group.btn-group-sm
+            button.btn.btn-default(ng-click="deactivateTask(task)") Deactivate
+            button.btn.btn-primary(ng-click="completeTask(task)") Complete
   .pull-right
     form.form-inline
       .form-group
@@ -34,4 +37,5 @@
         td {{task.taskGlobal.name}}
         td {{task.dueDate() | date: 'MMM d, yyyy'}}
         td 
-          button.btn.btn-primary(ng-click="activateTask(task)") Activate
+          .btn-group.btn-group-sm
+            button.btn.btn-primary(ng-click="activateTask(task)") Activate
