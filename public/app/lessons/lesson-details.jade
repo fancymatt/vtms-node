@@ -24,8 +24,9 @@
       tr(ng-repeat="task in taskList | filter:searchText | orderBy: selectedSortOption")
         td {{task.taskGlobal.name}}
         td {{task.teamMember.nameFull}}
-        td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date:'MMM d, yyyy') : "") : ""}}
+        td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date:'MMM d, yyyy') : "") : ""}} 
 .container
+  h3 Script
   .pull-right
     form.form-inline
       .form-group
@@ -41,7 +42,7 @@
         th Actions
     tbody
       tr(ng-repeat="shot in shotList | filter:shotSearchText | orderBy: ['section', 'shot']" )
-        td {{getAssetNameForTaskId(shot.fkAsset)}}
+        td {{getNameFromTaskId(shot.fkAsset, $parent.assetList)}}
         td {{shot.section}}
         td {{shot.shot}}
         td {{shot.type}}
@@ -59,7 +60,36 @@
         td
           input(ng-model="newShotValues.type", id="newShot")
         td
-          textarea(ng-model="newShotValues.script" auto-grow)
+          textarea(ng-model="newShotValues.script")
         td
           button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
+  h3 Issues
+  table.table.table-hover.table-striped.table-condensed#issues
+    thead
+      tr
+        th Creator
+        th Task
+        th Timecode
+        th Issue
+        th Actions
+    tbody
+      tr(ng-repeat="issue in issuesList")
+        td {{issue.creator}}
+        td {{getNameFromTaskId(issue.fkTask, $parent.taskList)}}
+        td {{issue.timecode}}
+        td {{issue.body}}
+        td
+          button.btn.btn-xs(ng-click="deleteIssue(issue)") X
+      tr
+        td
+          input(ng-model="newIssueValues.creator")
+        td
+          select(ng-model="newIssueValues.fkTask" convert-to-number)
+            option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
+        td
+          input(ng-model="newIssueValues.timecode", id="newIssue")
+        td
+          textarea(ng-model="newIssueValues.body")
+        td
+          button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue
   

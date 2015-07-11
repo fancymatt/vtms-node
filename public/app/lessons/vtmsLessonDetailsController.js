@@ -1,21 +1,29 @@
-angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsShot, vtmsTask, $routeParams, vtmsNotifier, $window) {
+angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsShot, vtmsTask, vtmsIssue, $routeParams, vtmsNotifier, $window) {
   
   $scope.lesson = vtmsLesson.get({id: $routeParams.id});
   
   $scope.shotList = vtmsShot.getList({id: $routeParams.id});
-  $scope.newShotValues;
+  $scope.issuesList = vtmsIssue.getListForLesson({id: $routeParams.id});
+  
   $scope.taskList = vtmsTask.getList({id: $routeParams.id});
   $scope.assetList = vtmsTask.getAssets({id: $routeParams.id});
   
-  function resetNewShotValues() {
-    $scope.newShotValues.shot++;
-    $scope.newShotValues.script = "";
-    $scope.newShotValues.type = "";
+  $scope.newShotValues = {
+    shot: 1,
+    script: "",
+    type: ""
   };
   
-  $scope.getAssetNameForTaskId = function(taskId) {
-    for(var i = 0; i < $scope.assetList.length; i++) {
-      if($scope.assetList[i].id === taskId) return $scope.assetList[i].taskGlobal.name;
+  $scope.newIssueValues = {
+    creator: "Checker", 
+    fkTask: "",
+    timecode: "", 
+    body: ""
+  };
+  
+  $scope.getNameFromTaskId = function(id, list) {
+    for(var i = 0; i < list.length; i++) {
+      if(list[i].id === id) return list[i].taskGlobal.name;
     }
     return false;
   };
@@ -26,20 +34,46 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     newShot.$save().then(function(shot) {
       $scope.shotList[$scope.shotList.length] = shot;
     });
-        
-    $window.document.getElementById("newShot").focus();
     
-    resetNewShotValues();
+    $window.document.getElementById("newShot").focus();
+    $scope.newShotValues = {
+      shot: $scope.newShotValues.shot++,
+      script: "",
+      type: ""
+    }
     vtmsNotifier.notify("Added new shot.");
-  }
+  };
+  
+  $scope.newIssue = function() {
+    var newIssue = new vtmsIssue($scope.newIssueValues);
+    newIssue.$save().then(function(issue) {
+      $scope.issuesList[$scope.issuesList.length] = issue;
+    });
+    
+    $window.document.getElementById("newIssue").focus();
+    $scope.newIssueValues = {
+      timecode: "",
+      body: ""
+    }
+    vtmsNotifier.notify("Added new issue.");
+  };
   
   $scope.deleteShot = function(shot) {
-    var indexToDelete = $scope.shotList.indexOf(shot);
-    var shotToDelete = $scope.shotList[indexToDelete];
+    var index = $scope.shotList.indexOf(shot)
+    var shotToDelete = $scope.shotList[index];
     shotToDelete.$delete();
-    $scope.shotList.splice(indexToDelete, 1);
+    $scope.shotList.splice(index, 1);
     vtmsNotifier.notify("Deleted a shot.");
-  }
+  };
+  
+  $scope.deleteIssue = function(issue) {
+    var index = $scope.issuesList.indexOf(issue);
+    var issueToDelete = $scope.issuesList[index];
+    issueToDelete.$delete();
+    $scope.issuesList.splice(index, 1);
+    vtmsNotifier.notify("Deleted an issue.");
+  };
+  
 }).directive('convertToNumber', function() {
   return {
     require: 'ngModel',
@@ -52,44 +86,4 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       });
     }
   };
-}).directive('autoGrow', function() {
-  return function(scope, element, attr){
-    var minHeight = element[0].offsetHeight,
-      paddingLeft = element.css('paddingLeft'),
-      paddingRight = element.css('paddingRight');
- 
-    var $shadow = angular.element('<div></div>').css({
-      position: 'absolute',
-      top: -10000,
-      left: -10000,
-      width: element[0].offsetWidth - parseInt(paddingLeft || 0) - parseInt(paddingRight || 0),
-      fontSize: element.css('fontSize'),
-      fontFamily: element.css('fontFamily'),
-      lineHeight: element.css('lineHeight'),
-      resize:     'none'
-    });
-    angular.element(document.body).append($shadow);
- 
-    var update = function() {
-      var times = function(string, number) {
-        for (var i = 0, r = ''; i < number; i++) {
-          r += string;
-        }
-        return r;
-      }
- 
-      var val = element.val().replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/&/g, '&amp;')
-        .replace(/\n$/, '<br/>&nbsp;')
-        .replace(/\n/g, '<br/>')
-        .replace(/\s{2,}/g, function(space) { return times('&nbsp;', space.length - 1) + ' ' });
-      $shadow.html(val);
- 
-      element.css('height', Math.max($shadow[0].offsetHeight + 10 /* the "threshold" */, minHeight) + 'px');
-    }
- 
-    element.bind('keyup keydown keypress change', update);
-    update();
-  }
 });
