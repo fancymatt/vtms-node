@@ -77,14 +77,13 @@ exports.updateIssue = function (req, res) {
 
 exports.deleteIssue = function (req, res) {
   models.Issue.findById(req.params.id).then(function (issue) {
-    if(issue) {
-      issue.destroy().then(function() {
-        res.status(200);
-      });
-    } else {
-      res.status(404).send({error: "No shot was found with that ID."})
-    }
+    issue.destroy().then(function() {
+      res.status(200).end();
+    });
   }).catch(function(err) {
-    res.status(500).send({error: err});
+    return res.render('error', {
+      error: err,
+      status: 500
+    });
   });
 };

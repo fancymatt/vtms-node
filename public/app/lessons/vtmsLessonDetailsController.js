@@ -21,6 +21,14 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     body: ""
   };
   
+  function deleteFromList(item, list) {
+    var index = list.indexOf(item);
+    var itemToDelete = list[index];
+    itemToDelete.delete().then(function() {
+      list.splice(index, 1);
+    });
+  }
+  
   $scope.getNameFromTaskId = function(id, list) {
     for(var i = 0; i < list.length; i++) {
       if(list[i].id === id) return list[i].taskGlobal.name;
@@ -37,7 +45,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     
     $window.document.getElementById("newShot").focus();
     $scope.newShotValues = {
-      shot: $scope.newShotValues.shot++,
+      shot: $scope.newShotValues.shot + 1,
       script: "",
       type: ""
     }
@@ -52,6 +60,8 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     
     $window.document.getElementById("newIssue").focus();
     $scope.newIssueValues = {
+      creator: $scope.newIssueValues.creator,
+      fkTask: $scope.newIssueValues.fkTask,
       timecode: "",
       body: ""
     }
@@ -59,18 +69,12 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   };
   
   $scope.deleteShot = function(shot) {
-    var index = $scope.shotList.indexOf(shot)
-    var shotToDelete = $scope.shotList[index];
-    shotToDelete.$delete();
-    $scope.shotList.splice(index, 1);
+    deleteFromList(shot, $scope.shotList);
     vtmsNotifier.notify("Deleted a shot.");
   };
   
   $scope.deleteIssue = function(issue) {
-    var index = $scope.issuesList.indexOf(issue);
-    var issueToDelete = $scope.issuesList[index];
-    issueToDelete.$delete();
-    $scope.issuesList.splice(index, 1);
+    deleteFromList(issue, $scope.issuesList);
     vtmsNotifier.notify("Deleted an issue.");
   };
   
