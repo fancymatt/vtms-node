@@ -71,7 +71,7 @@ exports.deleteShot = function (req, res) {
   models.Shot.findById(req.params.id).then(function (shot) {
     if(shot) {
       shot.destroy().then(function() {
-        res.status(200);
+        res.status(200).end();
       });
     } else {
       res.status(404).send({error: "No shot was found with that ID."})

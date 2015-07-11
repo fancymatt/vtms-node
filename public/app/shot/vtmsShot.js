@@ -1,4 +1,4 @@
-angular.module('vtms').factory('vtmsShot', function($resource) {
+angular.module('vtms').factory('vtmsShot', function($resource, $q) {
   var ShotResource = $resource('/api/shots/:id', {id: "@id"}, {
     update: {method:'PUT', isArray:false},
     getList: {method:'GET', url: '/api/lessons/:id/shots', isArray:true}
