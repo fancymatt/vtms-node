@@ -1,10 +1,10 @@
-angular.module('vtms').factory('vtmsShot', function($resource) {
-  var ShotResource = $resource('/api/shots/:id', {id: "@id"}, {
+angular.module('vtms').factory('vtmsIssue', function($resource) {
+  var IssueResource = $resource('/api/issues/:id', {id: "@id"}, {
     update: {method:'PUT', isArray:false},
-    getList: {method:'GET', url: '/api/lessons/:id/shots', isArray:true}
+    getListForLesson: {method:'GET', url: '/api/lessons/:id/issues', isArray:true}
   });
   
-  ShotResource.prototype.update = function(newData) {
+  IssueResource.prototype.update = function(newData) {
     var dfd = $q.defer();
     this.$update(newData).then(function() {
       dfd.resolve();
@@ -14,7 +14,7 @@ angular.module('vtms').factory('vtmsShot', function($resource) {
     return dfd.promise;
   };
   
-  ShotResource.prototype.delete = function() {
+  IssueResource.prototype.delete = function() {
     var dfd = $q.defer();
     this.$delete().then(function() {
       dfd.resolve();
@@ -24,6 +24,6 @@ angular.module('vtms').factory('vtmsShot', function($resource) {
     return dfd.promise;
   };
   
-  return ShotResource;
+  return IssueResource;
 });
   

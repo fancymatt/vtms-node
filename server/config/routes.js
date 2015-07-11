@@ -11,6 +11,7 @@ module.exports = function(app) {
   app.get('/api/series/:id', controllers.series.getSeriesById);
   app.get('/api/series', controllers.series.getSeries);
   app.get('/api/series/:id/languageSeries', controllers.series.getLanguageSeriesForSeriesWithId);
+  app.get('/api/series/:id/globalTasks', controllers.taskGlobal.getGlobalTasksForSeries);
   
   app.get('/api/languageSeries', controllers.languageSeries.getLanguageSeries);
   //app.post('/api/languageSeries', controllers.languageSeries.newLanguageSeries); // not implemented
@@ -29,6 +30,7 @@ module.exports = function(app) {
   app.get('/api/lessons/readyToRender', controllers.lesson.getReadyToRenderLessons);
   //app.get('/api/lessons/recentlyCompleted', controllers.lesson.getRecentlyCompletedLessons);
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
+  app.get('/api/lessons/:id/issues', controllers.issue.getIssuesForLessonWithId);
   app.get('/api/lessons/:id/tasks', controllers.task.getTasksForLessonWithId);
   app.get('/api/lessons/:id/assets', controllers.task.getAssetsForLessonWithId);
   app.get('/api/lessons/:id/shots', controllers.shot.getShotsForLessonWithId);
@@ -83,6 +85,9 @@ module.exports = function(app) {
   
   app.get('/api/issues', controllers.issue.getIssues);
   app.get('/api/issues/:id', controllers.issue.getIssueById);
+  app.post('/api/issues', controllers.issue.createIssue);
+  app.delete('/api/issues/:id', controllers.issue.deleteIssue);
+  app.put('/api/issues/:id', controllers.issue.updateIssue);
   
   app.get('/api/taskGlobals', controllers.taskGlobal.getTaskGlobals);
   app.get('/api/taskGlobals/:id', controllers.taskGlobal.getTaskGlobalById);
