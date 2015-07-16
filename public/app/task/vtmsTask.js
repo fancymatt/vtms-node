@@ -89,5 +89,9 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
     return dfd.promise;
   };
   
+  TaskResource.prototype.toString = function() {
+    return this.lesson.languageSery.title + " #" + this.lesson.number + " - " + this.taskGlobal.name;
+  };
+  
   return TaskResource;
 });
