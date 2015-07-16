@@ -1,52 +1,57 @@
-angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($scope, vtmsTeamMember, vtmsTask, vtmsIdentity, $routeParams, $location, vtmsNotifier) {
+angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(vtmsTeamMember, vtmsTask, vtmsIdentity, vtmsNotifier) {
+  var ctrl = this;
   
-  $scope.identity = vtmsIdentity.currentUser;
-  $scope.teamMember = vtmsTeamMember.get({id: $scope.identity.fkTeamMember});
-  $scope.actionableTasks = vtmsTask.getActionableTasksForMember({id: $scope.identity.fkTeamMember});
-  $scope.activeTasks = vtmsTask.getActiveTasksForMember({id: $scope.identity.fkTeamMember});
+  ctrl.identity = vtmsIdentity.currentUser;
+  ctrl.teamMember = vtmsTeamMember.get({id: ctrl.identity.fkTeamMember});
+  ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
+  ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
   
-  $scope.sortOptions = [
+  ctrl.sortOptions = [
     {value: "dueDate()", text: "Sort by Due Date"},
     {value: "taskGlobal.name", text: "Sort by Task Type"}
   ];
   
-  $scope.selectedSortOption = $scope.sortOptions[0].value;
+  ctrl.selectedSortOption = ctrl.sortOptions[0].value;
   
-  $scope.activateTask = function(task) {
+  var removeFromList = function(object, list) {
+    list.splice(list.indexOf(object),1);
+  }
+  
+  var addToList = function(object, list) {
+    list.push(object);
+  }
+  
+  ctrl.activateTask = function(task) {
     task.activate().then(function(newData) {
       angular.extend(task, newData);
-      $scope.activeTasks.push(task);
-      var indexToDelete = $scope.actionableTasks.indexOf(task);
-      $scope.actionableTasks.splice(indexToDelete, 1);
-      
-      var lessonString = task.lesson.languageSery.title + " #" + task.lesson.number + " - " + task.taskGlobal.name;
-      vtmsNotifier.notify("Activated " + lessonString);
+      addToList(task, ctrl.activeTasks);
+      removeFromList(task, ctrl.actionableTasks);
+      vtmsNotifier.notify("Activated " + task.toString() + ".");
     });
   }
   
-  $scope.completeTask = function(task) {
+  ctrl.completeTask = function(task) {
     task.complete().then(function(newData) {
-      var indexToDelete = $scope.activeTasks.indexOf(task);
-      $scope.activeTasks.splice(indexToDelete, 1);
       angular.extend(task, newData);
-      $scope.actionableTasks.push(task);
-      
-      var lessonString = task.lesson.languageSery.title + " #" + task.lesson.number + " - " + task.taskGlobal.name;
+      removeFromList(task, ctrl.activeTasks);
       var durationString = moment.duration(newData.timeRunning, 'seconds');
-      vtmsNotifier.success("Completed " + lessonString + ". It took " + durationString.humanize() + ".");
+      var notification = "";
+      notification += "Completed " + task.toString() + ".\n";
+      notification += "It took " + durationString.humanize() + "."
+      vtmsNotifier.success(notification);
     });
   }
   
-  $scope.deactivateTask = function(task) {
+  ctrl.deactivateTask = function(task) {
     task.deactivate().then(function(newData) {
-      var indexToDelete = $scope.activeTasks.indexOf(task);
-      $scope.activeTasks.splice(indexToDelete, 1);
       angular.extend(task, newData);
-      $scope.actionableTasks.push(task);
-      
-      var lessonString = task.lesson.languageSery.title + " #" + task.lesson.number + " - " + task.taskGlobal.name;
+      addToList(task, ctrl.actionableTasks);
+      removeFromList(task, ctrl.activeTasks);
       var durationString = moment.duration(newData.timeRunning, 'seconds');
-      vtmsNotifier.notify("Deactivated " + lessonString + ". You've worked for " + durationString.humanize() + " so far.");
+      var notification = "";
+      notification += "Deactivated " + task.toString() + ".\n";
+      notification += "You've worked for " + durationString.humanize() + " so far."
+      vtmsNotifier.notify(notification);
     });
   }
 });

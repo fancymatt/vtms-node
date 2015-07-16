@@ -20,7 +20,8 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
   $routeProvider
     .when('/', { 
       templateUrl: '/partials/main/main', 
-      controller: 'vtmsMainController'
+      controller: 'vtmsMainController',
+      controllerAs: 'ctrl'
     })
     .when('/admin/users', { 
       templateUrl: '/partials/admin/user-list', 
@@ -67,6 +68,7 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/tasklist', {
       templateUrl: '/partials/task/team-member-task-list',
       controller: 'vtmsTeamMemberTaskListController',
+      controllerAs: 'ctrl',
       resolve: routeRoleChecks.teamMember
     })
     .when('/publishing', {
