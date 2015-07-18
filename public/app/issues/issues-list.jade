@@ -1,31 +1,36 @@
 .panel.panel-primary
   .panel-heading.text-center Issues List
   .panel-body
-    table.table.table-hover.table-striped.table-condensed#issues
-      thead
-        tr
-          th Creator
-          th Task
-          th Timecode
-          th Issue
-          th Actions
-      tbody
-        tr(ng-repeat="issue in issuesList")
-          td {{issue.creator}}
-          td {{getNameFromTaskId(issue.fkTask, $parent.taskList)}}
-          td {{issue.timecode}}
-          td {{issue.body}}
-          td
-            button.btn.btn-xs(ng-click="deleteIssue(issue)") X
-        tr
-          td
-            input(ng-model="newIssueValues.creator")
-          td
-            select(ng-model="newIssueValues.fkTask" convert-to-number)
-              option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
-          td
-            input(ng-model="newIssueValues.timecode", id="newIssue")
-          td
-            textarea(ng-model="newIssueValues.body")
-          td
-            button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue
+  table.table.table-hover.table-striped.table-condensed#issues
+    thead
+      tr
+        th Actions
+        th(ng-if=("!!issuesList[0].task.lesson.languageSery")) Lesson
+        th Task
+        th Timecode
+        th Issue
+        th Creator
+        th(ng-if=("!issuesList[0].task.lesson.languageSery")) Status
+    tbody
+      tr(ng-repeat="issue in issuesList")
+        td
+          button.btn.btn-xs(ng-click="deleteIssue(issue)") X
+        td(ng-if=("!!issue.task.lesson.languageSery"))
+              a(href="/lesson/{{issue.task.lesson.id}}") {{issue.task.lesson.languageSery.title}} {{"#" + issue.task.lesson.number}}: {{issue.task.lesson.title}}
+        td {{$parent.taskList ? getNameFromTaskId(issue.fkTask, $parent.taskList) : issue.task.taskGlobal.name}}
+        td {{issue.timecode}}
+        td {{issue.body}}
+        td {{issue.creator}}
+        td(ng-if=("!issue.task.lesson.languageSery")) {{issue.isCompleted ? "Completed" : "Incomplete"}}
+      tr(ng-show="!!lesson")
+        td
+          input(ng-model="newIssueValues.creator")
+        td
+          select(ng-model="newIssueValues.fkTask" convert-to-number)
+            option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
+        td
+          input(ng-model="newIssueValues.timecode", id="newIssue")
+        td
+          textarea(ng-model="newIssueValues.body")      
+        td
+          button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue

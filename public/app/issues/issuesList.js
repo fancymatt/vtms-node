@@ -3,14 +3,18 @@ angular.module('vtms').directive('issuesList', function() {
     templateUrl: "/partials/issues/issues-list",
     restrict: "E",
     scope: {
-      lesson: '='
+      lesson: '=',
+      issues: '='
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {
-      
-      $scope.lesson.$promise.then(function(lesson) {
-        $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
-        $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
-      });
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {     
+      if(!!$scope.lesson) {
+        $scope.lesson.$promise.then(function(lesson) {
+          $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
+          $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
+        });
+      } else {
+        $scope.issuesList = $scope.issues;
+      }
       
       function deleteFromList(item, list) {
         var index = list.indexOf(item);

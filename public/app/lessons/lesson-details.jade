@@ -15,7 +15,7 @@
   p YouTube Code: 
     a(href="#", editable-text="ctrl.lesson.ytCode", onbeforesave="update({ytCode: $data})") {{ctrl.lesson.ytCode ? ctrl.lesson.ytCode : "none"}}
 .container
-  task-list(tasks="ctrl.taskList")
+  task-list(tasks="ctrl.taskList", title="Task List")
 .container
   shot-list(lesson="ctrl.lesson")
 .container

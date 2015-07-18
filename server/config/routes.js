@@ -41,6 +41,7 @@ module.exports = function(app) {
   app.get('/api/teamMembers/:id/tasks/actionable', controllers.task.getActionableTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id/tasks/active', controllers.task.getActiveTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
+  app.get('/api/teamMember/:id/issues', controllers.issue.getIssuesForTeamMember);
   //app.get('/api/teamMembers/:id/shifts', controllers.teamMember.getShiftsForTeamMemberWithId);
   
   app.get('/api/tasks', controllers.task.getTasks);

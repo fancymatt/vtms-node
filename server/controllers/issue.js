@@ -46,6 +46,27 @@ exports.getIssuesForLessonWithId = function(req, res) {
   });
 };
 
+exports.getIssuesForTeamMember = function(req, res) {
+  models.Issue.findAll({
+    include: [
+      {
+        model: models.Task,
+        where: {fkTeamMember: req.params.id},
+        include: [models.TaskGlobal, {model: models.Lesson, include: [models.LanguageSeries]}]
+      }
+    ],
+    where: {isCompleted: false}
+  }).then(function(issues) {
+    if(issues) {
+      res.send(issues);
+    } else {
+      res.status(494).send({error: "No issues were found for a team member with that ID."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.createIssue = function (req, res, next) {
   var userData = req.body;
   models.Issue.create(userData).then(function(issue) {
