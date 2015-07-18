@@ -27,7 +27,6 @@ angular.module('vtms').directive('taskList', function() {
       $scope.activateTask = function(task) {
         task.activate().then(function(newData) {
           angular.extend(task, newData);
-          console.log($scope);
           if($scope.$parent.ctrl.actionableTasks) {
             addToList(task, $scope.$parent.ctrl.activeTasks);
             removeFromList(task, $scope.$parent.ctrl.actionableTasks);
