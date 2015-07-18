@@ -14,9 +14,9 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
         dateToCompare = new Date(this.lesson.publishDates[i].date);
         if(dateToCompare < earliestDate) earliestDate = dateToCompare;
       }
-    }
+    };
     return earliestDate.setDate(earliestDate.getDate()-this.taskGlobal.dueDateOffset);
-  }
+  };
   
   TaskResource.prototype.activate = function() {
     var dfd = $q.defer();
@@ -90,7 +90,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   };
   
   TaskResource.prototype.toString = function() {
-    if(this.lesson) {
+    if(this.lesson.languageSery) {
       return this.lesson.languageSery.title + " #" + this.lesson.number + " - " + this.taskGlobal.name;
     } else if(this.taskGlobal) {
       return this.taskGlobal.name;

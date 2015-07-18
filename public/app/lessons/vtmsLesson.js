@@ -15,7 +15,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
       }
     }
     return earliestDate;
-  }
+  };
   
   LessonResource.prototype.addToRenderQueue = function() {
     var dfd = $q.defer();
