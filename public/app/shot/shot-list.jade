@@ -1,0 +1,35 @@
+.panel.panel-primary
+  .panel-heading.text-center Shot List
+  .panel-body
+    table.table.table-hover.table-striped.table-condensed#shots
+      thead
+        tr
+          th Asset
+          th Section
+          th Shot
+          th Type
+          th Script
+          th Actions
+      tbody(ng-show="assetList")
+        tr(ng-repeat="shot in shotList | filter:shotSearchText | orderBy: ['section', 'shot']" )
+          td {{getNameFromTaskId(shot.fkAsset)}}
+          td {{shot.section}}
+          td {{shot.shot}}
+          td {{shot.type}}
+          td {{shot.script}}
+          td
+            button.btn.btn-xs(ng-click="deleteShot(shot)") X
+        tr
+          td
+            select(ng-model="newShotValues.fkAsset" convert-to-number)
+              option(ng-repeat="asset in assetList", value="{{asset.id}}") {{asset.taskGlobal.name}}
+          td
+            input(ng-model="newShotValues.section")
+          td
+            input(ng-model="newShotValues.shot")
+          td
+            input(ng-model="newShotValues.type", id="newShot")
+          td
+            textarea(ng-model="newShotValues.script")
+          td
+            button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
