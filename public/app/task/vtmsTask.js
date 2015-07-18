@@ -90,7 +90,13 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   };
   
   TaskResource.prototype.toString = function() {
-    return this.lesson.languageSery.title + " #" + this.lesson.number + " - " + this.taskGlobal.name;
+    if(this.lesson) {
+      return this.lesson.languageSery.title + " #" + this.lesson.number + " - " + this.taskGlobal.name;
+    } else if(this.taskGlobal) {
+      return this.taskGlobal.name;
+    } else {
+      return "Lesson #" + this.number + ": " + this.name;
+    }
   };
   
   return TaskResource;

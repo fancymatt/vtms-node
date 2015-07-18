@@ -3,17 +3,17 @@
     li
       a(href="/series") Series List
     li
-      a(href="/series/{{lesson.languageSery.series.id}}") {{lesson.languageSery.series.title}}
+      a(href="/series/{{ctrl.lesson.languageSery.series.id}}") {{ctrl.lesson.languageSery.series.title}}
     li
-      a(href="/languageSeries/{{lesson.languageSery.id}}") {{lesson.languageSery.title}}
-    li.active {{lesson.title}}
+      a(href="/languageSeries/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
+    li.active {{ctrl.lesson.title}}
 .container
   h1
-    a(href="#", editable-text="lesson.title", onbeforesave="update({title: $data})") {{lesson.title}}
-  p Publish Date: {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
-  p YouTube Date: {{lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
+    a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
+  p Publish Date: {{ctrl.lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
+  p YouTube Date: {{ctrl.lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
   p YouTube Code: 
-    a(href="#", editable-text="lesson.ytCode", onbeforesave="update({ytCode: $data})") {{lesson.ytCode ? lesson.ytCode : "none"}}
+    a(href="#", editable-text="ctrl.lesson.ytCode", onbeforesave="update({ytCode: $data})") {{ctrl.lesson.ytCode ? ctrl.lesson.ytCode : "none"}}
   table.table.table-hover.table-striped.table-condensed#tasks
     thead
       tr
@@ -21,75 +21,11 @@
         th Person Responsible
         th Status
     tbody
-      tr(ng-repeat="task in taskList | filter:searchText | orderBy: selectedSortOption")
+      tr(ng-repeat="task in ctrl.taskList | filter:ctrl.searchText | orderBy: ctrl.selectedSortOption")
         td {{task.taskGlobal.name}}
         td {{task.teamMember.nameFull}}
         td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date:'MMM d, yyyy') : "") : ""}} 
 .container
-  h3 Script
-  .pull-right
-    form.form-inline
-      .form-group
-        input.form-control(ng-model="shotSearchText", placeholder="Filter")
-  table.table.table-hover.table-striped.table-condensed#shots
-    thead
-      tr
-        th Asset
-        th Section
-        th Shot
-        th Type
-        th Script
-        th Actions
-    tbody
-      tr(ng-repeat="shot in shotList | filter:shotSearchText | orderBy: ['section', 'shot']" )
-        td {{getNameFromTaskId(shot.fkAsset, $parent.assetList)}}
-        td {{shot.section}}
-        td {{shot.shot}}
-        td {{shot.type}}
-        td {{shot.script}}
-        td
-          button.btn.btn-xs(ng-click="deleteShot(shot)") X
-      tr
-        td
-          select(ng-model="newShotValues.fkAsset" convert-to-number)
-            option(ng-repeat="asset in assetList", value="{{asset.id}}") {{asset.taskGlobal.name}}
-        td
-          input(ng-model="newShotValues.section")
-        td
-          input(ng-model="newShotValues.shot")
-        td
-          input(ng-model="newShotValues.type", id="newShot")
-        td
-          textarea(ng-model="newShotValues.script")
-        td
-          button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
-  h3 Issues
-  table.table.table-hover.table-striped.table-condensed#issues
-    thead
-      tr
-        th Creator
-        th Task
-        th Timecode
-        th Issue
-        th Actions
-    tbody
-      tr(ng-repeat="issue in issuesList")
-        td {{issue.creator}}
-        td {{getNameFromTaskId(issue.fkTask, $parent.taskList)}}
-        td {{issue.timecode}}
-        td {{issue.body}}
-        td
-          button.btn.btn-xs(ng-click="deleteIssue(issue)") X
-      tr
-        td
-          input(ng-model="newIssueValues.creator")
-        td
-          select(ng-model="newIssueValues.fkTask" convert-to-number)
-            option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
-        td
-          input(ng-model="newIssueValues.timecode", id="newIssue")
-        td
-          textarea(ng-model="newIssueValues.body")
-        td
-          button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue
-  
+  shot-list(lesson="ctrl.lesson")
+.container
+  issues-list(lesson="ctrl.lesson")  
