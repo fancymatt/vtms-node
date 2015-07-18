@@ -16,7 +16,10 @@ exports.getTasks = function(req, res) {
 exports.getAssetsForLessonWithId = function(req, res) {
   models.Task.findAll({
     where: {fkLesson: req.params.id}, 
-    include: [{model: models.TaskGlobal, required: true, where: {isAsset: true}}]
+    include: [
+      {model: models.TaskGlobal, required: true, where: {isAsset: true}},
+      {model: models.Lesson, include: [models.PublishDate]}
+    ]
   }).then(function(tasks) {
     if(tasks) {
       res.send(tasks);
@@ -107,7 +110,7 @@ exports.getActionableTasks = function(req, res) {
       isActionable: true
            },
     include: [ 
-      {model: models.Lesson},
+      {model: models.Lesson, include: [models.PublishDate]},
       {model: models.TaskGlobal}
       ]
   }).then(function(tasks) {
@@ -144,7 +147,11 @@ exports.getRecentTasks = function(req, res) {
 exports.getTasksForLessonWithId = function (req, res) {
   models.Task.findAll({
     where: {fkLesson: req.params.id},
-    include: [models.TeamMember, models.TaskGlobal]
+    include: [
+      {model: models.Lesson, include: [models.PublishDate]},
+      {model: models.TeamMember}, 
+      {model: models.TaskGlobal}
+    ]
   }).then(function(tasks) {
     if(tasks) {
       res.send(tasks);

@@ -1,41 +1,6 @@
 .container
   h1 {{ctrl.teamMember.nameFull}}'s Task List
-  table.table.table-hover.table-striped.table-condensed(ng-show="ctrl.activeTasks.length")
-    thead
-      tr
-        th Lesson
-        th Task
-        th Due Date
-        th Actions
-    tbody
-      tr(ng-repeat="task in ctrl.activeTasks")
-        td 
-          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
-        td {{task.taskGlobal.name}}
-        td {{task.dueDate() | date: 'MMM d, yyyy'}}
-        td
-          .btn-group.btn-group-sm
-            button.btn.btn-default(ng-click="ctrl.deactivateTask(task)") Deactivate
-            button.btn.btn-primary(ng-click="ctrl.completeTask(task)") Complete
-  .pull-right
-    form.form-inline
-      .form-group
-        input.form-control(ng-model="ctrl.searchText", placeholder="Filter")
-      .form-group
-        select.form-control(ng-model="ctrl.selectedSortOption", ng-options="item.value as item.text for item in sortOptions")
-  table.table.table-hover.table-striped.table-condensed
-    thead
-      tr
-        th Lesson
-        th Task
-        th Due Date
-        th Actions
-    tbody
-      tr(ng-repeat="task in ctrl.actionableTasks | filter:ctrl.searchText | orderBy: ctrl.selectedSortOption")
-        td 
-          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
-        td {{task.taskGlobal.name}}
-        td {{task.dueDate() | date: 'MMM d, yyyy'}}
-        td 
-          .btn-group.btn-group-sm
-            button.btn.btn-primary(ng-click="ctrl.activateTask(task)") Activate
+.container
+  task-list(tasks="ctrl.activeTasks", title="Active Tasks", ng-if="ctrl.activeTasks.length")
+.container
+  task-list(tasks="ctrl.actionableTasks", title="Actionable Tasks")

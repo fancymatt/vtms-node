@@ -14,18 +14,9 @@
   p YouTube Date: {{ctrl.lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
   p YouTube Code: 
     a(href="#", editable-text="ctrl.lesson.ytCode", onbeforesave="update({ytCode: $data})") {{ctrl.lesson.ytCode ? ctrl.lesson.ytCode : "none"}}
-  table.table.table-hover.table-striped.table-condensed#tasks
-    thead
-      tr
-        th Name
-        th Person Responsible
-        th Status
-    tbody
-      tr(ng-repeat="task in ctrl.taskList | filter:ctrl.searchText | orderBy: ctrl.selectedSortOption")
-        td {{task.taskGlobal.name}}
-        td {{task.teamMember.nameFull}}
-        td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date:'MMM d, yyyy') : "") : ""}} 
+.container
+  task-list(tasks="ctrl.taskList")
 .container
   shot-list(lesson="ctrl.lesson")
 .container
-  issues-list(lesson="ctrl.lesson")  
+  issues-list(lesson="ctrl.lesson")
