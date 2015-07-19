@@ -78,6 +78,20 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
     return dfd.promise;
   };
   
+  TaskResource.prototype.incomplete = function() {
+    var dfd = $q.defer();
+    
+    this.update({
+      isCompleted: false,
+      timeActual: 0
+    }).then(function(newData) {
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response.data.reason);
+    });
+    return dfd.promise;
+  };
+  
   TaskResource.prototype.update = function(newData) {
     var dfd = $q.defer();
     
