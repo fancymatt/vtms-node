@@ -16,5 +16,5 @@ td(ng-if=("!!task.lesson.languageSery"))
   a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
 td {{task.taskGlobal.name}}
 td(ng-if=("!!task.teamMember")) {{task.teamMember.nameFull}}
-td {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date: 'MMM d, yyyy') : "") : ""}}
+td(ng-if="!task.lesson.languageSery") {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date: 'MMM d, yyyy') : "") : ""}}
 td {{task.dueDate() | date: 'MMM d, yyyy'}}

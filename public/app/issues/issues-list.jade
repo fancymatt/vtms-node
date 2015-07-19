@@ -14,7 +14,15 @@
     tbody
       tr(ng-repeat="issue in issuesList")
         td
-          button.btn.btn-xs(ng-click="deleteIssue(issue)") X
+          div.btn-group
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+              | Actions
+              span(class="caret")
+            ul(class="dropdown-menu")
+              li
+                a(href="#", ng-click="deleteIssue(issue)") Delete
+              li(ng-hide="issue.isCompleted")
+                a(href="#", ng-click="completeIssue(issue)") Complete
         td(ng-if=("!!issue.task.lesson.languageSery"))
               a(href="/lesson/{{issue.task.lesson.id}}") {{issue.task.lesson.languageSery.title}} {{"#" + issue.task.lesson.number}}: {{issue.task.lesson.title}}
         td {{$parent.taskList ? getNameFromTaskId(issue.fkTask, $parent.taskList) : issue.task.taskGlobal.name}}

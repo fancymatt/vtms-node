@@ -24,6 +24,10 @@ angular.module('vtms').directive('issuesList', function() {
         });
       };
       
+      var removeFromList = function(object, list) {
+        list.splice(list.indexOf(object),1);
+      };
+      
       $scope.getNameFromTaskId = function(id) {
         if($scope.taskList.length) {
           for(var i = 0; i < $scope.taskList.length; i++) {
@@ -58,7 +62,16 @@ angular.module('vtms').directive('issuesList', function() {
 
       $scope.deleteIssue = function(issue) {
         deleteFromList(issue, $scope.issuesList);
-        vtmsNotifier.notify("Deleted an issue.");
+        var notification = "You deleted an issue.";
+      };
+      
+      $scope.completeIssue = function(issue) {
+        issue.complete().then(function() {
+          removeFromList(issue, $scope.issuesList);
+          var notification = "";
+          notification += "You've completed the issue \"" + issue.body + "\"\n";
+          vtmsNotifier.notify(notification);
+        });
       };
     }
   }
