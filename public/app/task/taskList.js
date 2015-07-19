@@ -8,8 +8,6 @@ angular.module('vtms').directive('taskList', function() {
     },
     controller: function($scope, vtmsTask, vtmsNotifier) {
       
-      console.log($scope);
-      
       $scope.searchText = "";
       
       $scope.sortOptions = [

@@ -14,7 +14,7 @@
         th(ng-if=("!!tasks[0].lesson.languageSery")) Lesson
         th Task
         th(ng-if=("!!tasks[0].teamMember")) Team Member
-        th Status
+        th(ng-if=("!tasks[0].lesson.languageSery")) Status
         th Due Date
     tbody
       tr(ng-repeat="task in tasks | filter:searchText | orderBy: selectedSortOption", task)

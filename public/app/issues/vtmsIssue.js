@@ -25,6 +25,22 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
     return dfd.promise;
   };
   
+  IssueResource.prototype.complete = function() {
+    var dfd = $q.defer();
+    
+    var finishTime = moment(Date.now());
+
+    this.update({
+      isCompleted: true,
+      timeCompleted: finishTime.format('YYYY-MM-DD HH:mm:ss')
+    }).then(function(newData) {
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response.data.reason);
+    });
+    return dfd.promise;
+  };
+  
   return IssueResource;
 });
   
