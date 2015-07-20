@@ -58,25 +58,29 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   TaskResource.prototype.complete = function() {
     var dfd = $q.defer();
     
+    var self = this;
+    
     var endTime = moment(Date.now());
     var startTime = moment(this.timeActivate);
     var duration = moment.duration(endTime.diff(startTime));
     var durationInSeconds = Math.floor(duration.asSeconds());
     var newTimeRunning = this.timeRunning + durationInSeconds;
-    
+  
+    var newData;
     this.update({
       isActive: false,
       isCompleted: true,
-      timeDeactivated: endTime.format('YYYY-MM-DD HH:mm:ss'),
+      timeCompleted: endTime.format('YYYY-MM-DD HH:mm:ss'),
       timeRunning: newTimeRunning,
       timeActual: newTimeRunning
     }).then(function(newData) {
       dfd.resolve(newData);
-    }, function(response) {
+    }), function(response) {
       dfd.reject(response.data.reason);
-    });
+    };
     return dfd.promise;
   };
+  
   
   TaskResource.prototype.incomplete = function() {
     var dfd = $q.defer();

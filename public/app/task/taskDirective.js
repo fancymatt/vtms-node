@@ -1,4 +1,4 @@
-angular.module('vtms').directive('task', function() {
+angular.module('vtms').directive('task', function(vtmsTask, vtmsLesson) {
   return {
     limit: 'A',
     scope: true,
@@ -13,9 +13,17 @@ angular.module('vtms').directive('task', function() {
       };
 
       $scope.completeTask = function(task) {
-        task.complete().then(function(newData) {
-          angular.extend(task, newData);
-          $scope.completeTaskDelegate(task);
+        var lessonId = task.fkLesson
+        task
+          .complete()
+          .then(function(newData) {
+            angular.extend(task, newData);
+            vtmsTask.getList({id: lessonId}, function(tasks) {
+              $scope.completeTaskDelegate(task);
+              vtmsLesson.get({id: lessonId}, function(lesson) {
+                lesson.updateBenchmarks(tasks);
+              });
+            });
         });
       };
 
