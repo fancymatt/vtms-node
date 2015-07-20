@@ -43,6 +43,28 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
     return dfd.promise;
   };
   
+  LessonResource.prototype.updateBenchmarks = function(tasks) {
+    var dfd = $q.defer();
+    
+    var completionValue = 0;
+    for(var i = 0; i < tasks.length; i++) {
+      if(tasks[i].isCompleted) {
+        console.log(tasks[i]);
+        console.log("Task: " + tasks[i].taskGlobal.name + " is complete, adding completion value of " + tasks[i].taskGlobal.completionValue);
+        completionValue += tasks[i].taskGlobal.completionValue;
+      }
+    }
+    // Stuck at line below: "Series is undefined"
+    if(completionValue >= this.languageSery.series.checkableAt) {
+      console.log("Lesson completion value is " + completionValue + " and threshold is " + this.languageSery.series.checkableAt + " so marking as checkable");
+      this.update({isCheckable: true}).then(function(newData) {
+        return dfd.resolve(newData);
+      });
+    }
+    
+    return dfd.promise;
+  }
+  
   LessonResource.prototype.markAsExported = function() {
     var dfd = $q.defer();
     var startTime = moment(Date.now());
