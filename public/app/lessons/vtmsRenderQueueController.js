@@ -5,7 +5,8 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
   $scope.lessonsInQueue = vtmsLesson.getQueued();
   
   $scope.addToQueue = function(lesson) {
-    lesson.addToRenderQueue().then(function() {
+    lesson.addToRenderQueue().then(function(newData) {
+      angular.extend(lesson, newData);
       var indexToDelete = $scope.lessonsToRender.indexOf(lesson);
       $scope.lessonsToRender.splice(indexToDelete, 1);
       $scope.lessonsInQueue.push(lesson);
