@@ -61,7 +61,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
     var self = this;
     
     var endTime = moment(Date.now());
-    var startTime = moment(this.timeActivate);
+    var startTime = !this.timeActivate ? moment(this.timeActivate) : endTime;
     var duration = moment.duration(endTime.diff(startTime));
     var durationInSeconds = Math.floor(duration.asSeconds());
     var newTimeRunning = this.timeRunning + durationInSeconds;
