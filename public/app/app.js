@@ -81,7 +81,12 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/lessons/render-queue',
       controller: 'vtmsRenderQueueController',
       resolve: routeRoleChecks.admin
-    });
+    })
+    .when('/lesson/:id/checking', {
+      templateUrl: '/partials/issues/checking',
+      controller: 'vtmsCheckingController',
+      controllerAs: 'ctrl'
+  });
 });
 
 angular.module('vtms').run(function($rootScope, $location) {
