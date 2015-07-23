@@ -2,6 +2,8 @@
   .panel.panel-primary
     .panel-heading.text-center {{ctrl.lesson.title}}
     .panel-body.text-center
-      video#player(width="800", controls)
+      video#player(width="800", controls, some-video, video-current-time="videoCurrentTime")
         source(src="https://dl.dropboxusercontent.com/u/42624526/por_hol_03-720p.mp4?dl=1")
+  span(ng-click="buttonClicked()")
   issues-list(lesson="ctrl.lesson", friendly="true", persistant="true")
+  

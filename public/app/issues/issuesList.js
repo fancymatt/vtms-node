@@ -8,7 +8,7 @@ angular.module('vtms').directive('issuesList', function() {
       friendly: '&',
       persistant: '&'
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) { 
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {       
       if(!!$scope.lesson) {
         $scope.lesson.$promise.then(function(lesson) {
           $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
@@ -43,12 +43,12 @@ angular.module('vtms').directive('issuesList', function() {
         creator: "Checker", 
         fkTask: "",
         fkLesson: "",
-        timecode: "", 
         body: ""
       };
       
       $scope.newIssue = function() {
         $scope.newIssueValues.fkLesson = $scope.lesson.id;
+        $scope.newIssueValues.timecode = $scope.$parent.videoCurrentTime;
         var newIssue = new vtmsIssue($scope.newIssueValues);
         newIssue.$save().then(function(issue) {
           $scope.issuesList[$scope.issuesList.length] = issue;
