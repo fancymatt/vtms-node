@@ -161,6 +161,7 @@ exports.getQueuedLessons = function (req, res) {
 };
 
 exports.getReadyToRenderLessons = function (req, res) {
+  // TODO: With no issues.
   models.Lesson.findAll({
     where: {
       filesMoved: false,
@@ -170,7 +171,11 @@ exports.getReadyToRenderLessons = function (req, res) {
     include: [
       {
         model: models.Task,
-        include: models.Issue
+        include: [
+          models.Issue,
+          models.TaskGlobal,
+          models.TeamMember
+        ]
       },
       {model: models.LanguageSeries},
       {model: models.PublishDate, required: true}
@@ -184,8 +189,8 @@ exports.getReadyToRenderLessons = function (req, res) {
           // each task
           if(lessons[i].tasks[j].dataValues.isCompleted) {
             var completedTime = new Date(lessons[i].tasks[j].dataValues.timeCompleted);
-            var exportedTime = new Date(lessons[i].dataValues.exportedTime);
-            if(completedTime > exportedTime) {
+            var queuedTime = new Date(lessons[i].dataValues.queuedTime);
+            if(completedTime > queuedTime) {
               if(!lessons[i].dataValues.mostRecentTask) {
                 lessons[i].dataValues.mostRecentTask = lessons[i].tasks[j];
               }
@@ -197,18 +202,21 @@ exports.getReadyToRenderLessons = function (req, res) {
           for(var k = 0; k < lessons[i].tasks[j].issues.length; k++) {
             // each issue
             if(lessons[i].tasks[j].issues[k].dataValues.isCompleted) {
-              if(lessons[i].tasks[j].issues[k].dataValues.timeCompleted > lessons[i].dataValues.exportedTime) {
+              if(lessons[i].tasks[j].issues[k].dataValues.timeCompleted > lessons[i].dataValues.queuedTime) {
                 if(!lessons[i].dataValues.mostRecentIssue) {
                   lessons[i].dataValues.mostRecentIssue = lessons[i].tasks[j].issues[k];
                 }
                 if(lessons[i].tasks[j].issues[k].dataValues.timeCompleted > lessons[i].dataValues.mostRecentIssue.dataValues.timeCompleted) {
+                  console.log("Found a most recent issue");
                   lessons[i].dataValues.mostRecentIssue = lessons[i].tasks[j].issues[k];
                 }
               } 
+            } else {
+              lessons[i].incompleteIssues = true;
             }
           }  
         }
-        if(lessons[i].dataValues.mostRecentTask || lessons[i].dataValues.mostRecentIssue) {
+        if(!lessons[i].incompleteIssues && (lessons[i].dataValues.mostRecentTask || lessons[i].dataValues.mostRecentIssue)) {
           renderQueueLessons.push(lessons[i]);
         }
       }
