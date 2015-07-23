@@ -35,6 +35,7 @@ models.Lesson.belongsTo(models.LanguageSeries, { foreignKey: 'fkLanguageSeries'}
 models.Lesson.hasMany(models.Shot, { foreignKey: 'fkLesson' } );
 models.Lesson.hasMany(models.Task, { foreignKey: 'fkLesson' } );
 models.Lesson.hasMany(models.PublishDate, {foreignKey: 'fkLesson'} );
+models.Lesson.hasMany(models.Issue, {foreignKey: 'fkLesson'} );
 
 models.Language.hasMany(models.LanguageSeries, { foreignKey: 'fkLanguage' } );
 
@@ -62,6 +63,7 @@ models.Task.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
 models.Task.hasMany(models.Issue, { foreignKey: 'fkTask' } );
 
 models.Issue.belongsTo(models.Task, { foreignKey: 'fkTask' } );
+models.Issue.belongsTo(models.Lesson, { foreignKey: 'fkLesson' } );
 models.Issue.belongsTo(models.Activity, { foreignKey: 'fkActivity' } );
 
 models.TaskGlobal.hasMany(models.Task, { foreignKey: 'fkTaskGlobal' } );

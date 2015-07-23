@@ -5,12 +5,12 @@
     thead
       tr
         th Actions
-        th(ng-if=("!!issuesList[0].task.lesson.languageSery")) Lesson
-        th Task
+        th(ng-hide="friendly") Lesson
+        th(ng-hide="friendly") Task
+        th(ng-hide="friendly") Creator
         th Timecode
         th Issue
-        th Creator
-        th(ng-if=("!issuesList[0].task.lesson.languageSery")) Status
+        th Status
     tbody
       tr(ng-repeat="issue in issuesList")
         td
@@ -23,22 +23,24 @@
                 a(href="#", ng-click="deleteIssue(issue)") Delete
               li(ng-hide="issue.isCompleted")
                 a(href="#", ng-click="completeIssue(issue)") Complete
-        td(ng-if=("!!issue.task.lesson.languageSery"))
+        td(ng-hide="friendly")
               a(href="/lesson/{{issue.task.lesson.id}}") {{issue.task.lesson.languageSery.title}} {{"#" + issue.task.lesson.number}}: {{issue.task.lesson.title}}
-        td {{$parent.taskList ? getNameFromTaskId(issue.fkTask, $parent.taskList) : issue.task.taskGlobal.name}}
+        td(ng-hide="friendly") {{$parent.taskList ? getNameFromTaskId(issue.fkTask, $parent.taskList) : issue.task.taskGlobal.name}}
+        td(ng-hide="friendly") {{issue.creator}}
         td {{issue.timecode}}
         td {{issue.body}}
-        td {{issue.creator}}
-        td(ng-if=("!issue.task.lesson.languageSery")) {{issue.isCompleted ? "Completed" : "Incomplete"}}
+        td {{issue.isCompleted ? "Completed" : "Incomplete"}}
       tr(ng-show="!!lesson")
         td
-          input(ng-model="newIssueValues.creator")
-        td
+        td(ng-hide="friendly") Lesson
+        td(ng-hide="friendly")
           select(ng-model="newIssueValues.fkTask" convert-to-number)
             option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
+        td(ng-hide="friendly")
+          input(ng-model="newIssueValues.creator")
         td
           input(ng-model="newIssueValues.timecode", id="newIssue")
         td
-          textarea(ng-model="newIssueValues.body")      
+          textarea(ng-model="newIssueValues.body")
         td
           button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue

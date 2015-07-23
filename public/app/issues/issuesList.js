@@ -4,13 +4,15 @@ angular.module('vtms').directive('issuesList', function() {
     restrict: "E",
     scope: {
       lesson: '=',
-      issues: '='
+      issues: '=',
+      friendly: '&',
+      persistant: '&'
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {     
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) { 
       if(!!$scope.lesson) {
         $scope.lesson.$promise.then(function(lesson) {
           $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
-          $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
+          if(!$scope.friendly) $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
         });
       } else {
         $scope.issuesList = $scope.issues;
@@ -40,24 +42,21 @@ angular.module('vtms').directive('issuesList', function() {
       $scope.newIssueValues = {
         creator: "Checker", 
         fkTask: "",
+        fkLesson: "",
         timecode: "", 
         body: ""
       };
       
       $scope.newIssue = function() {
+        $scope.newIssueValues.fkLesson = $scope.lesson.id;
         var newIssue = new vtmsIssue($scope.newIssueValues);
         newIssue.$save().then(function(issue) {
           $scope.issuesList[$scope.issuesList.length] = issue;
         });
 
         $window.document.getElementById("newIssue").focus();
-        newIssueValues = {
-          creator: $scope.newIssueValues.creator,
-          fkTask: $scope.newIssueValues.fkTask,
-          timecode: "",
-          body: ""
-        }
-        vtmsNotifier.notify("Added new issue.");
+        $scope.newIssueValues.timecode = "";
+        $scope.newIssueValues.body = "";
       };
 
       $scope.deleteIssue = function(issue) {
@@ -66,8 +65,12 @@ angular.module('vtms').directive('issuesList', function() {
       };
       
       $scope.completeIssue = function(issue) {
-        issue.complete().then(function() {
-          removeFromList(issue, $scope.issuesList);
+        issue.complete().then(function(newData) {
+          if($scope.persistant) {
+            angular.extend(issue, newData);
+          } else {
+            removeFromList(issue, $scope.issuesList);
+          }
           var notification = "";
           notification += "You've completed the issue \"" + issue.body + "\"\n";
           vtmsNotifier.notify(notification);

@@ -29,12 +29,10 @@ exports.getIssuesForLessonWithId = function(req, res) {
     include: [
       {
         model: models.Task,
-        include: [models.TaskGlobal],
-        where: {
-          fkLesson: req.params.id
-        }
+        include: [models.TaskGlobal]
       }
-    ]
+    ],
+    where: {fkLesson: req.params.id}
   }).then(function(issues) {
     if(issues) {
       res.send(issues);
