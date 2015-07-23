@@ -2,4 +2,5 @@ angular.module('vtms').controller('vtmsCheckingController', function($scope, vtm
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
+  $scope.videoCurrentTime = "";
 });

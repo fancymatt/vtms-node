@@ -39,8 +39,8 @@
         td(ng-hide="friendly")
           input(ng-model="newIssueValues.creator")
         td
-          input(ng-model="newIssueValues.timecode", id="newIssue")
+          input(ng-model="$parent.videoCurrentTime")
         td
-          textarea(ng-model="newIssueValues.body")
+          textarea(ng-model="newIssueValues.body", id="newIssue")
         td
           button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue
