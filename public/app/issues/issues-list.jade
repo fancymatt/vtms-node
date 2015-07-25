@@ -5,12 +5,12 @@
     thead
       tr
         th Actions
-        th(ng-hide="friendly") Lesson
-        th(ng-hide="friendly") Task
-        th(ng-hide="friendly") Creator
-        th Timecode
-        th Issue
-        th Status
+        th(ng-show="config.columns.lesson") Lesson
+        th(ng-show="config.columns.task") Task
+        th(ng-show="config.columns.creator") Creator
+        th(ng-show="config.columns.timecode") Timecode
+        th(ng-show="config.columns.issue") Issue
+        th(ng-show="config.columns.status") Status
     tbody
       tr(ng-repeat="issue in issuesList")
         td
@@ -19,29 +19,32 @@
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
-              li
+              li(ng-show="config.actions.delete")
                 a(href="#", ng-click="deleteIssue(issue)") Delete
-              li(ng-hide="issue.isCompleted")
+              li(ng-show="config.actions.complete")
                 a(href="#", ng-click="completeIssue(issue)") Complete
-        td(ng-hide="friendly")
+              li.divider(role="separator", ng-if="actions.reassign")
+              li(ng-if="config.actions.reassign", ng-repeat="task in taskList")
+                a(href="#", ng-click="assignIssueToTask(issue, task)") {{task.taskGlobal.name}}
+        td(ng-show="config.columns.lesson")
               a(href="/lesson/{{issue.task.lesson.id}}") {{issue.task.lesson.languageSery.title}} {{"#" + issue.task.lesson.number}}: {{issue.task.lesson.title}}
-        td(ng-hide="friendly") {{$parent.taskList ? getNameFromTaskId(issue.fkTask, $parent.taskList) : issue.task.taskGlobal.name}}
-        td(ng-hide="friendly") {{issue.creator}}
-        td {{issue.timecode}}
-        td {{issue.body}}
-        td {{issue.isCompleted ? "Completed" : "Incomplete"}}
+        td(ng-show="config.columns.task") {{$parent.taskList ? getNameFromTaskId(issue.fkTask, $parent.taskList) : issue.task.taskGlobal.name}}
+        td(ng-show="config.columns.creator") {{issue.creator}}
+        td(ng-show="config.columns.timecode") {{issue.timecode}}
+        td(ng-show="config.columns.issue") {{issue.body}}
+        td(ng-show="config.columns.status") {{issue.isCompleted ? "Completed" : "Incomplete"}}
       tr(ng-show="!!lesson")
         td
-          button.btn.btn-primary.btn-sm(ng-click="getCurrentTime()") Get Time
-        td(ng-hide="friendly") Lesson
-        td(ng-hide="friendly")
+          button.btn.btn-primary.btn-sm(ng-show="config.actions.getTime", ng-click="getCurrentTime()") Get Time
+        td(ng-show="config.columns.lesson") Lesson
+        td(ng-show="config.columns.task")
           select(ng-model="newIssueValues.fkTask" convert-to-number)
             option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
-        td(ng-hide="friendly")
+        td(ng-show="config.columns.creator")
           input(ng-model="newIssueValues.creator")
-        td
+        td(ng-show="config.columns.timecode")
           input(ng-model="newIssueValues.timecode")
-        td
+        td(ng-show="config.columns.issue")
           textarea(ng-model="newIssueValues.body", id="newIssue")
-        td
+        td(ng-show="config.columns.status")
           button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue

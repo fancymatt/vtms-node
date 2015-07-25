@@ -4,4 +4,4 @@
     .panel-body.text-center
       video-player(config="ctrl.config")
 .container
-  issues-list(ng-if="ctrl.lesson", lesson="ctrl.lesson", friendly="true", persistant="true", current-time="ctrl.currentTime")
+  issues-list(ng-if="ctrl.lesson", lesson="ctrl.lesson", config="ctrl.issuesConfig", current-time="ctrl.currentTime")

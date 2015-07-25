@@ -12,6 +12,22 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
     {value: "taskGlobal.name", text: "Sort by Task Type"}
   ];
   
+  ctrl.issuesConfig = {
+    actions: {
+      complete: true,
+      delete: false,
+      reassign: false,
+      getTime: false
+    },
+    columns: {
+      lesson: true,
+      task: true,
+      timecode: true,
+      issue: true,
+      creator: true
+    }
+  }
+  
   ctrl.selectedSortOption = ctrl.sortOptions[0].value;
 
 });
