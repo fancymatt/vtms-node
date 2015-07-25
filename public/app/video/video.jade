@@ -1,4 +1,4 @@
-videogular(vg-player-ready="ctrl.onPlayerReady($API)", vg-theme="config.theme.url", vg-update-time="ctrl.onUpdateTime($currentTime)")
+videogular(ng-if="ctrl.validVideo", vg-player-ready="ctrl.onPlayerReady($API)", vg-theme="config.theme.url", vg-update-time="ctrl.onUpdateTime($currentTime)", vg-error="ctrl.onError($error)")
   vg-media(vg-src="config.sources")
   vg-controls
     vg-play-pause-button
@@ -6,3 +6,5 @@ videogular(vg-player-ready="ctrl.onPlayerReady($API)", vg-theme="config.theme.ur
     vg-scrub-bar
       vg-scrub-bar-current-time
     vg-fullscreen-button
+h3(ng-if="!ctrl.validVideo") This video is not available for checking
+p(ng-if="!ctrl.validVideo") If you've been assigned to check this video, this is the sign of a problem on our end. Please contact the person who assigned this to you and we'll get it fixed right away.
