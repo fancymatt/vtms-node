@@ -1,4 +1,12 @@
-angular.module('vtms', ['ngResource', 'ngRoute', 'xeditable', 'ui.bootstrap']);
+angular.module('vtms', [
+  'ngResource', 
+  'ngRoute', 
+  'xeditable', 
+  'ui.bootstrap', 
+  'ngSanitize', 
+  'com.2fdevs.videogular', 
+  'com.2fdevs.videogular.plugins.controls'
+]);
 
 angular.module('vtms').run(function(editableOptions) {
   editableOptions.theme = 'bs3';
