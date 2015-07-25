@@ -28,6 +28,30 @@ exports.getLessonById = function (req, res) {
   });
 };
 
+exports.getIssuesForLessons = function (req, res) {
+  models.Lesson.findAll({
+    where: {
+      isCheckable: true,
+      checkedLanguage: false,
+    },
+    include: [{
+      model: models.Issue,
+      required: true,
+      where: {
+        fkTask: 0
+      }
+    }]
+  }).then(function(lessons) {
+    if (lessons) {
+      res.send(lessons);
+    } else {
+      res.status(404).send({error: "No pending unclassified issues."})
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.updateLesson = function (req, res) {
   models.Lesson.findById(req.body.id).then(function (lesson) {
     for (var key in req.query) {
