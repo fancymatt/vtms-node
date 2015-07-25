@@ -3,7 +3,8 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
     update: {method:'PUT', isArray: false},
     getList: {method:'GET', url: '/api/languageSeries/:id/lessons', isArray:true},
     getQueued: {method:'GET', url: '/api/lessons/queued', isArray: true},
-    getReadyToRender: {method:'GET', url: '/api/lessons/readyToRender', isArray: true}
+    getReadyToRender: {method:'GET', url: '/api/lessons/readyToRender', isArray: true},
+    getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true}
   });
   
   LessonResource.prototype.dueDate = function() {

@@ -1,0 +1,7 @@
+.container
+  .panel.panel-primary(ng-repeat="lesson in lessons")
+    .panel-heading.text-center {{lesson.title}}
+    .panel-body
+      h4
+        a(ng-href="/lesson/{{lesson.id}}/checking") View video
+      issues-list(issues="lesson.issues", friendly="false")
