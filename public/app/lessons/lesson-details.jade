@@ -19,4 +19,6 @@
 .container
   shot-list(lesson="ctrl.lesson")
 .container
+  h3
+    a(ng-href='/lesson/{{ctrl.lesson.id}}/checking') Checking
   issues-list(issues="ctrl.issuesList", config="ctrl.issuesConfig")
