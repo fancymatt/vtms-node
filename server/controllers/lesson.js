@@ -34,13 +34,16 @@ exports.getIssuesForLessons = function (req, res) {
       isCheckable: true,
       checkedLanguage: false,
     },
-    include: [{
-      model: models.Issue,
-      required: true,
-      where: {
-        fkTask: 0
+    include: [
+      models.LanguageSeries,
+      {
+        model: models.Issue,
+        required: true,
+        where: {
+          fkTask: 0
+        }
       }
-    }]
+    ]
   }).then(function(lessons) {
     if (lessons) {
       res.send(lessons);

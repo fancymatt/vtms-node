@@ -5,22 +5,21 @@ angular.module('vtms').directive('issuesList', function() {
     scope: {
       lesson: '=',
       issues: '=',
-      friendly: '&',
-      persistant: '&',
+      config: '=',
       currentTime: '='
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
-      if(!!$scope.lesson) {
-        if(!!$scope.lesson.$promise) {
-          $scope.lesson.$promise.then(function(lesson) {
-            $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
-          });
-        } else {
-          $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
-        }
-        if(!$scope.friendly) $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
-      } else {
+    controller: function($scope, $window, vtmsLesson, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
+      console.log($scope);
+      if($scope.issues) {
+        // just use those issues
         $scope.issuesList = $scope.issues;
+      } else {
+        // we must be passing in lesson, so get the issues for that lesson
+        $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id}); 
+      }
+      
+      if($scope.config.actions.reassign) {
+        $scope.taskList = $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
       }
       
       function deleteFromList(item, list) {
@@ -40,7 +39,7 @@ angular.module('vtms').directive('issuesList', function() {
           for(var i = 0; i < $scope.taskList.length; i++) {
             if($scope.taskList[i].id === id) return $scope.taskList[i].taskGlobal.name;
           }
-          return false;
+          return "Unassigned";
         }
       };
       
@@ -73,16 +72,28 @@ angular.module('vtms').directive('issuesList', function() {
         var notification = "You deleted an issue.";
       };
       
+      $scope.assignIssueToTask = function(theIssue, task) {
+        var newData = {fkTask: task.id};
+        vtmsIssue.get({id: theIssue.id}, function(issue) {
+          issue.update(newData).then(function() {
+            removeFromList(theIssue, $scope.issuesList);
+          });
+        });
+        vtmsNotifier.notify("Assigned to " + task.taskGlobal.name);
+      };
+      
       $scope.completeIssue = function(issue) {
-        issue.complete().then(function(newData) {
-          if($scope.persistant) {
-            angular.extend(issue, newData);
-          } else {
-            removeFromList(issue, $scope.issuesList);
-          }
-          var notification = "";
-          notification += "You've completed the issue \"" + issue.body + "\"\n";
-          vtmsNotifier.notify(notification);
+        vtmsIssue.get({id: issue.id}, function(issue) {
+          issue.complete().then(function(newData) {
+            if($scope.persistant) {
+              angular.extend(issue, newData);
+            } else {
+              removeFromList(issue, $scope.issuesList);
+            }
+            var notification = "";
+            notification += "You've completed the issue \"" + issue.body + "\"\n";
+            vtmsNotifier.notify(notification);
+          });
         });
       };
     }

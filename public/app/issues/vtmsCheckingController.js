@@ -1,6 +1,21 @@
 angular.module('vtms').controller('vtmsCheckingController', function($scope, vtmsLesson, vtmsIssue, $routeParams, vtmsNotifier, $sce, $q) {
   var ctrl = this;
   
+  ctrl.issuesConfig = {
+    actions: {
+      delete: true,
+      reassign: false,
+      getTime: true
+    },
+    columns: {
+      task: false,
+      timecode: true,
+      issue: true,
+      status: true,
+      creator: false
+    }
+  };
+  
   ctrl.lessonId = $routeParams.id;
   
   cleanUrl = function(url) {
