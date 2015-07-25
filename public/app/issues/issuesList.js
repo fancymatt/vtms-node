@@ -11,10 +11,14 @@ angular.module('vtms').directive('issuesList', function() {
     },
     controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
       if(!!$scope.lesson) {
-        $scope.lesson.$promise.then(function(lesson) {
+        if(!!$scope.lesson.$promise) {
+          $scope.lesson.$promise.then(function(lesson) {
+            $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
+          });
+        } else {
           $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
-          if(!$scope.friendly) $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
-        });
+        }
+        if(!$scope.friendly) $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
       } else {
         $scope.issuesList = $scope.issues;
       }
