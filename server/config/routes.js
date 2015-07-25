@@ -28,6 +28,7 @@ module.exports = function(app) {
   app.get('/api/lessons/needArchive', controllers.lesson.getArchiveableLessons);
   app.get('/api/lessons/queued', controllers.lesson.getQueuedLessons);
   app.get('/api/lessons/readyToRender', controllers.lesson.getReadyToRenderLessons);
+  app.get('/api/lessons/issues', controllers.lesson.getIssuesForLessons);
   //app.get('/api/lessons/recentlyCompleted', controllers.lesson.getRecentlyCompletedLessons);
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
   app.get('/api/lessons/:id/issues', controllers.issue.getIssuesForLessonWithId);
