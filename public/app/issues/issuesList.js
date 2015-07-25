@@ -8,13 +8,14 @@ angular.module('vtms').directive('issuesList', function() {
       friendly: '&',
       persistant: '&'
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {       
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {
       if(!!$scope.lesson) {
         $scope.lesson.$promise.then(function(lesson) {
           $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
           if(!$scope.friendly) $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
         });
       } else {
+        console.log("got this from $scope.issues");
         $scope.issuesList = $scope.issues;
       }
       

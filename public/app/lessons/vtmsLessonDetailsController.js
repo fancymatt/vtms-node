@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsShot, vtmsTask, vtmsIssue, $routeParams, vtmsNotifier, $window) {
+angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsTask, $routeParams) {
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
