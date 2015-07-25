@@ -32,6 +32,7 @@
         td {{issue.isCompleted ? "Completed" : "Incomplete"}}
       tr(ng-show="!!lesson")
         td
+          button.btn.btn-primary.btn-sm(ng-click="getCurrentTime()") Get Time
         td(ng-hide="friendly") Lesson
         td(ng-hide="friendly")
           select(ng-model="newIssueValues.fkTask" convert-to-number)
@@ -39,7 +40,7 @@
         td(ng-hide="friendly")
           input(ng-model="newIssueValues.creator")
         td
-          input(ng-model="$parent.videoCurrentTime")
+          input(ng-model="newIssueValues.timecode")
         td
           textarea(ng-model="newIssueValues.body", id="newIssue")
         td

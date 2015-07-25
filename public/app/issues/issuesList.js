@@ -6,16 +6,16 @@ angular.module('vtms').directive('issuesList', function() {
       lesson: '=',
       issues: '=',
       friendly: '&',
-      persistant: '&'
+      persistant: '&',
+      currentTime: '='
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier) {
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
       if(!!$scope.lesson) {
         $scope.lesson.$promise.then(function(lesson) {
           $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id});
           if(!$scope.friendly) $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
         });
       } else {
-        console.log("got this from $scope.issues");
         $scope.issuesList = $scope.issues;
       }
       
@@ -44,12 +44,12 @@ angular.module('vtms').directive('issuesList', function() {
         creator: "Checker", 
         fkTask: "",
         fkLesson: "",
+        timecode: "",
         body: ""
       };
       
       $scope.newIssue = function() {
         $scope.newIssueValues.fkLesson = $scope.lesson.id;
-        $scope.newIssueValues.timecode = $scope.$parent.videoCurrentTime;
         var newIssue = new vtmsIssue($scope.newIssueValues);
         newIssue.$save().then(function(issue) {
           $scope.issuesList[$scope.issuesList.length] = issue;
@@ -58,6 +58,10 @@ angular.module('vtms').directive('issuesList', function() {
         $window.document.getElementById("newIssue").focus();
         $scope.newIssueValues.timecode = "";
         $scope.newIssueValues.body = "";
+      };
+      
+      $scope.getCurrentTime = function() {
+        $scope.newIssueValues.timecode = $filter('videoTime')($scope.currentTime);
       };
 
       $scope.deleteIssue = function(issue) {

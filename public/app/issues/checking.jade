@@ -2,6 +2,6 @@
   .panel.panel-primary
     .panel-heading.text-center {{ctrl.lesson.title}}
     .panel-body.text-center
-      video-player(config="ctrl.config", video-current-time="ctrl.videoCurrentTime")
+      video-player(config="ctrl.config")
 .container
-  issues-list(ng-if="ctrl.lesson", lesson="ctrl.lesson", friendly="true", persistant="true")
+  issues-list(ng-if="ctrl.lesson", lesson="ctrl.lesson", friendly="true", persistant="true", current-time="ctrl.currentTime")
