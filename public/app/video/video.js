@@ -8,6 +8,7 @@ angular.module('vtms').directive('videoPlayer', function ($window, $timeout, $fi
     controller: function ($sce, $scope, $element, $rootScope) {
       var ctrl = this;
       ctrl.API = null;
+      ctrl.validVideo = true;
       
       ctrl.onPlayerReady = function(API) {
         ctrl.API = API;
@@ -19,6 +20,11 @@ angular.module('vtms').directive('videoPlayer', function ($window, $timeout, $fi
       
       ctrl.onUpdateTime = function(currentTime) {
         $rootScope.$broadcast('time:updated', currentTime);
+      };
+      
+      ctrl.onError = function(error) {
+        console.log("An error has occured");
+        ctrl.validVideo = false;
       };
     },
     controllerAs: 'ctrl'
