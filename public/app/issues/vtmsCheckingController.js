@@ -11,7 +11,6 @@ angular.module('vtms').controller('vtmsCheckingController', function($scope, vtm
   
   vtmsLesson.get({id: ctrl.lessonId}, function(lesson) {
     ctrl.lesson = lesson;
-    console.log(lesson);
     ctrl.config.sources[0].src = $sce.trustAsResourceUrl(cleanUrl(lesson.qaUrl));
   });
   
@@ -24,5 +23,7 @@ angular.module('vtms').controller('vtmsCheckingController', function($scope, vtm
     }
   };
   
-  ctrl.videoCurrentTime = "";
+  $scope.$on('time:updated', function(event, time) {
+    ctrl.currentTime = time;
+  });
 });
