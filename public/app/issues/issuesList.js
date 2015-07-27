@@ -9,7 +9,12 @@ angular.module('vtms').directive('issuesList', function() {
       currentTime: '='
     },
     controller: function($scope, $window, vtmsLesson, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
-      console.log($scope);
+      
+      /**
+       * Data Initialization
+       */
+      
+      // Ensure that $scope.issues is populated even if just the lesson was passed in
       if($scope.issues) {
         // just use those issues
         $scope.issuesList = $scope.issues;
@@ -18,9 +23,15 @@ angular.module('vtms').directive('issuesList', function() {
         $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id}); 
       }
       
+      // Grab any additional data that certain functionality requires
       if($scope.config.actions.reassign) {
         $scope.taskList = $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
       }
+      
+      
+      /**
+       * Private Functions
+       */
       
       function deleteFromList(item, list) {
         var index = list.indexOf(item);
@@ -33,6 +44,11 @@ angular.module('vtms').directive('issuesList', function() {
       var removeFromList = function(object, list) {
         list.splice(list.indexOf(object),1);
       };
+      
+      
+      /**
+       * Public Functions
+       */
       
       $scope.getNameFromTaskId = function(id) {
         if($scope.taskList.length) {
@@ -82,8 +98,8 @@ angular.module('vtms').directive('issuesList', function() {
         vtmsNotifier.notify("Assigned to " + task.taskGlobal.name);
       };
       
-      $scope.completeIssue = function(issue) {
-        vtmsIssue.get({id: issue.id}, function(issue) {
+      $scope.completeIssue = function(theIssue) {
+        vtmsIssue.get({id: theIssue.id}, function(issue) {
           issue.complete().then(function(newData) {
             if($scope.persistant) {
               angular.extend(issue, newData);

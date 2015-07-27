@@ -40,7 +40,7 @@ exports.getTaskById = function(req, res) {
       {model: models.TaskGlobal}]    
   }).then(function(task) {
     if(task) {
-      res.send({task: task});
+      res.send(task);
     } else {
       res.status(404).send({error: "No task was found with that ID."});
     }

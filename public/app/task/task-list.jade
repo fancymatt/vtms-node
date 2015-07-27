@@ -1,20 +1,34 @@
 .panel.panel-primary
-  .panel-heading.text-center {{title}}
+  .panel-heading.text-center {{config.title}}
   .panel-body
-    .pull-right
-      form.form-inline
-        .form-group
-          input.form-control(ng-model="searchText", placeholder="Filter")
-        .form-group
-          select.form-control(ng-model="selectedSortOption", ng-options="item.value as item.text for item in sortOptions")
   table.table.table-hover.table-striped.table-condensed#tasks
     thead
       tr
         th Actions
-        th(ng-if=("!!tasks[0].lesson.languageSery")) Lesson
-        th Task
-        th(ng-if=("!!tasks[0].teamMember")) Team Member
-        th(ng-if=("!tasks[0].lesson.languageSery")) Status
-        th Due Date
+        th(ng-show="config.columns.lesson") Lesson
+        th(ng-show="config.columns.task") Task
+        th(ng-show="config.columns.teamMember") Team Member
+        th(ng-show="config.columns.status") Status
+        th(ng-show="config.columns.dueDate") Due Date
     tbody
-      tr(ng-repeat="task in tasks | filter:searchText | orderBy: selectedSortOption", task)
+      tr(ng-repeat="task in taskList | orderBy: sortOption")
+        td
+          div.btn-group
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+              | Actions
+              span(class="caret")
+            ul(class="dropdown-menu")
+              li(ng-show="config.actions.activate")
+                a(href="#", ng-click="activateTask(task)") Activate
+              li(ng-show="config.actions.deactivate")
+                a(href="#", ng-click="deactivateTask(task)") Deactivate
+              li(ng-shpw="config.actions.complete")
+                a(href="#", ng-click="completeTask(task)") Complete
+              li(ng-show="config.actions.incomplete")
+                a(href="#", ng-click="markAsIncomplete(task)") Mark as Incomplete
+        td(ng-show="config.columns.lesson")
+          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
+        td(ng-show="config.columns.task") {{task.taskGlobal.name}}
+        td(ng-show="config.columns.teamMember") {{task.teamMember.nameFull}}
+        td(ng-show="config.columns.status") {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date: 'MMM d, yyyy') : "") : ""}}
+        td(ng-show="config.columns.dueDate") {{task.dueDate() | date: 'MMM d, yyyy'}}
