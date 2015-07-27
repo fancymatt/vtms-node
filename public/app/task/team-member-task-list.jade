@@ -1,8 +1,8 @@
 .container
   h1 {{ctrl.teamMember.nameFull}}'s Task List
 .container
-  task-list(tasks="ctrl.activeTasks", title="Active Tasks", ng-if="ctrl.activeTasks.length")
+  task-list(tasks="ctrl.activeTasks", config="ctrl.activeTasksConfig", ng-show="ctrl.activeTasks.length")
 .container(ng-show="ctrl.issueList.length")
   issues-list(issues="ctrl.issueList", config="ctrl.issuesConfig")
 .container
-  task-list(tasks="ctrl.actionableTasks", title="Actionable Tasks", actionableTaskList="ctrl.actionableTasks", activeTaskList="ctrl.activeTasks")
+  task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig")

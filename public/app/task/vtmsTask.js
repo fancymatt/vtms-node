@@ -1,4 +1,4 @@
-angular.module('vtms').factory('vtmsTask', function($resource, $q) {
+angular.module('vtms').factory('vtmsTask', function($resource, $q, vtmsNotifier) {
   var TaskResource = $resource('/api/tasks/:id', {id: "@id"}, {
     update: {method:'PUT', isArray: false},
     getList: {method:'GET', url:'/api/lessons/:id/tasks', isArray:true},
@@ -21,16 +21,19 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   TaskResource.prototype.activate = function() {
     var dfd = $q.defer();
     
-    var startTime = moment(Date.now());
+    var taskString = this.toString();
+    var notification = "Activated " + this.toString() + ".";
     
     this.update({
       isActive: true,
-      timeActivate: startTime.format('YYYY-MM-DD HH:mm:ss')
+      timeActivate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
+      vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);
     });
+    
     return dfd.promise;
   };
   
@@ -43,29 +46,37 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
     var durationInSeconds = Math.floor(duration.asSeconds());
     var newTimeRunning = this.timeRunning + durationInSeconds;
     
+    var taskString = this.toString();
+    var durationString = duration.humanize();
+    var notification = "Deactivated " + taskString + ".\nYou've worked for " + durationString + " so far.";
+    
     this.update({
       isActive: false,
       timeDeactivated: endTime.format('YYYY-MM-DD HH:mm:ss'),
       timeRunning: newTimeRunning
     }).then(function(newData) {
+      vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);
     });
+    
     return dfd.promise;
   };
   
   TaskResource.prototype.complete = function() {
     var dfd = $q.defer();
     
-    var self = this;
-    
     var endTime = moment(Date.now());
     var startTime = !this.timeActivate ? moment(this.timeActivate) : endTime;
     var duration = moment.duration(endTime.diff(startTime));
     var durationInSeconds = Math.floor(duration.asSeconds());
     var newTimeRunning = this.timeRunning + durationInSeconds;
-  
+    
+    var taskString = this.toString();
+    var durationString = duration.humanize();
+    var notification = "Completed " + taskString + ".\nIt took " + durationString + "."
+    
     var newData;
     this.update({
       isActive: false,
@@ -74,10 +85,12 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
       timeRunning: newTimeRunning,
       timeActual: newTimeRunning
     }).then(function(newData) {
+      vtmsNotifier.success(notification);
       dfd.resolve(newData);
-    }), function(response) {
+    }, function(response) {
       dfd.reject(response.data.reason);
-    };
+    });
+    
     return dfd.promise;
   };
   
@@ -85,14 +98,19 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
   TaskResource.prototype.incomplete = function() {
     var dfd = $q.defer();
     
+    var taskString = this.toString();
+    var notification = "You've marked " + taskString + " as incomplete";
+    
     this.update({
       isCompleted: false,
       timeActual: 0
     }).then(function(newData) {
+      vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);
     });
+    
     return dfd.promise;
   };
   
@@ -102,8 +120,9 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q) {
     this.$update(newData).then(function() {
       dfd.resolve(newData);
     }, function(response) {
-      dfd.reject(response.data.reason);
+      dfd.reject("You don't have permission to edit.");
     });
+    
     return dfd.promise;
   };
   

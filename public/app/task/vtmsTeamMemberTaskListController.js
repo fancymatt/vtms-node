@@ -6,13 +6,45 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.issueList = vtmsIssue.getIssuesForTeamMember({id: ctrl.identity.fkTeamMember});
+    
+  ctrl.actionableTasksConfig = {
+    title: 'Actionable Tasks',
+    type : 'actionable',
+    actions: {
+      activate: true,
+      deactivate: false,
+      complete: true,
+      incomplete: false,
+    },
+    columns : {
+      lesson: true,
+      task: true,
+      teamMember: false,
+      status: false,
+      dueDate: true
+    }
+  };
   
-  ctrl.sortOptions = [
-    {value: "dueDate()", text: "Sort by Due Date"},
-    {value: "taskGlobal.name", text: "Sort by Task Type"}
-  ];
+  ctrl.activeTasksConfig = {
+    title: 'Active Tasks',
+    type : 'active',
+    actions: {
+      activate: false,
+      deactivate: true,
+      complete: true,
+      incomplete: false,
+    },
+    columns : {
+      lesson: true,
+      task: true,
+      teamMember: false,
+      status: false,
+      dueDate: true
+    }
+  };
   
   ctrl.issuesConfig = {
+    title: 'Pending Issues',
     actions: {
       complete: true,
       delete: false,
@@ -26,8 +58,6 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
       issue: true,
       creator: true
     }
-  }
+  };
   
-  ctrl.selectedSortOption = ctrl.sortOptions[0].value;
-
 });

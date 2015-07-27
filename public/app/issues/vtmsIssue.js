@@ -1,6 +1,6 @@
 angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
   var IssueResource = $resource('/api/issues/:id', {id: "@id"}, {
-    update: {method:'PUT', isArray:false},
+    update: {method:'PUT', isArray: false},
     getListForLesson: {method:'GET', url: '/api/lessons/:id/issues', isArray:true},
     getIssuesForTeamMember: {method:'GET', url: '/api/teamMember/:id/issues', isArray:true}
   });
