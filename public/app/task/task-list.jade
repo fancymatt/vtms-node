@@ -25,7 +25,7 @@
               li(ng-shpw="config.actions.complete")
                 a(href="#", ng-click="completeTask(task)") Complete
               li(ng-show="config.actions.incomplete")
-                a(href="#", ng-click="markAsIncomplete(task)") Mark as Incomplete
+                a(href="#", ng-click="incompleteTask(task)") Mark as Incomplete
         td(ng-show="config.columns.lesson")
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td(ng-show="config.columns.task") {{task.taskGlobal.name}}
