@@ -1,7 +1,7 @@
-angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
+angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifier) {
   var LessonResource = $resource('/api/lessons/:id', {id: "@id"}, {
     update: {method:'PUT', isArray: false},
-    getList: {method:'GET', url: '/api/languageSeries/:id/lessons', isArray:true},
+    getList: {method:'GET', url: '/api/languageSeries/:id/lessons', isArray: true},
     getQueued: {method:'GET', url: '/api/lessons/queued', isArray: true},
     getReadyToRender: {method:'GET', url: '/api/lessons/readyToRender', isArray: true},
     getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true}
@@ -20,27 +20,38 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
   
   LessonResource.prototype.addToRenderQueue = function() {
     var dfd = $q.defer();
-    var startTime = moment(Date.now());
+    
+    var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
+    var notification = "Added " + lessonString + " to the render queue.";
+    
     this.update({
       isQueued: true,
-      queuedTime: startTime.format('YYYY-MM-DD HH:mm:ss')
+      queuedTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
+      vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);
     });
+    
     return dfd.promise;
   };
   
   LessonResource.prototype.removeFromRenderQueue = function() {
     var dfd = $q.defer();
+    
+    var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
+    var notification = "Removed " + lessonString + " from the render queue.";
+    
     this.update({
       isQueued: false
     }).then(function(newData) {
+      vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);
     });
+    
     return dfd.promise;
   };
   
@@ -68,15 +79,20 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
   
   LessonResource.prototype.markAsExported = function() {
     var dfd = $q.defer();
-    var startTime = moment(Date.now());
+    
+    var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
+    var notification = lessonString + " has been successfully exported.";
+    
     this.update({
       isQueued: false,
-      exportedTime: startTime.format('YYYY-MM-DD HH:mm:ss')
+      exportedTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
+      vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);
     });
+    
     return dfd.promise;
   };
   
@@ -84,10 +100,11 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q) {
     var dfd = $q.defer();
     
     this.$update(newData).then(function() {
-      dfd.resolve();
+      dfd.resolve(newData);
     }, function(response) {
       dfd.reject("You don't have permission to edit.");
     });
+    
     return dfd.promise;
   };
   

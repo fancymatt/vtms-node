@@ -1,5 +1,5 @@
 .panel.panel-primary
-  .panel-heading.text-center {{languageSeries.title}}
+  .panel-heading.text-center {{config.title}}
   .panel-body
     .pull-right
       form.form-inline
@@ -10,24 +10,43 @@
     table.table.table-hover.table-striped.table-condensed
       thead
         tr
-          th Number
-          th Title
-          th TRT
-          th Due Date
-          th Status
+          th(ng-show="config.columns.actions") Actions
+          th(ng-show="config.columns.number") Number
+          th(ng-show="config.columns.title") Title
+          th(ng-show="config.columns.trt") TRT
+          th(ng-show="config.columns.dueDate") Due Date
+          th(ng-show="config.columns.status") Status
+          th(ng-show="config.columns.lastRender") Last Render
+          th(ng-show="config.columns.lastAction") Last Action
+          th(ng-show="config.columns.queuedTime") Queued Time
       tbody
-        tr(ng-repeat="lesson in lessonList | filter:searchText | orderBy: selectedSortOption")
-          td {{lesson.number}}
-          td 
+        tr(ng-repeat="lesson in lessonList | orderBy: selectedSortOption")
+          td(ng-show="config.columns.actions")
+            div.btn-group
+              button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+                | Actions
+                span(class="caret")
+              ul(class="dropdown-menu")
+                li(ng-show="config.actions.addToRenderQueue")
+                  a(href="#", ng-click="addToRenderQueue(lesson)") Add to Render Queue
+                li(ng-show="config.actions.removeFromRenderQueue")
+                  a(href="#", ng-click="removeFromRenderQueue(lesson)") Remove from Render Queue
+                li(ng-show="config.actions.markAsExported")
+                  a(href="#", ng-click="markAsExported(lesson)") Mark as Exported
+          td(ng-show="config.columns.number") {{lesson.number}}
+          td(ng-show="config.columns.title")
             a(href="/lesson/{{lesson.id}}") {{lesson.title}}
-          td {{lesson.trt | secondsToDateTime | date:'m:ss' }}
-          td
-            ul
-              li(ng-repeat="date in lesson.publishDates")
-                span {{date.date | date:'MMM d, yyyy'}} ({{date.type | lowercase}})
-          td 
+          td(ng-show="config.columns.trt") {{lesson.trt | secondsToDateTime | date:'m:ss' }}
+          td(ng-show="config.columns.dueDate") {{lesson.dueDate() | date: 'MMM d, yyyy'}}
+          td(ng-show="config.columns.status")
             span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="lesson.isShot")
             span.glyphicon.glyphicon-font(aria-hidden="true", ng-show="lesson.checkedLanguage")
             span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
             span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")
             span.glyphicon.glyphicon-cloud-upload(aria-hidden="true", ng-show="lesson.isDetected")
+          td(ng-show="config.columns.lastRender") {{lesson.exportedTime | date: 'MMM d, yyyy, h:mm a'}}
+          td(ng-show="config.columns.lastAction")
+            ul
+              li(ng-show="lesson.mostRecentTask") {{lesson.mostRecentTask.teamMember.nameFirst}} - {{lesson.mostRecentTask.taskGlobal.name}} {{lesson.mostRecentTask.timeCompleted | date: 'MMM d, yyyy, h:mm a'}}
+              li(ng-show="lesson.mostRecentIssue") Issues fixed
+          td(ng-show="config.columns.queuedTime") {{lesson.queuedTime | date: 'MMM d, yyyy, h:mm a'}}

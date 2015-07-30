@@ -1,45 +1,8 @@
 .container
   h1 Rendering
-  .panel.panel-primary(ng-show="lessonsToRender.length")
-    .panel-heading.text-center Ready to Export
-    .panel-body
-    table.table.table-hover.table-striped.table-condensed
-      thead
-        tr
-          th Lesson
-          th Last Render
-          th Last Action
-          th Due Date
-          th Actions
-      tbody
-        tr(ng-repeat="lesson in lessonsToRender")
-          td 
-            a(href="/lesson/{{lesson.id}}") {{lesson.languageSery.title}} {{"#" + lesson.number}} "{{lesson.title}}"
-          td {{lesson.exportedTime | date: 'MMM d, yyyy, h:mm a'}}
-          td
-            ul
-              li(ng-show="lesson.mostRecentTask") {{lesson.mostRecentTask.teamMember.nameFirst}} - {{lesson.mostRecentTask.taskGlobal.name}} {{lesson.mostRecentTask.timeCompleted | date: 'MMM d, yyyy, h:mm a'}}
-              li(ng-show="lesson.mostRecentIssue") Issues fixed
-          td {{lesson.dueDate() | date: 'MMM d, yyyy'}}
-          td
-            .btn-group.btn-group-sm
-              button.btn.btn-primary(ng-click="addToQueue(lesson)") Add to Queue
-  .panel.panel-primary(ng-show="lessonsInQueue.length")
-    .panel-heading.text-center Queue
-    .panel-body
-    table.table.table-hover.table-striped.table-condensed
-      thead
-        tr
-          th Lesson
-          th Queued Time
-          th Actions
-      tbody
-        tr(ng-repeat="lesson in lessonsInQueue")
-          td 
-            a(href="/lesson/{{lesson.id}}") {{lesson.languageSery.title}} {{"#" + lesson.number}} "{{lesson.title}}"
-          td {{lesson.queuedTime | date: 'MMM d, yyyy, h:mm a'}}
-          td 
-            .btn-group.btn-group-sm
-              button.btn.btn-primary(ng-click="markAsExported(lesson)") Exported
-              button.btn.btn-primary(ng-click="removeFromQueue(lesson)") Unqueue
-  span(ng-hide="lessonsToRender.length || lessonsInQueue.length") ✧*｡٩(ˊᗜˋ*)و✧*｡
+.container(ng-show="ctrl.lessonsToRender.length")
+  lesson-list(lessons="ctrl.lessonsToRender", config="ctrl.lessonsToRenderConfig")
+.container(ng-show="ctrl.lessonsInQueue.length")
+  lesson-list(lessons="ctrl.lessonsInQueue", config="ctrl.lessonsInQueueConfig")
+.container(ng-hide="ctrl.lessonsToRender.length || ctrl.lessonsInQueue.length")
+  span ✧*｡٩(ˊᗜˋ*)و✧*｡

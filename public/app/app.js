@@ -93,6 +93,7 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/renderQueue', {
       templateUrl: '/partials/lessons/render-queue',
       controller: 'vtmsRenderQueueController',
+      controllerAs: 'ctrl',
       resolve: routeRoleChecks.admin
     })
     .when('/lesson/:id/checking', {
