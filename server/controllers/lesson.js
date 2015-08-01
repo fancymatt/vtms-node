@@ -187,6 +187,20 @@ exports.getQueuedLessons = function (req, res) {
   });
 };
 
+exports.deleteLesson = function (req, res) {
+  models.Lesson.findById(req.params.id).then(function (lesson) {
+    if(lesson) {
+      lesson.destroy().then(function() {
+        res.status(200).end();
+      });
+    } else {
+      res.status(404).send({error: "No lesson was found with that ID."})
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getReadyToRenderLessons = function (req, res) {
   // TODO: With no issues.
   models.Lesson.findAll({

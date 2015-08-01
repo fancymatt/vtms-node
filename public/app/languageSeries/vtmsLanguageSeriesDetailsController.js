@@ -18,10 +18,10 @@ angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function
       addtoRenderQueue: false,
       removeFromRenderQueue: false,
       markAsExported: false,
-      delete: false
+      delete: true
     },
     columns: {
-      actions: false,      
+      actions: true,      
       series: false,
       number: true,
       title: true,

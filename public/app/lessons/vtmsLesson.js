@@ -96,6 +96,20 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     return dfd.promise;
   };
   
+  LessonResource.prototype.delete = function() {
+    var dfd = $q.defer();
+    
+    // Remove all related records;
+    
+    this.$delete().then(function() {
+      dfd.resolve();
+    }, function(response) {
+      dfd.reject("You don't have permission to delete.");
+    });
+    
+    return dfd.promise;
+  };
+  
   LessonResource.prototype.update = function(newData) {
     var dfd = $q.defer();
     

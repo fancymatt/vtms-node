@@ -79,7 +79,9 @@ angular.module('vtms').directive('lessonsList', function() {
       };
       
       $scope.deleteLesson = function(deletedLesson) {
-        // Not implemented
+        deletedLesson.delete().then(function() {
+          $rootScope.$broadcast('lesson:deleted', deletedLesson);
+        });
       };
      
       
@@ -99,6 +101,10 @@ angular.module('vtms').directive('lessonsList', function() {
       
       $rootScope.$on('lesson:exported', function(event, lesson) {
         if($scope.config.type === 'renderQueue') removeFromList(lesson, $scope.lessonsList);
+      });
+      
+      $rootScope.$on('lesson:deleted', function(event, lesson) {
+        removeFromList(lesson, $scope.lessonsList);
       });
       
     }
