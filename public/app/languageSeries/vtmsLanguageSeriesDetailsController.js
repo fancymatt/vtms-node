@@ -12,6 +12,28 @@ angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function
   
   $scope.lessonList = vtmsLesson.getList({id: $routeParams.id});
   
+  $scope.lessonsConfig = {
+    title: 'Lessons',
+    actions: {
+      addtoRenderQueue: false,
+      removeFromRenderQueue: false,
+      markAsExported: false,
+      delete: false
+    },
+    columns: {
+      actions: false,      
+      series: false,
+      number: true,
+      title: true,
+      lastRender: false,
+      lastAction: false,
+      queuedTime: false,
+      trt: true,
+      dueDate: true,
+      status: true
+    }
+  };
+  
   $scope.update = function(newData) {
 
     angular.extend(thisLanguageSeries, newData);

@@ -8,33 +8,5 @@
 .container
   h1
     a(href="#", editable-text="languageSeries.title", onbeforesave="update({title: $data})") {{languageSeries.title}}
-  .pull-right
-    form.form-inline
-      .form-group
-        input.form-control(ng-model="searchText", placeholder="Filter")
-      .form-group
-        select.form-control(ng-model="selectedSortOption", ng-options="item.value as item.text for item in sortOptions")
-  table.table.table-hover.table-striped.table-condensed
-    thead
-      tr
-        th Number
-        th Title
-        th TRT
-        th Due Date
-        th Status
-    tbody
-      tr(ng-repeat="lesson in lessonList | filter:searchText | orderBy: selectedSortOption")
-        td {{lesson.number}}
-        td 
-          a(href="/lesson/{{lesson.id}}") {{lesson.title}}
-        td {{lesson.trt | secondsToDateTime | date:'m:ss' }}
-        td
-          ul
-            li(ng-repeat="date in lesson.publishDates")
-              span {{date.date | date:'MMM d, yyyy'}} ({{date.type | lowercase}})
-        td 
-          span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="lesson.isShot")
-          span.glyphicon.glyphicon-font(aria-hidden="true", ng-show="lesson.checkedLanguage")
-          span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
-          span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")
-          span.glyphicon.glyphicon-cloud-upload(aria-hidden="true", ng-show="lesson.isDetected")
+.container
+  lessons-list(lessons="lessonList", config="lessonsConfig")
