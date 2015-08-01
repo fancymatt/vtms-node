@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsPublishDateListController', function($scope, vtmsPublishDate, vtmsPlatform, vtmsNotifier) {
+angular.module('vtms').controller('vtmsPublishingController', function($scope, vtmsPublishDate, vtmsPlatform, vtmsNotifier) {
   $scope.publishDates = vtmsPublishDate.getIncomplete();
   
   $scope.platforms = [
