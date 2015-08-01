@@ -63,3 +63,24 @@ exports.updatePublishDate = function(req, res) {
       });
   });
 };
+
+exports.getPublishDatesForLessonWithId = function(req, res) {
+  models.PublishDate.findAll({
+    where: {
+      fkLesson: req.params.id
+    },
+    include: [
+      models.Platform,
+      {
+        model: models.Lesson, 
+        include: [models.LanguageSeries]
+      }]}). then(function (publishDates) {
+    if(publishDates) {
+      res.send(publishDates);
+    } else {
+      res.status(404).send({error: "No publish dates have been set for a lesson with this ID."})
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};

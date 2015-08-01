@@ -1,6 +1,24 @@
 angular.module('vtms').controller('vtmsPublishingController', function($scope, vtmsPublishDate, vtmsPlatform, vtmsNotifier) {
   $scope.publishDates = vtmsPublishDate.getIncomplete();
   
+  $scope.publishDatesConfig = {
+    title: 'Publish Dates',
+    actions: {
+      deliver: true,
+      delete: true
+    },
+    columns: {
+      actions: true,
+      series: true,
+      number: true,
+      title: true,
+      platform: true,
+      date: true,
+      lessonStatus: true,
+      status: true
+    }
+  };
+
   $scope.platforms = [
     {display: "Pod101 Site", tableValue: "pod101"},
     {display: "YouTube", tableValue: "YouTube"},
@@ -9,13 +27,4 @@ angular.module('vtms').controller('vtmsPublishingController', function($scope, v
   
   $scope.selectedPlatform = $scope.platforms[0];
   
-  $scope.deliverPublishDate = function(publishDate) {
-    publishDate.deliver().then(function(newData) {
-      var indexToDelete = $scope.publishDates.indexOf(publishDate);
-      $scope.publishDates.splice(indexToDelete, 1);
-      
-      var lessonString = publishDate.lesson.languageSery.title + " #" + publishDate.lesson.number;
-      vtmsNotifier.notify("Delivered " + lessonString + " for " + publishDate.platform.name + ".");
-    });
-  };
 });

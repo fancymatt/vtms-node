@@ -36,6 +36,7 @@ module.exports = function(app) {
   app.get('/api/lessons/:id/tasks', controllers.task.getTasksForLessonWithId);
   app.get('/api/lessons/:id/assets', controllers.task.getAssetsForLessonWithId);
   app.get('/api/lessons/:id/shots', controllers.shot.getShotsForLessonWithId);
+  app.get('/api/lessons/:id/publish-dates', controllers.publishDate.getPublishDatesForLessonWithId);
   app.put('/api/lessons/:id', auth.requiresRole('admin'), controllers.lesson.updateLesson);
   //app.delete('/api/lessons/:id', controllers.lesson.deleteLesson); // not implemented
   
