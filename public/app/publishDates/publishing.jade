@@ -1,10 +1,4 @@
 .container
   h1 Publishing
-  .pull-right
-    form.form-inline
-      .form-group
-        label(class="radio-inline", ng-repeat="platform in platforms")
-          input(type="radio", name="selectedPlatform", ng-model="$parent.selectedPlatform", ng-value="platform")
-          | {{platform.display}}
 .container
   publish-dates-list(publish-dates="publishDates", config="publishDatesConfig")

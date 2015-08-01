@@ -72,6 +72,7 @@ module.exports = function(app) {
   
   app.get('/api/publishDates', controllers.publishDate.getPublishDates);
   app.get('/api/publishDates/incomplete', controllers.publishDate.getIncompletePublishDates);
+  app.get('/api/publishDates/surrounding', controllers.publishDate.getSurroundingPublishDates);
   app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);
   app.put('/api/publishDates/:id', controllers.publishDate.updatePublishDate);
   
