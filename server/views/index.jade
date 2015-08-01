@@ -14,7 +14,7 @@ block content
               span.caret
             ul.dropdown-menu(role="menu")
               li(ng-repeat="teamMember in teamMembers")
-                a(href="teamMembers/{{teamMember.id}}") {{teamMember.nameFull}}
+                a(href="team-members/{{teamMember.id}}") {{teamMember.nameFull}}
           li.dropdown(ng-show="identity.currentUser.isAdmin()")
             a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Management
               span.caret
@@ -22,7 +22,7 @@ block content
               li
                 a(href='/publishing') Publishing
               li
-                a(href='/renderQueue') Render Queue
+                a(href='/render-queue') Render Queue
               li
                 a(href='/issue-assignment') Issue Assignment
         div(ng-include="'/partials/account/navbar-login'")

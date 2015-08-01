@@ -57,15 +57,15 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/series/series-details', 
       controller: 'vtmsSeriesDetailController'
     })
-    .when('/languageSeries/:id', { 
+    .when('/language-series/:id', { 
       templateUrl: '/partials/languageSeries/language-series-details', 
       controller: 'vtmsLanguageSeriesDetailController'
     })
-    .when('/teamMembers', {
+    .when('/team-members', {
       templateUrl: '/partials/teamMembers/team-member-list',
       controller: 'vtmsTeamMemberListController'
     })
-    .when('/teamMembers/:id', {
+    .when('/team-members/:id', {
       templateUrl: '/partials/teamMembers/team-member-details',
       controller: 'vtmsTeamMemberDetailsController',
       controllerAs: 'ctrl'
@@ -90,7 +90,7 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/issues/issue-assignment',
       controller: 'vtmsIssueAssignmentController'
     })
-    .when('/renderQueue', {
+    .when('/render-queue', {
       templateUrl: '/partials/lessons/render-queue',
       controller: 'vtmsRenderQueueController',
       resolve: routeRoleChecks.admin

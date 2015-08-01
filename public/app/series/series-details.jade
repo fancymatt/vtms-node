@@ -21,5 +21,5 @@
       tr(ng-repeat="langSery in languageSeriesList | filter:searchText | orderBy: selectedSortOption")
         td {{langSery.language.name}}
         td
-          a(href="/languageSeries/{{langSery.id}}") {{langSery.title}}
+          a(href="/language-series/{{langSery.id}}") {{langSery.title}}
         td {{langSery.level.name}}
