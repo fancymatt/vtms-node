@@ -10,10 +10,6 @@
 .container
   h1
     a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
-  p Publish Date: {{ctrl.lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
-  p YouTube Date: {{ctrl.lesson.publishDateSite !== '0000-00-00'?(lesson.publishDateSite | date:'yyyy-MM-dd'): "Not Set"}}
-  p YouTube Code: 
-    a(href="#", editable-text="ctrl.lesson.ytCode", onbeforesave="update({ytCode: $data})") {{ctrl.lesson.ytCode ? ctrl.lesson.ytCode : "none"}}
 .container
   task-list(tasks="ctrl.taskList", config="ctrl.tasksConfig")
 .container

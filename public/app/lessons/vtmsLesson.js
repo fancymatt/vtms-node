@@ -8,14 +8,19 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
   });
   
   LessonResource.prototype.dueDate = function() {
-    var earliestDate = new Date(this.publishDates[0].date);
     if(this.publishDates.length > 1) {
+      var earliestDate = new Date(this.publishDates[0].date);
       for(var i = 1, dateToCompare; i < this.publishDates.length; i++) {
         dateToCompare = new Date(this.publishDates[i].date);
         if(dateToCompare < earliestDate) earliestDate = dateToCompare;
       }
+      return earliestDate;
+    } else if(this.publishDates.length === 1) {
+      return new Date(this.publishDates[0].date)
+    } else {
+      return "Not set";
     }
-    return earliestDate;
+    
   };
   
   LessonResource.prototype.addToRenderQueue = function() {
