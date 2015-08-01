@@ -82,8 +82,8 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       resolve: routeRoleChecks.teamMember
     })
     .when('/publishing', {
-      templateUrl: '/partials/publishDates/publish-date-list',
-      controller: 'vtmsPublishDateListController',
+      templateUrl: '/partials/publishDates/publishing',
+      controller: 'vtmsPublishingController',
       resolve: routeRoleChecks.admin
     })
     .when('/issue-assignment', {
