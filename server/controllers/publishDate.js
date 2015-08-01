@@ -35,6 +35,37 @@ exports.getIncompletePublishDates = function(req, res) {
   });
 };
 
+exports.getSurroundingPublishDates = function(req, res) {
+  var today = new Date();
+  var earlier = new Date(today);
+  var later = new Date(today);
+  earlier.setDate(today.getDate()-14);
+  later.setDate(today.getDate()+45);
+  models.PublishDate.findAll({
+    where: {
+      date: {
+        $gte: earlier,
+        $lte: later
+      }
+    },
+    include: [
+      models.Platform,
+      {
+        model: models.Lesson, 
+        include: [models.LanguageSeries]
+      }
+    ]
+  }).then(function(publishDates) {
+    if(publishDates) {
+     res.send(publishDates); 
+    } else {
+      res.status(404).send({error: "No publish dates were found."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getPublishDateById = function(req, res) {
   models.PublishDate.findOne({where: {id: req.params.id}}).then(function(publishDate) {
     if(publishDate) {

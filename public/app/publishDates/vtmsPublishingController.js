@@ -1,11 +1,12 @@
 angular.module('vtms').controller('vtmsPublishingController', function($scope, vtmsPublishDate, vtmsPlatform, vtmsNotifier) {
-  $scope.publishDates = vtmsPublishDate.getIncomplete();
+  $scope.publishDates = vtmsPublishDate.getSurrounding();
   
   $scope.publishDatesConfig = {
     title: 'Publish Dates',
     actions: {
       deliver: true,
-      delete: true
+      delete: true,
+      filter: true
     },
     columns: {
       actions: true,
@@ -19,12 +20,4 @@ angular.module('vtms').controller('vtmsPublishingController', function($scope, v
     }
   };
 
-  $scope.platforms = [
-    {display: "Pod101 Site", tableValue: "pod101"},
-    {display: "YouTube", tableValue: "YouTube"},
-    {display: "Roku", tableValue: "roku"}
-  ];
-  
-  $scope.selectedPlatform = $scope.platforms[0];
-  
 });

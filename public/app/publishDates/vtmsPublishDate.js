@@ -2,7 +2,8 @@ angular.module('vtms').factory('vtmsPublishDate', function($resource, $q, vtmsNo
   var PublishDateResource = $resource('/api/publishDates/:id', {id: "@id"}, {
     update: {method:'PUT', isArray:false},
     getIncomplete: {method: 'GET', isArray:true, url:'/api/publishDates/incomplete'},
-    getListForLesson: {method: 'GET', isArray: true, url:'/api/lessons/:id/publish-dates'}
+    getListForLesson: {method: 'GET', isArray: true, url:'/api/lessons/:id/publish-dates'},
+    getSurrounding: {method: 'GET', isArray: true, url: 'api/publishDates/surrounding'}
   });
   
   PublishDateResource.prototype.deliver = function() {
