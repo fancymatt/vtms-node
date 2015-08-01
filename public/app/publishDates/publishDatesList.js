@@ -7,12 +7,7 @@ angular.module('vtms').directive('publishDatesList', function() {
       config: '='
     },
     controller: function($scope, $rootScope, vtmsPublishDate) {
-      
-      /**
-       * Data Initialization
-       */
-      
-      // Ensure that $scope.lessons is populated even if just the languageSeries was passed in
+
       $scope.publishDateList = $scope.publishDates;
       
       var findIdOnList = function(id, list) {
@@ -41,6 +36,17 @@ angular.module('vtms').directive('publishDatesList', function() {
           list.push(item);
           return true;
         }
+      };
+      
+      $scope.deliver = function(publishDate) {
+        publishDate.deliver().then(function(newData) {
+          angular.extend(publishDate, newData);
+          $rootScope.$broadcast('publishDate:delivered');
+        });
+      };
+      
+      $scope.delete = function(publishDate) {
+        console.log("publish date deleted!");
       };
       
       /*

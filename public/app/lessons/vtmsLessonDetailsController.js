@@ -1,9 +1,10 @@
-angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsIssue, vtmsTask, $routeParams) {
+angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsIssue, vtmsTask, vtmsPublishDate, $routeParams) {
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
   ctrl.taskList = vtmsTask.getList({id: ctrl.lessonId});
   ctrl.issuesList = vtmsIssue.getListForLesson({id: ctrl.lessonId});
+  ctrl.publishDatesList = vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
   
   ctrl.tasksConfig = {
     title: 'Tasks',
@@ -21,7 +22,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       status: true,
       dueDate: true
     }
-  }
+  };
   
   ctrl.issuesConfig = {
     actions: {
@@ -38,6 +39,24 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       status: true,
       creator: true
     }
-  }
+  };
+  
+  ctrl.publishDatesConfig = {
+    title: 'Publish Dates',
+    actions: {
+      deliver: false,
+      delete: true
+    },
+    columns: {
+      actions: true,
+      series: false,
+      number: false,
+      title: false,
+      platform: true,
+      date: true,
+      lessonStatus: true,
+      status: true
+    }
+  };
   
 });
