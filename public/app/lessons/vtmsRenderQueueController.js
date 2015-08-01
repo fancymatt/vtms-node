@@ -4,37 +4,50 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
   
   $scope.lessonsInQueue = vtmsLesson.getQueued();
   
-  $scope.addToQueue = function(lesson) {
-    lesson.addToRenderQueue().then(function(newData) {
-      angular.extend(lesson, newData);
-      var indexToDelete = $scope.lessonsToRender.indexOf(lesson);
-      $scope.lessonsToRender.splice(indexToDelete, 1);
-      $scope.lessonsInQueue.push(lesson);
-      
-      var lessonString = lesson.languageSery.title + " #" + lesson.number + " - " + lesson.title;
-      vtmsNotifier.notify("Added " + lessonString + " to the render queue.");
-    })
+  $scope.lessonsToRenderConfig = {
+    title: 'Lessons to Render',
+    type: 'lessonsToRender',
+    actions: {
+      addtoRenderQueue: true,
+      removeFromRenderQueue: false,
+      markAsExported: false,
+      delete: false
+    },
+    columns: {
+      actions: true,      
+      series: true,
+      number: true,
+      title: false,
+      lastRender: true,
+      lastAction: true,
+      queuedTime: true,
+      trt: false,
+      dueDate: true,
+      status: true
+    }
   };
   
-  $scope.removeFromQueue = function(lesson) {
-    lesson.removeFromRenderQueue().then(function() {
-      var indexToDelete = $scope.lessonsInQueue.indexOf(lesson);
-      $scope.lessonsInQueue.splice(indexToDelete, 1);
-      $scope.lessonsToRender.push(lesson);
-      
-      var lessonString = lesson.languageSery.title + " #" + lesson.number + " - " + lesson.title;
-      vtmsNotifier.notify("Removed " + lessonString + " from the render queue.");
-    })  
+  $scope.lessonsInQueueConfig = {
+    title: 'Lessons in Queue',
+    type: 'renderQueue',
+    actions: {
+      addtoRenderQueue: false,
+      removeFromRenderQueue: true,
+      markAsExported: true,
+      delete: false
+    },
+    columns: {
+      actions: true,      
+      series: true,
+      number: true,
+      title: false,
+      lastRender: false,
+      lastAction: false,
+      queuedTime: true,
+      trt: false,
+      dueDate: true,
+      status: true
+    }
   };
-  
-  $scope.markAsExported = function(lesson) {
-    lesson.markAsExported().then(function() {
-      var indexToDelete = $scope.lessonsInQueue.indexOf(lesson);
-      $scope.lessonsInQueue.splice(indexToDelete, 1);
-      
-      var lessonString = lesson.languageSery.title + " #" + lesson.number + " - " + lesson.title;
-      vtmsNotifier.notify(lessonString + " has been successfully exported.");
-    })    
-  };
-  
+
 });
