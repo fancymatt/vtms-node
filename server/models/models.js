@@ -50,6 +50,8 @@ models.Shift.hasMany(models.Activity, { foreignKey: 'fkShift' } );
 models.Shift.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
 
 models.Activity.belongsTo(models.Shift, { foreignKey: 'fkShift' } );
+models.Activity.belongsTo(models.Task, { foreignKey: 'fkTask'} );
+models.Activity.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember'} );
 models.Activity.hasMany(models.Issue, { foreignKey: 'fkActivity' } );
 // Activity Foreign Keys may need to be modeled differently
 
@@ -60,6 +62,7 @@ models.Talent.hasMany(models.Shot, { foreignKey: 'fkTalent' } );
 models.Task.belongsTo(models.TaskGlobal, { foreignKey: 'fkTaskGlobal' } );
 models.Task.belongsTo(models.Lesson, { foreignKey: 'fkLesson' } );
 models.Task.belongsTo(models.TeamMember, { foreignKey: 'fkTeamMember' } );
+models.Task.hasMany(models.Activity, { foreignKey: 'fkTask' } );
 models.Task.hasMany(models.Issue, { foreignKey: 'fkTask' } );
 
 models.Issue.belongsTo(models.Task, { foreignKey: 'fkTask' } );
@@ -72,6 +75,7 @@ models.TaskGlobal.belongsTo(models.Series, { foreignKey: 'fkSeries' } );
 //models.TeamMember.hasMany(models.User, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Shift, { foreignKey: 'fkTeamMember' } );
 models.TeamMember.hasMany(models.Task, { foreignKey: 'fkTeamMember' } );
+models.TeamMember.hasMany(models.Activity, { foreignKey: 'fkTeamMember'} );
 
 models.PublishDate.belongsTo(models.Lesson, { foreignKey: 'fkLesson'} );
 models.PublishDate.belongsTo(models.Platform, { foreignKey: 'fkPlatform'} );
