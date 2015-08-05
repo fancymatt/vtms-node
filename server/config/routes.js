@@ -36,6 +36,7 @@ module.exports = function(app) {
   app.get('/api/lessons/:id/tasks', controllers.task.getTasksForLessonWithId);
   app.get('/api/lessons/:id/assets', controllers.task.getAssetsForLessonWithId);
   app.get('/api/lessons/:id/shots', controllers.shot.getShotsForLessonWithId);
+  app.get('/api/lessons/:id/activities', controllers.activity.getActivitiesForLesson);
   app.get('/api/lessons/:id/publish-dates', controllers.publishDate.getPublishDatesForLessonWithId);
   app.put('/api/lessons/:id', auth.requiresRole('admin'), controllers.lesson.updateLesson);
   //app.delete('/api/lessons/:id', controllers.lesson.deleteLesson); // not implemented
@@ -44,7 +45,8 @@ module.exports = function(app) {
   app.get('/api/teamMembers/:id/tasks/actionable', controllers.task.getActionableTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id/tasks/active', controllers.task.getActiveTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
-  app.get('/api/teamMember/:id/issues', controllers.issue.getIssuesForTeamMember);
+  app.get('/api/teamMembers/:id/issues', controllers.issue.getIssuesForTeamMember);
+  app.get('/api/teamMembers/:id/activities', controllers.activity.getActivitiesForTeamMember);
   //app.get('/api/teamMembers/:id/shifts', controllers.teamMember.getShiftsForTeamMemberWithId);
   
   app.get('/api/tasks', controllers.task.getTasks);
@@ -94,6 +96,14 @@ module.exports = function(app) {
   app.post('/api/issues', controllers.issue.createIssue);
   app.delete('/api/issues/:id', controllers.issue.deleteIssue);
   app.put('/api/issues/:id', controllers.issue.updateIssue);
+  
+  app.get('/api/activities', controllers.activity.getActivities);
+  app.get('/api/activities/:id', controllers.activity.getActivityById);
+  app.post('/api/activities', controllers.activity.createActivity);
+  app.put('/api/activities/:id', controllers.activity.updateActivity);
+  app.delete('/api/activities/:id', controllers.activity.deleteActivity);
+  app.get('/api/activities/active', controllers.activity.getActiveActivities);
+  app.get('/api/activities/recent', controllers.activity.getRecentActivities);
   
   app.get('/api/taskGlobals', controllers.taskGlobal.getTaskGlobals);
   app.get('/api/taskGlobals/:id', controllers.taskGlobal.getTaskGlobalById);
