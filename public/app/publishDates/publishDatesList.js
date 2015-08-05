@@ -10,35 +10,6 @@ angular.module('vtms').directive('publishDatesList', function() {
       
       $scope.publishDateList = $scope.publishDates;
       
-      /**
-       * Filters
-       */
-      
-      $scope.platforms = [
-        {display: "Pod101 Site", tableValue: "pod101"},
-        {display: "YouTube", tableValue: "YouTube"},
-        {display: "Roku", tableValue: "roku"}
-      ];
-      
-      $scope.statusList = [
-        {display: "Delivered", tableValue: true},
-        {display: "Not Delivered", tableValue: false}
-      ];
-      
-      $scope.lessonStatusList = [
-        {display: "Completed", tableValue: true},
-        {display: "Not Completed", tableValue: false}
-      ];
-
-
-      $scope.selectedPlatform = $scope.platforms[0];
-      
-      $scope.selectedStatus = $scope.statusList[0];
-      
-      $scope.selectedLessonStatus = $scope.lessonStatusList[1];
-      
-      console.log($scope.publishDates[0]);
-    
       
       var findIdOnList = function(id, list) {
         for(var i = 0; i < list.length; i++) {
@@ -75,8 +46,10 @@ angular.module('vtms').directive('publishDatesList', function() {
         });
       };
       
-      $scope.delete = function(publishDate) {
-        console.log("publish date deleted!");
+      $scope.delete = function(deletedPublishDate) {
+        deletedPublishDate.delete().then(function() {
+          removeFromList(deletedPublishDate, $scope.publishDateList);
+        });
       };
       
       /*
@@ -132,6 +105,6 @@ angular.module('vtms').directive('publishDatesList', function() {
       */
     }
     
-  }
+  };
   
 });

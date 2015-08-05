@@ -1,15 +1,15 @@
 .panel.panel-primary
   .panel-heading.text-center {{config.title}}
   .panel-body
-    .input-group
+    .input-group(ng-if="config.filter.platform")
       label(ng-repeat="platform in platforms")
         input(type="radio", name="selectedPlatform", ng-model="$parent.selectedPlatform", ng-value="platform")
         | {{platform.display}}
-    .input-group
+    .input-group(ng-if="config.filter.lessonStatus")
       label(ng-repeat="status in lessonStatusList")
         input(type="radio", name="selectedLessonStatus", ng-model="$parent.selectedLessonStatus", ng-value="status")
         | {{status.display}}
-    .input-group
+    .input-group(ng-if="config.filter.deliveryStatus")
       label(ng-repeat="status in statusList")
         input(type="radio", name="selectedStatus", ng-model="$parent.selectedStatus", ng-value="status")
         | {{status.display}}
@@ -25,7 +25,7 @@
         th(ng-show="config.columns.status") Status
         th(ng-show="config.columns.lessonStatus") Lesson Status
     tbody
-      tr(ng-repeat="publishDate in publishDateList | filter: {platform: {name: selectedPlatform.tableValue}, isDelivered: selectedStatus.tableValue, lesson: {filesMoved: selectedLessonStatus.tableValue}} | orderBy: date")
+      tr(ng-repeat="publishDate in publishDateList | orderBy: 'date'")
         td(ng-show="config.columns.actions")
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
