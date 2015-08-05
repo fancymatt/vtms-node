@@ -1,5 +1,5 @@
 angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
-  var IssueResource = $resource('/api/issues/:id', {id: "@id"}, {
+  var IssueResource = $resource('/api/issues/:id', {id: '@id'}, {
     update: {method:'PUT', isArray: false},
     getListForLesson: {method:'GET', url: '/api/lessons/:id/issues', isArray:true},
     getIssuesForTeamMember: {method:'GET', url: '/api/teamMember/:id/issues', isArray:true}
@@ -10,7 +10,7 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
     this.$update(newData).then(function() {
       dfd.resolve();
     }, function(response) {
-      dfd.reject("You don't have permission to edit.");
+      dfd.reject('You don\'t have permission to edit.');
     });
     return dfd.promise;
   };
@@ -20,7 +20,7 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
     this.$delete().then(function() {
       dfd.resolve();
     }, function(response) {
-      dfd.reject("You don't have permission to delete.");
+      dfd.reject('You don\'t have permission to delete.');
     });
     return dfd.promise;
   };

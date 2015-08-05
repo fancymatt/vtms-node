@@ -30,5 +30,5 @@
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td(ng-show="config.columns.task") {{task.taskGlobal.name}}
         td(ng-show="config.columns.teamMember") {{task.teamMember.nameFull}}
-        td(ng-show="config.columns.status") {{task.isCompleted ? "Completed" : "Incomplete"}} {{task.isCompleted ? (task.timeCompleted !== "0000-00-00 00:00:00" ? (task.timeCompleted | date: 'MMM d, yyyy') : "") : ""}}
+        td(ng-show="config.columns.status") {{task.isCompleted ? "Completed" : "Incomplete"}}
         td(ng-show="config.columns.dueDate") {{task.dueDate() | date: 'MMM d, yyyy'}}

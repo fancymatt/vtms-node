@@ -86,18 +86,31 @@ exports.getRecentActivities = function(req, res) {
 
 exports.getActivitiesForLesson = function(req, res) {
   getList(req, res, {
-    include: [{
-      model: models.Task,
-      include: [
-        {
-          model: models.Lesson,
-          required: true,
-          where: {
-            id: req.params.id
+    include: [
+      {
+        model: models.Task,
+        include: [
+          {
+            model: models.Lesson,
+            required: true,
+            where: {
+              id: req.params.id
+            }
+          },
+          {
+            model: models.TaskGlobal
           }
-        }
-      ]
-    }]
+        ]
+      },
+      {
+        model: models.Shift,
+        include: [
+          {
+            model: models.TeamMember
+          }
+        ]
+      }
+    ]
   });
 };
 
