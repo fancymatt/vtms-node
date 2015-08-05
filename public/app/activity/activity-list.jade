@@ -1,0 +1,31 @@
+.panel.panel-primary
+  .panel-heading.text-center {{config.title}}
+  .panel-body
+  table.table.table-hover.table-striped.table-condensed
+    thead
+      tr
+        th(ng-show="config.columns.actions") Actions
+        th(ng-show="config.columns.teamMember") Team Member
+        th(ng-show="config.columns.activity") Activity
+        th(ng-show="config.columns.startTime") Started
+        th(ng-show="config.columns.endTime") Completed
+        th(ng-show="config.columns.duration") Duration
+    tbody
+      tr(ng-repeat="activity in activityList")
+        td(ng-show="config.columns.actions")
+          div.btn-group
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+              | Actions
+              span(class="caret")
+            ul(class="dropdown-menu")
+              li(ng-show="config.actions.complete")
+                a(href="#", ng-click="completeActivity(activity)") Complete
+              li(ng-show="config.actions.delete")
+                a(href="#", ng-click="deleteActivity(activity)") Delete
+        td(ng-show="config.columns.teamMember") {{activity.shift.teamMember.nameFirst}}
+        td(ng-show="config.columns.activity") 
+          span {{activity.activity}}
+          span(ng-if="activity.task") {{": " + activity.task.taskGlobal.name}}
+        td(ng-show="config.columns.startTime") {{activity.timeStart | date: 'MMM d, yyyy'}}
+        td(ng-show="config.columns.endTime") {{activity.timeEnd | date: 'MMM d, yyyy'}}
+        td(ng-show="config.columns.duration") {{activity.duration()}}
