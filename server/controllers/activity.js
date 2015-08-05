@@ -117,3 +117,7 @@ exports.getActivitiesForLesson = function(req, res) {
 exports.getActivitiesForTeamMember = function(req, res) {
   getList(req, res, {where: {fkTeamMember: req.params.id}});
 };
+
+exports.getActiveActivitiesForTeamMember = function(req, res) {
+  getList(req, res, {where: {fkTeamMember: req.params.id, isCompleted: false}});
+};

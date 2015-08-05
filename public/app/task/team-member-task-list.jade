@@ -1,5 +1,7 @@
 .container
   h1 {{ctrl.teamMember.nameFull}}'s Task List
+.container
+  activity-list(activities="ctrl.activityList", config="ctrl.activityListConfig", user-id="ctrl.userId")
 .container(ng-show="ctrl.activeTasks.length")
   task-list(tasks="ctrl.activeTasks", config="ctrl.activeTasksConfig")
 .container(ng-show="ctrl.issueList.length")
