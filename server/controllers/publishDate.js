@@ -5,7 +5,7 @@ exports.getPublishDates = function(req, res) {
     if(publishDates) {
       res.send(publishDates);
     } else {
-      res.status(404).send({error: "No publish dates were found."})
+      res.status(404).send({error: 'No publish dates were found.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -14,7 +14,7 @@ exports.getPublishDates = function(req, res) {
 
 exports.getIncompletePublishDates = function(req, res) {
   models.PublishDate.findAll({
-    order: [["date", "ASC"]],
+    order: [['date', 'ASC']],
     limit: 50,
     where: {
       isDelivered: false
@@ -28,7 +28,7 @@ exports.getIncompletePublishDates = function(req, res) {
     if(publishDates) {
       res.send(publishDates);
     } else {
-      res.status(404).send({error: "No publish dates were found."})
+      res.status(404).send({error: 'No publish dates were found.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -59,7 +59,7 @@ exports.getSurroundingPublishDates = function(req, res) {
     if(publishDates) {
      res.send(publishDates); 
     } else {
-      res.status(404).send({error: "No publish dates were found."});
+      res.status(404).send({error: 'No publish dates were found.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -71,7 +71,7 @@ exports.getPublishDateById = function(req, res) {
     if(publishDate) {
       res.send(publishDate);
     } else {
-      res.status(404).send({error: "No level was found with that ID."})
+      res.status(404).send({error: 'No level was found with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -81,7 +81,9 @@ exports.getPublishDateById = function(req, res) {
 exports.updatePublishDate = function(req, res) {
   models.PublishDate.findById(req.body.id).then(function (publishDate) {
     for (var key in req.query) {
-      publishDate[key] = req.query[key];
+      if(req.query[key]) {
+        publishDate[key] = req.query[key];
+      }
     }
     publishDate.save()
       .then(function (publishDate) {
@@ -92,6 +94,20 @@ exports.updatePublishDate = function(req, res) {
         res.status(400);
         return res.send({reason: err.toString()});
       });
+  });
+};
+
+exports.deletePublishDate = function (req, res) {
+  models.PublishDate.findById(req.params.id).then(function (publishDate) {
+    if(publishDate) {
+      publishDate.destroy().then(function() {
+        res.status(200).end();
+      });
+    } else {
+      res.status(404).send({error: 'No publish date was found with that ID.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
   });
 };
 
@@ -109,7 +125,7 @@ exports.getPublishDatesForLessonWithId = function(req, res) {
     if(publishDates) {
       res.send(publishDates);
     } else {
-      res.status(404).send({error: "No publish dates have been set for a lesson with this ID."})
+      res.status(404).send({error: 'No publish dates have been set for a lesson with this ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});

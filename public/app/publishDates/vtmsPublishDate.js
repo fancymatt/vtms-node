@@ -38,5 +38,21 @@ angular.module('vtms').factory('vtmsPublishDate', function($resource, $q, vtmsNo
     return dfd.promise;
   };
   
+  PublishDateResource.prototype.delete = function() {
+    var dfd = $q.defer();
+    
+    var lessonString = this.lesson.languageSery.title + " #" + this.lesson.number;
+    var notification = "Removed a publish date from " + lessonString + ".";
+    
+    this.$delete().then(function() {
+      vtmsNotifier.notify(notification);
+      dfd.resolve();
+    }, function(response) {
+      dfd.reject("You don't have permission to delete.");
+    });
+    
+    return dfd.promise;
+  };
+  
   return PublishDateResource;
 });

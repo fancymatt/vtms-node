@@ -75,6 +75,7 @@ module.exports = function(app) {
   app.get('/api/publishDates/surrounding', controllers.publishDate.getSurroundingPublishDates);
   app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);
   app.put('/api/publishDates/:id', controllers.publishDate.updatePublishDate);
+  app.delete('/api/publishDates/:id', controllers.publishDate.deletePublishDate);
   
   app.get('/api/platforms', controllers.platform.getPlatforms);
   app.get('/api/platforms/:id', controllers.platform.getPlatformById);
