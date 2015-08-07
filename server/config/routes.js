@@ -47,7 +47,7 @@ module.exports = function(app) {
   app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
   app.get('/api/teamMembers/:id/issues', controllers.issue.getIssuesForTeamMember);
   app.get('/api/teamMembers/:id/activities', controllers.activity.getActivitiesForTeamMember);
-  app.get('/api/teamMembers/:id/activities/active', controllers.activity.getActiveActivitiesForTeamMember);
+  app.get('/api/teamMembers/:id/activities/active', controllers.activity.getActiveActivityForTeamMember);
   //app.get('/api/teamMembers/:id/shifts', controllers.teamMember.getShiftsForTeamMemberWithId);
   
   app.get('/api/tasks', controllers.task.getTasks);

@@ -49,6 +49,16 @@ angular.module('vtms').directive('activityList', function() {
         timeStart: ''
       };
       
+      var extendItemOnList = function(item, list, object) {
+        var indexFound = findIdOnList(item.id, list);
+        if(indexFound > -1) {
+          angular.extend(list[indexFound], object); 
+          return true;
+        } else {
+          return false;
+        }
+      };
+      
       function deleteFromList(item, list) {
         var index = list.indexOf(item);
         var itemToDelete = list[index];
@@ -57,23 +67,25 @@ angular.module('vtms').directive('activityList', function() {
         });
       }
       
-      $scope.createActivity = function() {
-        // check that team member doesn't have any activities at the moment
-        
+      var deactivateActiveActivitiesOnList = function() {
         for(var i = 0; i < $scope.activityList.length; i++) {
           if(!$scope.activityList[i].isCompleted) {
-            console.log("Found an active activity");
-            deactivateActivity($scope.activityList[i]);
+            $scope.deactivateActivity($scope.activityList[i]);
           }
         }
+      };
+      
+      $scope.createActivity = function() {
+        deactivateActiveActivitiesOnList();
         
         if($scope.newActivityValues.activity.length > 0) {
           var now = moment(Date.now());
           $scope.newActivityValues.timeStart = now.format('YYYY-MM-DD HH:mm:ss');
+          $scope.newActivityValues.isActive = true;
           var newActivity = new vtmsActivity($scope.newActivityValues);
           newActivity.$save().then(function(activity) {
             $scope.activityList.push(activity);
-            vtmsNotifier.notify("Began new activity: " + $scope.newActivityValues.activity);
+            vtmsNotifier.notify('Began new activity: ' + $scope.newActivityValues.activity);
             $scope.newActivityValues.activity = '';
           });
         }
@@ -81,23 +93,9 @@ angular.module('vtms').directive('activityList', function() {
       
       $scope.deleteActivity = function(activity) {
         deleteFromList(activity, $scope.activityList);
-        vtmsNotifier.notify("Deleted an activity.");
+        vtmsNotifier.notify('Deleted an activity.');
       };
-//      
-//      deactivateActivity = function(activity) {
-//        // Behavior when another activity is started while something else is active
-//        
-//        if(activity.task) {
-//          // still need to know if it's a task or an issue
-//          console.log("You were working on a task or an issue");
-//          console.log(activity);
-//          // deactivate task
-//        } else {
-//          // it's a custom activity
-//          $scope.completeActivity(activity);
-//        }
-//      };
-      
+
       $scope.completeActivity = function(activity) {
         activity.complete().then(function(newData) {
           if(activity.fkTask) {
@@ -127,6 +125,11 @@ angular.module('vtms').directive('activityList', function() {
       
       $rootScope.$on('task:activated', function(event, task, activity) {
         addToList(activity, $scope.activityList);
+      });
+      
+      $rootScope.$on('activity:deactivated', function(event, activity) {
+        console.log('acitvity:deactivated');
+        extendItemOnList(activity, $scope.activityList);
       });
                      
     }

@@ -16,7 +16,7 @@ var getList = function(req, res, query) {
 var getOne = function(req, res, query) {
   models.Activity.findOne(query).then(function(activity) {
     if(activity) {
-      res.send({activity: activity});
+      res.send(activity);
     } else {
       res.status(404).send({error: 'No activity was found.'});
     }
@@ -133,6 +133,6 @@ exports.getActivitiesForTeamMember = function(req, res) {
   });
 };
 
-exports.getActiveActivitiesForTeamMember = function(req, res) {
-  getList(req, res, {where: {fkTeamMember: req.params.id, isCompleted: false}});
+exports.getActiveActivityForTeamMember = function(req, res) {
+  getOne(req, res, {where: {fkTeamMember: req.params.id, isActive: true}});
 };

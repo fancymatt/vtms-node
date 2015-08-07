@@ -86,6 +86,28 @@ angular.module('vtms').directive('taskList', function() {
        */
       
       $scope.activateTask = function(activatedTask) {
+        
+        // Will now end a custom activity when you create a new custom or activate a task
+        // Will not end a task activity when you create a new activity
+        // Will not display the ending of tasks dynamically
+        
+        
+        vtmsActivity.getActiveActivityForTeamMember({id: activatedTask.fkTeamMember}, function(activeActivity) {
+          
+          if(activeActivity) {
+            console.log('found an active activity');
+            console.log('activeActivity', activeActivity);
+
+            activeActivity.deactivate().then(function(deactivatedActivity) {
+              $rootScope.$broadcast('activity:deactivated', deactivatedActivity);
+              
+              if(activeActivity.task > 0) {
+                $rootScope.$broadcast('task:deactivated', activeActivity.task);
+              }
+            });
+          }
+        });
+        
         activatedTask.activate().then(function(newData) {
           angular.extend(activatedTask, newData);
           var newActivity = new vtmsActivity();
@@ -93,6 +115,7 @@ angular.module('vtms').directive('taskList', function() {
             $rootScope.$broadcast('task:activated', activatedTask, createdActivity);
           });
         });
+        
       };
       
       $scope.deactivateTask = function(deactivatedTask) {
