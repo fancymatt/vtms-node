@@ -10,28 +10,10 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   ctrl.activityList = vtmsActivity.getListForTeamMember({id: ctrl.identity.fkTeamMember});
     
   ctrl.actionableTasksConfig = {
-    title: 'Actionable Tasks',
+    title: 'Your Tasks',
     type : 'actionable',
     actions: {
       activate: true,
-      deactivate: false,
-      complete: true,
-      incomplete: false,
-    },
-    columns : {
-      lesson: true,
-      task: true,
-      teamMember: false,
-      status: false,
-      dueDate: true
-    }
-  };
-  
-  ctrl.activeTasksConfig = {
-    title: 'Active Tasks',
-    type : 'active',
-    actions: {
-      activate: false,
       deactivate: true,
       complete: true,
       incomplete: false,
@@ -44,7 +26,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
       dueDate: true
     }
   };
-  
+
   ctrl.issuesConfig = {
     title: 'Pending Issues',
     actions: {
@@ -66,7 +48,8 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
     title: 'Your Activities',
     actions: {
       delete: true,
-      complete: true
+      complete: true,
+      deactivate: true
     },
     columns: {
       actions: true,

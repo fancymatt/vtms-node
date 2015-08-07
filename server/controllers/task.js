@@ -165,7 +165,7 @@ exports.getTasksForLessonWithId = function (req, res) {
 
 exports.getActionableTasksForTeamMemberWithId = function(req, res) {
   models.Task.findAll({
-    where: {isActive: false, isCompleted: false, isActionable: true, fkTeamMember: req.params.id},
+    where: {isCompleted: false, isActionable: true, fkTeamMember: req.params.id},
     include: [
       models.TaskGlobal,
       {

@@ -20,6 +20,8 @@
             ul(class="dropdown-menu")
               li(ng-show="config.actions.complete && !activity.isCompleted")
                 a(href="#", ng-click="completeActivity(activity)") Complete
+              li(ng-show="config.actions.deactivate && !activity.isCompleted")
+                a(href="#", ng-click="deactivateActivity(activity)") Deactivate
               li(ng-show="config.actions.delete")
                 a(href="#", ng-click="deleteActivity(activity)") Delete
         td(ng-show="config.columns.teamMember") {{activity.shift.teamMember.nameFirst}}

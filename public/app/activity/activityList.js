@@ -83,20 +83,20 @@ angular.module('vtms').directive('activityList', function() {
         deleteFromList(activity, $scope.activityList);
         vtmsNotifier.notify("Deleted an activity.");
       };
-      
-      deactivateActivity = function(activity) {
-        // Behavior when another activity is started while something else is active
-        
-        if(activity.task) {
-          // still need to know if it's a task or an issue
-          console.log("You were working on a task or an issue");
-          console.log(activity);
-          // deactivate task
-        } else {
-          // it's a custom activity
-          $scope.completeActivity(activity);
-        }
-      };
+//      
+//      deactivateActivity = function(activity) {
+//        // Behavior when another activity is started while something else is active
+//        
+//        if(activity.task) {
+//          // still need to know if it's a task or an issue
+//          console.log("You were working on a task or an issue");
+//          console.log(activity);
+//          // deactivate task
+//        } else {
+//          // it's a custom activity
+//          $scope.completeActivity(activity);
+//        }
+//      };
       
       $scope.completeActivity = function(activity) {
         activity.complete().then(function(newData) {
@@ -106,8 +106,23 @@ angular.module('vtms').directive('activityList', function() {
                 $rootScope.$broadcast('task:completed', task);
               });
             });
+          } else {
+            angular.extend(activity, newData);
           }
-          angular.extend(activity, newData);
+        });
+      };
+      
+      $scope.deactivateActivity = function(activity) {
+        activity.complete().then(function(newData) {
+          if(activity.fkTask) {
+            vtmsTask.get({id: activity.fkTask}, function(task) {
+              task.deactivate().then(function() {
+                $rootScope.$broadcast('task:deactivated', task);
+              });
+            });
+          } else {
+            angular.extend(activity, newData);
+          }
         });
       };
       

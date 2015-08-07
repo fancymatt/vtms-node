@@ -11,17 +11,15 @@
         th(ng-show="config.columns.status") Status
         th(ng-show="config.columns.dueDate") Due Date
     tbody
-      tr(ng-repeat="task in taskList | orderBy: sortOption")
+      tr(ng-repeat="task in taskList | orderBy: sortOption", ng-class="{success: task.isActive}")
         td
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
-              li(ng-show="config.actions.activate")
+              li(ng-show="config.actions.activate && !task.isActive")
                 a(href="#", ng-click="activateTask(task)") Activate
-              li(ng-show="config.actions.deactivate")
-                a(href="#", ng-click="deactivateTask(task)") Deactivate
               li(ng-shpw="config.actions.complete")
                 a(href="#", ng-click="completeTask(task)") Complete
               li(ng-show="config.actions.incomplete")

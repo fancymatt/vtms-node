@@ -44,7 +44,16 @@ angular.module('vtms').directive('taskList', function() {
         var indexToDelete = findIdOnList(item.id, list);
         if(indexToDelete > -1) {
           list.splice(indexToDelete, 1);
-          console.log(list.length);
+          return true;
+        } else {
+          return false;
+        }
+      };
+      
+      var extendItemOnList = function(item, list, object) {
+        var indexFound = findIdOnList(item.id, list);
+        if(indexFound > -1) {
+          angular.extend(list[indexFound], object); 
           return true;
         } else {
           return false;
@@ -56,7 +65,6 @@ angular.module('vtms').directive('taskList', function() {
           return false;
         } else {
           list.push(item);
-          console.log(list.length);
           return true;
         }
       };
@@ -115,26 +123,19 @@ angular.module('vtms').directive('taskList', function() {
        */
             
       $rootScope.$on('task:activated', function(event, task) {
-        if($scope.config.type === 'actionable') {
-          removeFromList(task, $scope.taskList);
-        }
-        if($scope.config.type === 'active') {
-          addToList(task, $scope.taskList);
-        }
+        // No functionality
       });
             
       $rootScope.$on('task:deactivated', function(event, task) {
         if($scope.config.type === 'active') {
           removeFromList(task, $scope.taskList);
         }
-        if($scope.config.type === 'actionable') { 
-          addToList(task, $scope.taskList);
+        if($scope.config.type === 'actionable') {
+          extendItemOnList(task, $scope.taskList, {isActive: false});
         }
       });
       
       $rootScope.$on('task:completed', function(event, task) {
-        console.log('task:completed');
-        console.log(task);
         if($scope.config.type === 'actionable') {
           removeFromList(task, $scope.taskList);
         }

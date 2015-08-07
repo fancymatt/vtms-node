@@ -115,7 +115,22 @@ exports.getActivitiesForLesson = function(req, res) {
 };
 
 exports.getActivitiesForTeamMember = function(req, res) {
-  getList(req, res, {where: {fkTeamMember: req.params.id}});
+  getList(req, res, {
+    where: {fkTeamMember: req.params.id},
+    include: [
+      {
+        model: models.Task,
+        include: [
+          {
+            model: models.Lesson,
+          },
+          {
+            model: models.TaskGlobal
+          }
+        ]
+      }
+    ]
+  });
 };
 
 exports.getActiveActivitiesForTeamMember = function(req, res) {
