@@ -59,6 +59,11 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
       endTime: true,
       duration: true
     },
+    activityDetail: {
+      series: true,
+      lesson: true,
+      task: true
+    },
     create: true
   };
   

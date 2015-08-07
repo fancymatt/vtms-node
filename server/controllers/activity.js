@@ -142,11 +142,10 @@ exports.getActivitiesForTeamMember = function(req, res) {
         model: models.Task,
         include: [
           {
-            model: models.Lesson,
-          },
-          {
-            model: models.TaskGlobal
-          }
+            model: models.Lesson, 
+            include: [models.LanguageSeries]
+          }, 
+          models.TaskGlobal
         ]
       }
     ]
