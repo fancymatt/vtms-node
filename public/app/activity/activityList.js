@@ -7,8 +7,41 @@ angular.module('vtms').directive('activityList', function() {
       config: '=',
       userId: '='
     },
-    controller: function($scope, vtmsActivity, vtmsNotifier) {
+    controller: function($scope, $rootScope, vtmsActivity, vtmsTask, vtmsNotifier) {
       $scope.activityList = $scope.activities;
+      
+      
+      var findIdOnList = function(id, list) {
+        for(var i = 0; i < list.length; i++) {
+          if(id === list[i].id) {
+            return i;
+          }
+        }
+        return -1;
+      };
+      
+      var removeFromList = function(item, list) {
+        var indexToDelete = findIdOnList(item.id, list);
+        if(indexToDelete > -1) {
+          list.splice(indexToDelete, 1);
+          console.log(list.length);
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      var addToList = function(item, list) {
+        if(findIdOnList(item.id, list) > -1) {
+          return false;
+        } else {
+          list.push(item);
+          console.log(list.length);
+          return true;
+        }
+      };
+      
+      
       
       $scope.newActivityValues = {
         activity: '',
@@ -67,9 +100,22 @@ angular.module('vtms').directive('activityList', function() {
       
       $scope.completeActivity = function(activity) {
         activity.complete().then(function(newData) {
+          if(activity.fkTask) {
+            vtmsTask.get({id: activity.fkTask}, function(task) {
+              task.complete().then(function() {
+                $rootScope.$broadcast('task:completed', task);
+              });
+            });
+          }
           angular.extend(activity, newData);
         });
       };
+      
+      
+      $rootScope.$on('task:activated', function(event, task, activity) {
+        addToList(activity, $scope.activityList);
+      });
+                     
     }
   };
 });

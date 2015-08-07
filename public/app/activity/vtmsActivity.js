@@ -50,5 +50,21 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q) {
     }
   };
   
+  ActivityResource.prototype.createActivityForTask = function(task) {
+    var dfd = $q.defer();
+    
+    this.timeStart = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    this.fkTask = task.id;
+    this.fkTeamMember = task.fkTeamMember;
+    this.isActive = true;
+    this.activity = 'Working on task';
+    
+    this.$save().then(function(activity) {
+      dfd.resolve(activity);
+    });
+    
+    return dfd.promise;
+  };
+  
   return ActivityResource;
 });
