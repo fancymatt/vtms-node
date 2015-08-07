@@ -57,9 +57,6 @@ module.exports = function(app) {
   app.get('/api/tasks/:id', controllers.task.getTaskById);
   app.put('/api/tasks/:id', controllers.task.updateTaskById);
   
-  app.get('/api/activities', controllers.activity.getActivities);
-  app.get('/api/activities/:id', controllers.activity.getActivityById);
-  
   app.get('/api/shifts', controllers.shift.getShifts);
   app.get('/api/shifts/:id', controllers.shift.getShiftById);
   //app.get('/api/shifts/:id/activities', controllers.shift.getActivitiesForShiftWithId);
@@ -99,12 +96,12 @@ module.exports = function(app) {
   app.put('/api/issues/:id', controllers.issue.updateIssue);
   
   app.get('/api/activities', controllers.activity.getActivities);
+  app.get('/api/activities/active', controllers.activity.getActiveActivities);
+  app.get('/api/activities/recent', controllers.activity.getRecentActivities);
   app.get('/api/activities/:id', controllers.activity.getActivityById);
   app.post('/api/activities', controllers.activity.createActivity);
   app.put('/api/activities/:id', controllers.activity.updateActivity);
   app.delete('/api/activities/:id', controllers.activity.deleteActivity);
-  app.get('/api/activities/active', controllers.activity.getActiveActivities);
-  app.get('/api/activities/recent', controllers.activity.getRecentActivities);
   
   app.get('/api/taskGlobals', controllers.taskGlobal.getTaskGlobals);
   app.get('/api/taskGlobals/:id', controllers.taskGlobal.getTaskGlobalById);

@@ -81,11 +81,31 @@ exports.getActiveActivities = function(req, res) {
 };
 
 exports.getRecentActivities = function(req, res) {
-  getList(req, res, {where: {isCompleted: true}, order: [['timeEnd','desc']]});
+  getList(req, res, {
+    include: [
+      {model: models.TeamMember},
+      {
+        model: models.Shift,
+        include: [models.TeamMember]
+      },
+      {
+        model: models.Task,
+        include: [
+          {
+            model: models.Lesson, 
+            include: [models.LanguageSeries]
+          }, 
+          models.TaskGlobal
+        ]
+      }
+    ],
+    limit: 50, order: [['timeStart','desc']]
+  });
 };
 
 exports.getActivitiesForLesson = function(req, res) {
   getList(req, res, {
+    order: [['timeEnd','asc']],
     include: [
       {
         model: models.Task,

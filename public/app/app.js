@@ -70,6 +70,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsTeamMemberDetailsController',
       controllerAs: 'ctrl'
     })
+    .when('/activity-feed', {
+      templateUrl: '/partials/activity/activity-feed',
+      controller: 'vtmsActivityFeedController'
+    })
     .when('/lesson/:id', {
       templateUrl: '/partials/lessons/lesson-details',
       controller: 'vtmsLessonDetailsController',

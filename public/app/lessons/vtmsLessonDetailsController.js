@@ -55,7 +55,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       title: false,
       platform: true,
       date: true,
-      lessonStatus: true,
+      lessonStatus: false,
       status: true
     }
   };
@@ -73,6 +73,11 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       startTime: false,
       endTime: true,
       duration: true
+    },
+    activityDetail: {
+      series: false,
+      lesson: false,
+      task: true
     }
   };
   
