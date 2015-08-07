@@ -33,7 +33,25 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q) {
     var dfd = $q.defer();
     
     var endTime = moment(Date.now());
-    this.update({timeEnd: endTime.format('YYYY-MM-DD HH:mm:ss'), isCompleted: true}).then(function(newData) {
+    var updateObject = {timeEnd: endTime.format('YYYY-MM-DD HH:mm:ss'), isCompleted: true};
+    if(this.fkTask > 0) {
+      updateObject.activity = 'Completed task';
+    }
+    
+    this.update(updateObject).then(function(newData) {
+      dfd.resolve(newData);
+    });
+    
+    return dfd.promise;
+  };
+  
+  ActivityResource.prototype.deactivate = function() {
+    var dfd = $q.defer();
+    
+    var endTime = moment(Date.now());
+    var updateObject = {timeEnd: endTime.format('YYYY-MM-DD HH:mm:ss'), isCompleted: true, activity: 'Worked on task'};
+    
+    this.update(updateObject).then(function(newData) {
       dfd.resolve(newData);
     });
     

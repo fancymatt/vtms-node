@@ -106,23 +106,21 @@ angular.module('vtms').directive('activityList', function() {
                 $rootScope.$broadcast('task:completed', task);
               });
             });
-          } else {
-            angular.extend(activity, newData);
           }
+          angular.extend(activity, newData);
         });
       };
       
       $scope.deactivateActivity = function(activity) {
-        activity.complete().then(function(newData) {
+        activity.deactivate().then(function(newData) {
           if(activity.fkTask) {
             vtmsTask.get({id: activity.fkTask}, function(task) {
               task.deactivate().then(function() {
                 $rootScope.$broadcast('task:deactivated', task);
               });
             });
-          } else {
-            angular.extend(activity, newData);
           }
+          angular.extend(activity, newData);
         });
       };
       
