@@ -30,8 +30,9 @@
         td(ng-show="config.columns.activity") 
           span {{activity.activity}}
           span(ng-if="activity.task") {{": "}}
-          span(ng-if="activity.task", ng-show="config.activityDetail.series") {{activity.task.lesson.languageSery.title + " "}}
-          span(ng-if="activity.task", ng-show="config.activityDetail.lesson") {{"#" + activity.task.lesson.number + " "}}
+          a(ng-if="config.activityDetail.lesson", ng-href="/lesson/{{activity.task.lesson.id}}")
+            span(ng-if="activity.task", ng-show="config.activityDetail.series") {{activity.task.lesson.languageSery.title + " "}}
+            span(ng-if="activity.task", ng-show="config.activityDetail.lesson") {{"#" + activity.task.lesson.number + " "}}
           span(ng-if="activity.task", ng-show="config.activityDetail.task") {{activity.task.taskGlobal.name}}
         td(ng-show="config.columns.startTime") {{activity.timeStart | date: 'MMM d, yyyy HH:mm'}}
         td(ng-show="config.columns.endTime")
