@@ -1,6 +1,10 @@
 angular.module('vtms').controller('vtmsActivityFeedController', function($scope, vtmsActivity) {
   $scope.activityList = vtmsActivity.getRecentList();
   
+  $scope.refreshActivities = function() {
+    return vtmsActivity.getRecentList();
+  };
+  
   $scope.activityListConfig = {
     title: 'Activity Feed',
     actions: {

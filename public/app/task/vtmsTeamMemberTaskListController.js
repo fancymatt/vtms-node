@@ -8,6 +8,11 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.issueList = vtmsIssue.getIssuesForTeamMember({id: ctrl.identity.fkTeamMember});
   ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
+  
+  ctrl.updateActivityList = function() {
+    console.log("We made it to the updateActivityList function");
+    return vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
+  };
     
   ctrl.actionableTasksConfig = {
     title: 'Your Tasks',
@@ -15,7 +20,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
     actions: {
       activate: true,
       deactivate: true,
-      complete: true,
+      complete: false,
       incomplete: false,
     },
     columns : {

@@ -5,7 +5,8 @@ angular.module('vtms').directive('activityList', function() {
     scope: {
       activities: '=',
       config: '=',
-      userId: '='
+      userId: '=',
+      updateFn: '&'
     },
     controller: function($scope, $rootScope, vtmsActivity, vtmsTask, vtmsNotifier) {
       $scope.activityList = $scope.activities;
@@ -91,6 +92,10 @@ angular.module('vtms').directive('activityList', function() {
         }
       };
       
+      $scope.refreshList = function() {
+        $scope.activityList = $scope.updateFn();
+      };
+      
       $scope.deleteActivity = function(activity) {
         deleteFromList(activity, $scope.activityList);
         vtmsNotifier.notify('Deleted an activity.');
@@ -102,8 +107,11 @@ angular.module('vtms').directive('activityList', function() {
             vtmsTask.get({id: activity.fkTask}, function(task) {
               task.complete().then(function() {
                 $rootScope.$broadcast('task:completed', task);
+                $scope.refreshList();
               });
             });
+          } else {
+            $scope.refreshList();
           }
           angular.extend(activity, newData);
         });
@@ -114,9 +122,12 @@ angular.module('vtms').directive('activityList', function() {
           if(activity.fkTask) {
             vtmsTask.get({id: activity.fkTask}, function(task) {
               task.deactivate().then(function() {
+                $scope.refreshList();
                 $rootScope.$broadcast('task:deactivated', task);
               });
             });
+          } else {
+            $scope.refreshList();
           }
           angular.extend(activity, newData);
         });
@@ -124,12 +135,11 @@ angular.module('vtms').directive('activityList', function() {
       
       
       $rootScope.$on('task:activated', function(event, task, activity) {
-        addToList(activity, $scope.activityList);
+        $scope.refreshList();
       });
       
       $rootScope.$on('activity:deactivated', function(event, activity) {
-        console.log('acitvity:deactivated');
-        extendItemOnList(activity, $scope.activityList);
+        $scope.refreshList();
       });
                      
     }
