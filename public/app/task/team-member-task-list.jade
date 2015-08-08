@@ -11,5 +11,6 @@
         .panel-body
           .panel.panel-default(ng-repeat="task in lesson.tasks")
             .panel-body
+              button.btn.btn-xs.pull-right(href="#", ng-click="ctrl.beginFixingIssues(task)") Begin Fixing 
               issues-list(title="task.taskGlobal.name", issues="task.issues", config="ctrl.issuesConfig")
   task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig")

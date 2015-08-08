@@ -88,7 +88,7 @@ angular.module('vtms').directive('issuesList', function() {
         deleteFromList(issue, $scope.issuesList);
         var notification = "You deleted an issue.";
       };
-      
+            
       $scope.assignIssueToTask = function(theIssue, task) {
         var newData = {fkTask: task.id};
         vtmsIssue.get({id: theIssue.id}, function(issue) {

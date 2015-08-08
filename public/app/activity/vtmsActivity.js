@@ -41,7 +41,11 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q) {
     };
 
     if(this.fkTask > 0) {
-      updateObject.activity = 'Completed task';
+      if(this.activity === 'Fixing issues') {
+        updateObject.activity = 'Fixed issues';
+      } else {
+        updateObject.activity = 'Completed task';
+      }
     }
     
     this.update(updateObject).then(function(newData) {
@@ -58,7 +62,11 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q) {
     var updateObject = {timeEnd: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss'), isCompleted: true, isActive: false};
     
     if(this.fkTask > 0) {
-      updateObject.activity = 'Worked on task';
+      if(this.activity === 'Fixing issues') {
+        updateObject.activity = 'Fixed issues';
+      } else {
+        updateObject.activity = 'Worked on task';
+      }
     }
     
     this.update(updateObject).then(function(newData) {
@@ -94,5 +102,23 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q) {
     return dfd.promise;
   };
   
+  ActivityResource.prototype.createActivityForIssues = function(task) {
+    var dfd = $q.defer();
+
+    this.timeStart = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    this.fkTask = task.id;
+    this.fkTeamMember = task.fkTeamMember;
+    this.isActive = true;
+    this.activity = 'Fixing issues';
+
+    this.$save().then(function(activity) {
+      dfd.resolve(activity);
+    });
+
+    return dfd.promise;
+  };
+  
+  
   return ActivityResource;
 });
+

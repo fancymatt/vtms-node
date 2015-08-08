@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(vtmsTeamMember, vtmsTask, vtmsLesson, vtmsIdentity, vtmsNotifier, vtmsIssue, vtmsActivity) {
+angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($rootScope, vtmsTeamMember, vtmsTask, vtmsLesson, vtmsIdentity, vtmsNotifier, vtmsIssue, vtmsActivity) {
   var ctrl = this;
   
   ctrl.identity = vtmsIdentity.currentUser;
@@ -10,8 +10,18 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
   
   ctrl.updateActivityList = function() {
-    console.log("We made it to the updateActivityList function");
     return vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
+  };
+  
+  ctrl.beginFixingIssues = function(task) {
+    console.log('task', task);
+    // create a new activity
+    var newActivity = new vtmsActivity();
+    newActivity.createActivityForIssues(task).then(function(activity) {
+      $rootScope.$broadcast('activity:created', activity);
+    });   
+    
+    // allow using the buttons on the underlying task
   };
     
   ctrl.actionableTasksConfig = {

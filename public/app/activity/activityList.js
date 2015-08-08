@@ -104,12 +104,17 @@ angular.module('vtms').directive('activityList', function() {
       $scope.completeActivity = function(activity) {
         activity.complete().then(function(newData) {
           if(activity.fkTask) {
-            vtmsTask.get({id: activity.fkTask}, function(task) {
-              task.complete().then(function() {
-                $rootScope.$broadcast('task:completed', task);
-                $scope.refreshList();
+            // It's either a Task or an Issue activity
+            if(activity.activity === 'Fixing issues') {
+              
+            } else {
+              vtmsTask.get({id: activity.fkTask}, function(task) {
+                task.complete().then(function() {
+                  $rootScope.$broadcast('task:completed', task);
+                  $scope.refreshList();
+                });
               });
-            });
+            }
           } else {
             $scope.refreshList();
           }
@@ -120,12 +125,17 @@ angular.module('vtms').directive('activityList', function() {
       $scope.deactivateActivity = function(activity) {
         activity.deactivate().then(function(newData) {
           if(activity.fkTask) {
-            vtmsTask.get({id: activity.fkTask}, function(task) {
-              task.deactivate().then(function() {
-                $scope.refreshList();
-                $rootScope.$broadcast('task:deactivated', task);
+            // It's either a Task or an Issue activity
+            if(activity.activity === 'Fixing issues') {
+              
+            } else {
+              vtmsTask.get({id: activity.fkTask}, function(task) {
+                task.deactivate().then(function() {
+                  $scope.refreshList();
+                  $rootScope.$broadcast('task:deactivated', task);
+                });
               });
-            });
+            }
           } else {
             $scope.refreshList();
           }
@@ -139,6 +149,11 @@ angular.module('vtms').directive('activityList', function() {
       });
       
       $rootScope.$on('activity:deactivated', function(event, activity) {
+        $scope.refreshList();
+      });
+      
+      $rootScope.$on('activity:created', function(event, activity) {
+        console.log('activity:created');
         $scope.refreshList();
       });
                      
