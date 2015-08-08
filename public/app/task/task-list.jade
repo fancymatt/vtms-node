@@ -20,7 +20,7 @@
             ul(class="dropdown-menu")
               li(ng-show="config.actions.activate && !task.isActive")
                 a(href="#", ng-click="activateTask(task)") Activate
-              li(ng-shpw="config.actions.complete")
+              li(ng-show="config.actions.complete")
                 a(href="#", ng-click="completeTask(task)") Complete
               li(ng-show="config.actions.incomplete")
                 a(href="#", ng-click="incompleteTask(task)") Mark as Incomplete

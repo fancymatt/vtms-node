@@ -1,6 +1,7 @@
-.panel.panel-primary
+.panel.panel-default
   .panel-heading.text-center {{config.title}}
-    button.btn.btn-xs.pull-right(ng-click="refreshList()") Refresh
+    a.pull-right(href="#", ng-click="refreshList()")
+      span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
   table.table.table-hover.table-striped.table-condensed
     thead
@@ -42,7 +43,7 @@
           button.btn.btn-primary.btn-sm(ng-show="newActivityValues.activity.length > 0", ng-click="createActivity()") New Activity
         td(ng-show="config.columns.teamMember")
         td(ng-show="config.columns.activity")
-          input(ng-model="newActivityValues.activity")
+          input.form-control(ng-model="newActivityValues.activity")
         td(ng-show="config.columns.startTime")
         td(ng-show="config.columns.endTime")
         td(ng-show="config.columns.duration")
