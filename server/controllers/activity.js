@@ -158,7 +158,7 @@ exports.getRecentActivitiesForTeamMember = function(req, res) {
     where: {
       fkTeamMember: req.params.id,
       timeStart: {
-        $gt: moment(Date.now()).subtract(10, 'hours').format('YYYY-MM-DD HH:mm:ss')
+        $gt: moment().utc().subtract(10, 'hours').format('YYYY-MM-DD HH:mm:ss')
       }
     },
     include: [
