@@ -11,7 +11,7 @@
   h1
     a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
 .container
-  task-list(tasks="ctrl.taskList", config="ctrl.tasksConfig")
+  task-list(tasks="ctrl.taskList", config="ctrl.tasksConfig", update-fn="ctrl.updateTasks()")
 .container
   shot-list(lesson="ctrl.lesson")
 .container

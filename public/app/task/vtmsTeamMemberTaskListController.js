@@ -14,7 +14,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   };
   
   ctrl.updateIssues = function() {
-    ctrl.activityList = ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
+    ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
   };
   
   ctrl.beginFixingIssues = function(task) {

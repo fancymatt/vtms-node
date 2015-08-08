@@ -7,6 +7,10 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   ctrl.publishDatesList = vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
   ctrl.activityList = vtmsActivity.getListForLesson({id: ctrl.lessonId});
   
+  ctrl.updateTasks = function() {
+    return vtmsTask.getList({id: ctrl.lessonId});
+  }
+  
   ctrl.tasksConfig = {
     title: 'Tasks',
     type: 'default',

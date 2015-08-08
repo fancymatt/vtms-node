@@ -5,7 +5,8 @@ angular.module('vtms').directive('taskList', function() {
     scope: {
       lesson: '=',
       tasks: '=',
-      config: '='
+      config: '=',
+      updateFn: '&'
     },
     controller: function($scope, $rootScope, vtmsTask, vtmsActivity, vtmsTeamMember, vtmsLesson, vtmsNotifier) {
 
@@ -86,6 +87,10 @@ angular.module('vtms').directive('taskList', function() {
        * Public Functions
        */
       
+      $scope.refreshList = function() {
+        $scope.taskList = $scope.updateFn();
+      };
+      
       $scope.activateTask = function(activatedTask) {
         
         // Will now end a custom activity when you create a new custom or activate a task
@@ -142,15 +147,8 @@ angular.module('vtms').directive('taskList', function() {
       };
       
       $scope.assignTaskToTeamMember = function(task, teamMember) {
-        
-        var dummyData = {
-          fkTeamMember: teamMember.id,
-          id: task.id
-        };
-        
-        
         task.update({fkTeamMember: teamMember.id}).then(function(newData) {
-          extendItemOnList(dummyData, $scope.taskList);
+          $scope.refreshList();
           vtmsNotifier.notify('Assigned to ' + teamMember.nameFirst);
         });
       };

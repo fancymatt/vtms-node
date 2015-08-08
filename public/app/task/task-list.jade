@@ -1,5 +1,7 @@
-.panel.panel-primary
+.panel.panel-default
   .panel-heading.text-center {{config.title}}
+    a.pull-right(href="#", ng-click="refreshList()")
+      span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
   table.table.table-hover.table-striped.table-condensed#tasks
     thead
