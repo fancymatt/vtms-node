@@ -4,7 +4,8 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     getList: {method:'GET', url: '/api/languageSeries/:id/lessons', isArray:true},
     getQueued: {method:'GET', url: '/api/lessons/queued', isArray: true},
     getReadyToRender: {method:'GET', url: '/api/lessons/readyToRender', isArray: true},
-    getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true}
+    getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true},
+    getLessonsWithIssuesForMember: {method: 'GET', url: '/api/lessons/issues/team-member/:id', isArray: true}
   });
   
   LessonResource.prototype.dueDate = function() {

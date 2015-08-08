@@ -1,8 +1,15 @@
 .container
   h1 {{ctrl.teamMember.nameFull}}
-.container
+.container.col-md-6
   activity-list(activities="ctrl.activityList", config="ctrl.activityListConfig", user-id="ctrl.userId", update-fn="ctrl.updateActivityList()")
-.container(ng-show="ctrl.issueList.length")
-  issues-list(issues="ctrl.issueList", config="ctrl.issuesConfig")
-.container
+.container.col-md-6(ng-show="ctrl.issueList.length")
+  .panel.panel-default
+    .panel-heading.text-center Your Issues
+    .panel-body
+      .panel.panel-primary(ng-repeat="lesson in ctrl.issueList")
+        .panel-heading.text-center {{lesson.title}}
+        .panel-body
+          .panel.panel-default(ng-repeat="task in lesson.tasks")
+            .panel-body
+              issues-list(title="task.taskGlobal.name", issues="task.issues", config="ctrl.issuesConfig")
   task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig")

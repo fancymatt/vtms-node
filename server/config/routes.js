@@ -29,6 +29,7 @@ module.exports = function(app) {
   app.get('/api/lessons/queued', controllers.lesson.getQueuedLessons);
   app.get('/api/lessons/readyToRender', controllers.lesson.getReadyToRenderLessons);
   app.get('/api/lessons/issues', controllers.lesson.getIssuesForLessons);
+  app.get('/api/lessons/issues/team-member/:id', controllers.lesson.getLessonsForTeamMemberWithIssues);
   //app.get('/api/lessons/recentlyCompleted', controllers.lesson.getRecentlyCompletedLessons);
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
   app.delete('/api/lessons/:id', controllers.lesson.deleteLesson);

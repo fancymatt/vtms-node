@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(vtmsTeamMember, vtmsTask, vtmsIdentity, vtmsNotifier, vtmsIssue, vtmsActivity) {
+angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(vtmsTeamMember, vtmsTask, vtmsLesson, vtmsIdentity, vtmsNotifier, vtmsIssue, vtmsActivity) {
   var ctrl = this;
   
   ctrl.identity = vtmsIdentity.currentUser;
@@ -6,7 +6,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   ctrl.teamMember = vtmsTeamMember.get({id: ctrl.identity.fkTeamMember});
   ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
-  ctrl.issueList = vtmsIssue.getIssuesForTeamMember({id: ctrl.identity.fkTeamMember});
+  ctrl.issueList = vtmsLesson.getLessonsWithIssuesForMember({id: ctrl.identity.fkTeamMember});
   ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
   
   ctrl.updateActivityList = function() {
@@ -33,7 +33,6 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   };
 
   ctrl.issuesConfig = {
-    title: 'Pending Issues',
     actions: {
       complete: true,
       delete: false,
@@ -41,8 +40,8 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
       getTime: false
     },
     columns: {
-      lesson: true,
-      task: true,
+      lesson: false,
+      task: false,
       timecode: true,
       issue: true,
       creator: true

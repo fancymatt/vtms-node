@@ -4,6 +4,7 @@ angular.module('vtms').directive('issuesList', function() {
     restrict: "E",
     scope: {
       lesson: '=',
+      title: '=',
       issues: '=',
       config: '=',
       currentTime: '='

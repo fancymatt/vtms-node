@@ -1,5 +1,30 @@
 var models = require('../models/models');
 
+var getList = function(req, res, query) {
+  models.Lesson.findAll(query).then(function(lessons) {
+    if(lessons) {
+      res.send(lessons);
+    } else {
+      res.status(404).send({error: 'No lessons were found.'});
+    }
+  }).catch(function(err) {
+    console.log(err);
+    res.status(500).send({error: err});
+  });
+};
+
+var getOne = function(req, res, query) {
+  models.Lesson.findOne(query).then(function(lesson) {
+    if(lesson) {
+      res.send(lesson);
+    } else {
+      res.status(404).send({error: 'No lesson was found.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getLessons = function (req, res) {
   models.Lesson.findAll().then(function (lessons) {
     if (lessons) {
@@ -267,5 +292,21 @@ exports.getReadyToRenderLessons = function (req, res) {
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
+  });
+};
+
+exports.getLessonsForTeamMemberWithIssues = function(req, res) {
+  getList(req, res, {
+    include: [
+      {
+        model: models.Task,
+        where: {fkTeamMember: req.params.id},
+        include: [models.TaskGlobal, {
+          model: models.Issue,
+          where: {isCompleted: false},
+          required: true
+        }]
+      }
+    ]
   });
 };
