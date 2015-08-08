@@ -7,7 +7,7 @@ angular.module('vtms').directive('taskList', function() {
       tasks: '=',
       config: '='
     },
-    controller: function($scope, $rootScope, vtmsTask, vtmsActivity, vtmsLesson, vtmsNotifier) {
+    controller: function($scope, $rootScope, vtmsTask, vtmsActivity, vtmsTeamMember, vtmsLesson, vtmsNotifier) {
 
       /**
        * Data Initialiazation
@@ -23,6 +23,7 @@ angular.module('vtms').directive('taskList', function() {
       }
       
       // Grab any additional data that certain functionality requires
+      $scope.eligibleTeamMembers = vtmsTeamMember.query();
       
       // TODO: Figure out how to offload this into a config option
       $scope.sortOption = 'dueDate()';
@@ -137,6 +138,20 @@ angular.module('vtms').directive('taskList', function() {
         incompletedTask.incomplete().then(function(newData) {
           angular.extend(incompletedTask, newData);
           $rootScope.$broadcast('task:incompleted', incompletedTask);
+        });
+      };
+      
+      $scope.assignTaskToTeamMember = function(task, teamMember) {
+        
+        var dummyData = {
+          fkTeamMember: teamMember.id,
+          id: task.id
+        };
+        
+        
+        task.update({fkTeamMember: teamMember.id}).then(function(newData) {
+          extendItemOnList(dummyData, $scope.taskList);
+          vtmsNotifier.notify('Assigned to ' + teamMember.nameFirst);
         });
       };
 

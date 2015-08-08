@@ -15,6 +15,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       deactivate: true,
       complete: true,
       incomplete: true,
+      reassign: true
     },
     columns: {
       lesson: false,

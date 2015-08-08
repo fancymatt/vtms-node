@@ -24,6 +24,8 @@
                 a(href="#", ng-click="completeTask(task)") Complete
               li(ng-show="config.actions.incomplete")
                 a(href="#", ng-click="incompleteTask(task)") Mark as Incomplete
+              li(ng-if="config.actions.reassign", ng-repeat="teamMember in eligibleTeamMembers")
+                a(href="#", ng-click="assignTaskToTeamMember(task, teamMember)") Assign to {{teamMember.nameFirst}}
         td(ng-show="config.columns.lesson")
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td(ng-show="config.columns.task") {{task.taskGlobal.name}}
