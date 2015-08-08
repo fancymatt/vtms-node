@@ -1,4 +1,5 @@
 var models = require('../models/models');
+var moment = require('moment');
 
 var getList = function(req, res, query) {
   models.Activity.findAll(query).then(function(activities) {
@@ -137,6 +138,29 @@ exports.getActivitiesForLesson = function(req, res) {
 exports.getActivitiesForTeamMember = function(req, res) {
   getList(req, res, {
     where: {fkTeamMember: req.params.id},
+    include: [
+      {
+        model: models.Task,
+        include: [
+          {
+            model: models.Lesson, 
+            include: [models.LanguageSeries]
+          }, 
+          models.TaskGlobal
+        ]
+      }
+    ]
+  });
+};
+
+exports.getRecentActivitiesForTeamMember = function(req, res) {
+  getList(req, res, {
+    where: {
+      fkTeamMember: req.params.id,
+      timeStart: {
+        $gt: moment(Date.now()).subtract(10, 'hours').format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
     include: [
       {
         model: models.Task,

@@ -7,7 +7,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function(v
   ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.issueList = vtmsIssue.getIssuesForTeamMember({id: ctrl.identity.fkTeamMember});
-  ctrl.activityList = vtmsActivity.getListForTeamMember({id: ctrl.identity.fkTeamMember});
+  ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
     
   ctrl.actionableTasksConfig = {
     title: 'Your Tasks',
