@@ -298,6 +298,7 @@ exports.getReadyToRenderLessons = function (req, res) {
 exports.getLessonsForTeamMemberWithIssues = function(req, res) {
   getList(req, res, {
     include: [
+      models.LanguageSeries,
       {
         model: models.Task,
         where: {fkTeamMember: req.params.id},

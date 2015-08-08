@@ -4,7 +4,7 @@
   table.table.table-hover.table-striped.table-condensed#issues
     thead
       tr
-        th Actions
+        th(ng-show="config.columns.actions || issuesList[0].fkTask === config.taskBeingFixed") Actions
         th(ng-show="config.columns.lesson") Lesson
         th(ng-show="config.columns.task") Task
         th(ng-show="config.columns.creator") Creator
@@ -13,7 +13,7 @@
         th(ng-show="config.columns.status") Status
     tbody
       tr(ng-repeat="issue in issuesList")
-        td
+        td(ng-show="config.columns.actions || issuesList[0].fkTask === config.taskBeingFixed")
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
               | Actions

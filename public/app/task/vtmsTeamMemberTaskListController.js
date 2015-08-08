@@ -13,6 +13,10 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
     return vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
   };
   
+  ctrl.updateIssues = function() {
+    ctrl.activityList = ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
+  };
+  
   ctrl.beginFixingIssues = function(task) {
     console.log('task', task);
     // create a new activity
@@ -22,6 +26,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
     });   
     
     // allow using the buttons on the underlying task
+    ctrl.issuesConfig.taskBeingFixed = task.id;
   };
     
   ctrl.actionableTasksConfig = {
@@ -43,6 +48,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   };
 
   ctrl.issuesConfig = {
+    taskBeingFixed: 0,
     actions: {
       complete: true,
       delete: false,
@@ -50,6 +56,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       getTime: false
     },
     columns: {
+      actions: false,
       lesson: false,
       task: false,
       timecode: true,

@@ -6,11 +6,15 @@
   .panel.panel-default
     .panel-heading.text-center Your Issues
     .panel-body
-      .panel.panel-primary(ng-repeat="lesson in ctrl.issueList")
-        .panel-heading.text-center {{lesson.title}}
+      .panel.panel-default(ng-repeat="lesson in ctrl.issueList")
+        .panel-heading.text-center
+          a(ng-href="/lesson/{{lesson.id}}")
+            span {{lesson.languageSery.title}}
+            span {{" #" + lesson.number}}
+            span {{" - " + lesson.title}}
         .panel-body
           .panel.panel-default(ng-repeat="task in lesson.tasks")
             .panel-body
               button.btn.btn-xs.pull-right(href="#", ng-click="ctrl.beginFixingIssues(task)") Begin Fixing 
-              issues-list(title="task.taskGlobal.name", issues="task.issues", config="ctrl.issuesConfig")
+              issues-list(ng-show="task.issues.length > 0", title="task.taskGlobal.name", issues="task.issues", config="ctrl.issuesConfig")
   task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig")
