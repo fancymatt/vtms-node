@@ -152,6 +152,12 @@ angular.module('vtms').directive('activityList', function() {
         $scope.refreshList();
       });
       
+      $rootScope.$on('activity:toBeAdded', function(event, activity) {
+        // I don't like this, but we need a way to turn off activities when
+        // created out of this scope
+        deactivateActiveActivitiesOnList();
+      });
+      
       $rootScope.$on('activity:created', function(event, activity) {
         console.log('activity:created');
         $scope.refreshList();

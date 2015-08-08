@@ -20,6 +20,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   ctrl.beginFixingIssues = function(task) {
     console.log('task', task);
     // create a new activity
+    $rootScope.$broadcast('activity:toBeAdded');
     var newActivity = new vtmsActivity();
     newActivity.createActivityForIssues(task).then(function(activity) {
       $rootScope.$broadcast('activity:created', activity);
