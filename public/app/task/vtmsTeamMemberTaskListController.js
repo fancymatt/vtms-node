@@ -7,11 +7,6 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.issueList = vtmsLesson.getLessonsWithIssuesForMember({id: ctrl.identity.fkTeamMember});
-  ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
-  
-  ctrl.updateActivityList = function() {
-    return vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
-  };
   
   ctrl.updateIssues = function() {
     ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
@@ -68,6 +63,11 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   
   ctrl.activityListConfig = {
     title: 'Your Activities',
+    create: true,
+    sortable: false,
+    update: function() {
+      return vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
+    },
     actions: {
       delete: true,
       complete: true,
@@ -86,7 +86,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       lesson: true,
       task: true
     },
-    create: true
+    
   };
   
 });

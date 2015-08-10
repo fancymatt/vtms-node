@@ -1,12 +1,12 @@
 angular.module('vtms').controller('vtmsActivityFeedController', function($scope, vtmsActivity) {
-  $scope.activityList = vtmsActivity.getRecentList();
-  
-  $scope.refreshActivities = function() {
-    return vtmsActivity.getRecentList();
-  };
   
   $scope.activityListConfig = {
     title: 'Activity Feed',
+    create: false,
+    sortable: false,
+    update: function() {
+      return vtmsActivity.getRecentList();
+    },
     actions: {
       delete: true,
       complete: false,
@@ -20,7 +20,6 @@ angular.module('vtms').controller('vtmsActivityFeedController', function($scope,
       endTime: true,
       duration: true
     },
-    create: false,
     activityDetail: {
       series: true,
       lesson: true,

@@ -1,7 +1,7 @@
 .container
   h1 {{ctrl.teamMember.nameFull}}
 .container.col-md-6
-  activity-list(activities="ctrl.activityList", config="ctrl.activityListConfig", user-id="ctrl.userId", update-fn="ctrl.updateActivityList()")
+  activity-list(config="ctrl.activityListConfig", user-id="ctrl.userId")
 .container.col-md-6(ng-show="ctrl.issueList.length")
   .panel.panel-default
     .panel-heading.text-center Your Issues

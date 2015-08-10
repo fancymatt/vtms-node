@@ -3,13 +3,16 @@ angular.module('vtms').directive('activityList', function() {
     templateUrl: '/partials/activity/activity-list',
     restrict: 'E',
     scope: {
-      activities: '=',
       config: '=',
-      userId: '=',
-      updateFn: '&'
+      userId: '='
     },
     controller: function($scope, $rootScope, vtmsActivity, vtmsTask, vtmsNotifier) {
-      $scope.activityList = $scope.activities;
+      
+      $scope.refresh = function() {
+        $scope.activityList = $scope.config.update();
+      };
+      
+      $scope.refresh();
       
       
       var findIdOnList = function(id, list) {
@@ -93,10 +96,6 @@ angular.module('vtms').directive('activityList', function() {
         }
       };
       
-      $scope.refreshList = function() {
-        $scope.activityList = $scope.updateFn();
-      };
-      
       $scope.deleteActivity = function(activity) {
         deleteFromList(activity, $scope.activityList);
         vtmsNotifier.notify('Deleted an activity.');
@@ -112,12 +111,12 @@ angular.module('vtms').directive('activityList', function() {
               vtmsTask.get({id: activity.fkTask}, function(task) {
                 task.complete().then(function() {
                   $rootScope.$broadcast('task:completed', task);
-                  $scope.refreshList();
+                  $scope.refresh();
                 });
               });
             }
           } else {
-            $scope.refreshList();
+            $scope.refresh();
           }
           angular.extend(activity, newData);
         });
@@ -132,13 +131,13 @@ angular.module('vtms').directive('activityList', function() {
             } else {
               vtmsTask.get({id: activity.fkTask}, function(task) {
                 task.deactivate().then(function() {
-                  $scope.refreshList();
+                  $scope.refresh();
                   $rootScope.$broadcast('task:deactivated', task);
                 });
               });
             }
           } else {
-            $scope.refreshList();
+            $scope.refresh();
           }
           angular.extend(activity, newData);
         });
@@ -146,11 +145,11 @@ angular.module('vtms').directive('activityList', function() {
       
       
       $rootScope.$on('task:activated', function(event, task, activity) {
-        $scope.refreshList();
+        $scope.refresh();
       });
       
       $rootScope.$on('activity:deactivated', function(event, activity) {
-        $scope.refreshList();
+        $scope.refresh();
       });
       
       $rootScope.$on('activity:toBeAdded', function(event, activity) {
@@ -160,8 +159,7 @@ angular.module('vtms').directive('activityList', function() {
       });
       
       $rootScope.$on('activity:created', function(event, activity) {
-        console.log('activity:created');
-        $scope.refreshList();
+        $scope.refresh();
       });
                      
     }
