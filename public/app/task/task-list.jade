@@ -1,8 +1,12 @@
 .panel.panel-default
   .panel-heading.text-center {{config.title}}
-    a.pull-right(href="#", ng-click="refreshList()")
+    a.pull-right(href="#", ng-click="refresh()")
       span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
+    .pull-right(ng-show="config.sortable")
+      form.form-inline
+        .form-group
+          select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
   table.table.table-hover.table-striped.table-condensed#tasks
     thead
       tr
@@ -13,7 +17,7 @@
         th(ng-show="config.columns.status") Status
         th(ng-show="config.columns.dueDate") Due Date
     tbody
-      tr(ng-repeat="task in taskList | orderBy: sortOption", ng-class="{success: task.isActive}")
+      tr(ng-repeat="task in taskList | orderBy: selectedSortOption", ng-class="{success: task.isActive}")
         td
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 

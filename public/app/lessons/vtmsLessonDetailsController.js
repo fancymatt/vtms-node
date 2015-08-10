@@ -2,13 +2,8 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
-  ctrl.taskList = vtmsTask.getList({id: ctrl.lessonId});
   ctrl.issuesList = vtmsIssue.getListForLesson({id: ctrl.lessonId});
   ctrl.publishDatesList = vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
-  
-  ctrl.updateTasks = function() {
-    return vtmsTask.getList({id: ctrl.lessonId});
-  }
   
   ctrl.updateIssues = function() {
     return vtmsIssue.getListForLesson({id: ctrl.lessonId});
@@ -23,6 +18,9 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   ctrl.tasksConfig = {
     title: 'Tasks',
     type: 'default',
+    update: function() {
+      return vtmsTask.getList({id: ctrl.lessonId});
+    },
     actions: {
       activate: true,
       deactivate: true,

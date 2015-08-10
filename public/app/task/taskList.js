@@ -3,10 +3,7 @@ angular.module('vtms').directive('taskList', function() {
     templateUrl: '/partials/task/task-list',
     restrict: 'E',
     scope: {
-      lesson: '=',
-      tasks: '=',
-      config: '=',
-      updateFn: '&'
+      config: '='
     },
     controller: function($scope, $rootScope, vtmsTask, vtmsActivity, vtmsTeamMember, vtmsLesson, vtmsNotifier) {
 
@@ -14,19 +11,38 @@ angular.module('vtms').directive('taskList', function() {
        * Data Initialiazation
        */
       
-      // Ensure that $scope.tasks is populated even if just the task was passed in
-      if($scope.tasks) {
-        // Just use those tasks
-        $scope.taskList = $scope.tasks;
-      } else {
-        // We must be passing in the lesson, so get those tasks
-        $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
-      }
+      $scope.refresh = function() {
+        $scope.taskList = $scope.config.update();
+      };
+      
+      $scope.refresh();
       
       // Grab any additional data that certain functionality requires
       $scope.eligibleTeamMembers = vtmsTeamMember.query();
       
       
+      /**
+       * Sorting
+       */
+      $scope.sortOptions = [];
+      
+      if($scope.config.sortOptions) {
+        // Interpret config sort options
+        if($scope.config.sortOptions.dueDate) { $scope.sortOptions.push({value: 'dueDate()', text: 'Sort by Due Date'}); }
+        if($scope.config.sortOptions.status) { $scope.sortOptions.push({value: 'isCompleted', text: 'Sort by Status'}); }
+        if($scope.config.sortOptions.language) {
+          $scope.sortOptions.push({
+            value: ['lesson.languageSery.language.name', 'lesson.languageSery.title', 'lesson.number'], 
+            text: 'Sort by Language'
+          });
+        }
+        $scope.selectedSortOption = $scope.sortOptions[0].value;
+      } else {
+        // Default sort values
+        $scope.selectedSortOption = 'dueDate()';
+      }
+
+      console.log($scope);
       /**
        * Private Functions
        */
@@ -84,16 +100,7 @@ angular.module('vtms').directive('taskList', function() {
       /**
        * Public Functions
        */
-      
-      $scope.refreshList = function() {
-        $scope.taskList = $scope.updateFn();
-      };
-      
-      $scope.sortOptions = [{value: "dueDate()", text: "Sort by Due Date"}];
-      if($scope.config.sortOptions) {
-        if($scope.config.sortOptions.lesson) $scope.sortOptions.push({value: ['lesson.languageSery.language.name', 'lesson.languageSery.title', 'lesson.number'], text: "Sort by Language"});
-      }
-      $scope.sortOrder = $scope.sortOptions[0].value;
+
       
       $scope.activateTask = function(activatedTask) {
         
@@ -152,7 +159,7 @@ angular.module('vtms').directive('taskList', function() {
       
       $scope.assignTaskToTeamMember = function(task, teamMember) {
         task.update({fkTeamMember: teamMember.id}).then(function(newData) {
-          $scope.refreshList();
+          $scope.refresh();
           vtmsNotifier.notify('Assigned to ' + teamMember.nameFirst);
         });
       };
