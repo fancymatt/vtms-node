@@ -2,6 +2,10 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
   
   $scope.lessonsToRender = vtmsLesson.getReadyToRender();
   
+  $scope.updateLessonsToRender = function() {
+    return vtmsLesson.getReadyToRender();
+  };
+  
   $scope.lessonsInQueue = vtmsLesson.getQueued();
   
   $scope.lessonsToRenderConfig = {

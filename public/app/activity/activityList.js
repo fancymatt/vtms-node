@@ -42,6 +42,7 @@ angular.module('vtms').directive('activityList', function() {
         }
       };
       
+      //TODO: Add Sort Options
       
       
       $scope.newActivityValues = {

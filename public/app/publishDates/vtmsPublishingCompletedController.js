@@ -23,5 +23,9 @@ angular.module('vtms').controller('vtmsPublishingCompletedController', function(
       status: true
     }
   };
+  
+  $scope.updatePublishDates = function() {
+    return $scope.publishDates = vtmsPublishDate.getSurrounding();
+  };
 
 });

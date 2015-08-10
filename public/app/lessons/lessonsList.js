@@ -49,12 +49,15 @@ angular.module('vtms').directive('lessonsList', function() {
         }
       };
       
-      $scope.sortOptions = [];
-      if($scope.config.sortOptions.dueDate) $scope.sortOptions.push({value: "dueDate()", text: "Sort by Due Date"});
-      if($scope.config.sortOptions.number) $scope.sortOptions.push({value: "number", text: "Sort by Number"});
-      if($scope.config.sortOptions.qaLog) $scope.sortOptions.push({value: "qaLog", text: "Sort by QA Log"});
-      if($scope.config.sortOptions.languageSeries) $scope.sortOptions.push({value: "languageSery.title", text: "Sort by Series"});
-      if($scope.config.sortOptions.language) $scope.sortOptions.push({value: ['languageSery.language.name', 'languageSery.title', 'number'], text: "Sort by Language"});
+      $scope.sortOptions = [{value: "dueDate()", text: "Sort by Due Date"}];
+      
+      if($scope.config.sortOptions) {
+        if($scope.config.sortOptions.number) $scope.sortOptions.push();
+        if($scope.config.sortOptions.qaLog) $scope.sortOptions.push({value: "qaLog", text: "Sort by QA Log"});
+        if($scope.config.sortOptions.languageSeries) $scope.sortOptions.push({value: "languageSery.title", text: "Sort by Series"});
+        if($scope.config.sortOptions.language) $scope.sortOptions.push({value: ['languageSery.language.name', 'languageSery.title', 'number'], text: "Sort by Language"});
+      }
+      
       $scope.sortOrder = $scope.sortOptions[0].value;
     
       

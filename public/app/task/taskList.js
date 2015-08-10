@@ -26,8 +26,6 @@ angular.module('vtms').directive('taskList', function() {
       // Grab any additional data that certain functionality requires
       $scope.eligibleTeamMembers = vtmsTeamMember.query();
       
-      // TODO: Figure out how to offload this into a config option
-      $scope.sortOption = 'dueDate()';
       
       /**
        * Private Functions
@@ -90,6 +88,12 @@ angular.module('vtms').directive('taskList', function() {
       $scope.refreshList = function() {
         $scope.taskList = $scope.updateFn();
       };
+      
+      $scope.sortOptions = [{value: "dueDate()", text: "Sort by Due Date"}];
+      if($scope.config.sortOptions) {
+        if($scope.config.sortOptions.lesson) $scope.sortOptions.push({value: ['lesson.languageSery.language.name', 'lesson.languageSery.title', 'lesson.number'], text: "Sort by Language"});
+      }
+      $scope.sortOrder = $scope.sortOptions[0].value;
       
       $scope.activateTask = function(activatedTask) {
         

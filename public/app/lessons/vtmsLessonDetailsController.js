@@ -11,6 +11,20 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     return vtmsTask.getList({id: ctrl.lessonId});
   }
   
+  ctrl.updateIssues = function() {
+    return vtmsIssue.getListForLesson({id: ctrl.lessonId});
+  }
+  
+  ctrl.updateShots; // TODO
+  
+  ctrl.updatePublishDates = function() {
+    return vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
+  }
+  
+  ctrl.updateActivities = function() {
+    return vtmsActivity.getListForLesson({id: ctrl.lessonId});
+  }
+  
   ctrl.tasksConfig = {
     title: 'Tasks',
     type: 'default',
@@ -31,6 +45,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   };
   
   ctrl.issuesConfig = {
+    title: 'Issues',
     actions: {
       complete: true,
       delete: true,
@@ -44,6 +59,15 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       issue: true,
       status: true,
       creator: true
+    }
+  };
+  
+  ctrl.shotsConfig = {
+    title: 'Shots',
+    sortable: false,
+    actions: {},
+    columns: {
+      actions: true
     }
   };
   

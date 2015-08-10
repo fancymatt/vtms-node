@@ -5,8 +5,12 @@ angular.module('vtms').controller('vtmsTeamMemberDetailsController', function($s
   ctrl.teamMember = vtmsTeamMember.get({id: teamMemberId});
   ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: teamMemberId});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: teamMemberId});
-  ctrl.issueList = vtmsIssue.getIssuesForTeamMember({id: teamMemberId});
+  //ctrl.issueList = vtmsIssue.getIssuesForTeamMember({id: teamMemberId});
   //ctrl.completedTasks
+  
+  ctrl.updateActionableTasks = function() {
+    return vtmsTask.getActionableTasksForMember({id: teamMemberId});
+  }
   
   ctrl.activeTasksConfig = {
     title: 'Active Tasks',

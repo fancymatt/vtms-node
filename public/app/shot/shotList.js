@@ -3,7 +3,9 @@ angular.module('vtms').directive('shotList', function() {
     templateUrl: "/partials/shot/shot-list",
     restrict: "E",
     scope: {
-      lesson: '='
+      lesson: '=',
+      config: '=',
+      updateFn: '&'
     },
     controller: function($scope, $window, vtmsShot, vtmsTask, vtmsNotifier) {
       
@@ -34,7 +36,24 @@ angular.module('vtms').directive('shotList', function() {
         script: "",
         type: ""
       };
-
+      
+      $scope.sortOptions = [{value: ['section', 'shot'], text: "Sort Chronologically"}];
+      
+      if($scope.config.sortOptions) {
+        if($scope.config.sortOptions.section) $scope.sortOptions.push({value: "section", text: "Sort by Section"});
+        if($scope.config.sortOptions.shot) $scope.sortOptions.push({value: "shot", text: "Sort by Shot"});
+        if($scope.config.sortOptions.type) $scope.sortOptions.push({value: "type", text: "Sort by Type"});
+        if($scope.config.sortOptions.script) $scope.sortOptions.push({value: "script", text: "Sort by Script"});
+        if($scope.config.sortOptions.asset) $scope.sortOptions.push({value: "asset", text: "Sort by Asset"});  
+      }
+      
+      $scope.sortOrder = $scope.sortOptions[0].value;
+      
+      $scope.refreshList = function() {
+        $scope.shotList = $scope.updateFn();
+      };
+            
+      
       $scope.newShot = function() {
         $scope.newShotValues.fkLesson = $scope.lessonId;
         var newShot = new vtmsShot($scope.newShotValues);

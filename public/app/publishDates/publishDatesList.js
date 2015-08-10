@@ -4,7 +4,8 @@ angular.module('vtms').directive('publishDatesList', function() {
     restrict: 'E',
     scope: {
       publishDates: '=',
-      config: '='
+      config: '=',
+      updateFn: '&'
     },
     controller: function($scope, $rootScope, vtmsPublishDate) {
       
@@ -37,6 +38,23 @@ angular.module('vtms').directive('publishDatesList', function() {
           list.push(item);
           return true;
         }
+      };
+      
+      $scope.sortOptions = [{value: "date", text: "Sort by Date"}];
+      
+      if($scope.config.sortOptions) {
+        if($scope.config.sortOptions.series) $scope.sortOptions.push({value: "lesson.languageSery.series.title", text: "Sort by Series"});
+        if($scope.config.sortOptions.number) $scope.sortOptions.push({value: "lesson.number", text: "Sort by Lesson Number"});
+        if($scope.config.sortOptions.title) $scope.sortOptions.push({value: "lesson.title", text: "Sort by Lesson Title"});
+        if($scope.config.sortOptions.platform) $scope.sortOptions.push({value: "platform", text: "Sort by Platform"});
+        if($scope.config.sortOptions.status) $scope.sortOptions.push({value: "status", text: "Sort by Status"});
+      }
+      
+      $scope.sortOrder = $scope.sortOptions[0].value;
+    
+      
+      $scope.refreshList = function() {
+        $scope.publishDateList = $scope.updateFn();
       };
       
       $scope.deliver = function(publishDate) {

@@ -3,4 +3,4 @@
 .container(ng-show="ctrl.activeTasks.length")
   task-list(tasks="ctrl.activeTasks", config="ctrl.activeTasksConfig")
 .container
-  task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig")
+  task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig", update-fn="ctrl.updateActionableTasks()")

@@ -7,7 +7,8 @@ angular.module('vtms').directive('issuesList', function() {
       title: '=',
       issues: '=',
       config: '=',
-      currentTime: '='
+      currentTime: '=',
+      updateFn: '&'
     },
     controller: function($scope, $window, vtmsLesson, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
       
@@ -44,6 +45,24 @@ angular.module('vtms').directive('issuesList', function() {
       
       var removeFromList = function(object, list) {
         list.splice(list.indexOf(object),1);
+      };
+      
+      $scope.sortOptions = [];
+      
+      if($scope.config.sortOptions) {
+        if($scope.config.sortOptions.task) $scope.sortOptions.push({value: "number", text: "Sort by Number"});
+        if($scope.config.sortOptions.lesson) $scope.sortOptions.push({value: ['task.lesson.languageSery.language.name', 'task.lesson.languageSery.title', 'task.lesson.number'], text: "Sort by Lesson"});
+        if($scope.config.sortOptions.creator) $scope.sortOptions.push({value: "creator", text: "Sort by Creator"});
+        if($scope.config.sortOptions.timecode) $scope.sortOptions.push({value: "timecode", text: "Sort by Timecode"});
+        if($scope.config.sortOptions.issue) $scope.sortOptions.push({value: "body", text: "Sort by Issue Body"});
+        if($scope.config.sortOptions.status) $scope.sortOptions.push({value: "isCompleted", text: "Sort by Status"});  
+        
+        $scope.sortOrder = $scope.sortOptions[0].value;
+      }
+    
+      
+      $scope.refreshList = function() {
+        $scope.issuesList = $scope.updateFn();
       };
       
       
