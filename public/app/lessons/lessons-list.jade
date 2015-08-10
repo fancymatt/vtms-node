@@ -3,6 +3,10 @@
     a.pull-right(href="#", ng-click="refreshList()")
       span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
+    .pull-right(ng-show="config.sortable")
+      form.form-inline
+        .form-group
+          select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
   table.table.table-hover.table-striped.table-condensed#issues
     thead
       tr
@@ -14,10 +18,12 @@
         th(ng-show="config.columns.lastAction") Last Action
         th(ng-show="config.columns.queuedTime") Queued Time
         th(ng-show="config.columns.trt") TRT
+        th(ng-show="config.columns.qaLog") QA Log
+        th(ng-show="config.columns.qaUrl") QA Url
         th(ng-show="config.columns.dueDate") Due Date
         th(ng-show="config.columns.status") Status
     tbody
-      tr(ng-repeat="lesson in lessonsList")
+      tr(ng-repeat="lesson in lessonsList | orderBy: sortOrder")
         td(ng-show="config.columns.actions")
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
@@ -51,6 +57,10 @@
             li(ng-show="lesson.mostRecentIssue") Issues fixed
         td(ng-show="config.columns.queuedTime") {{lesson.queuedTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.trt") {{lesson.trt | secondsToDateTime | date:'m:ss' }}
+        td(ng-show="config.columns.qaLog")
+          input.form-control(ng-model="lesson.qaLog", ng-blur="updateQaLog(lesson, $event)")
+        td(ng-show="config.columns.qaUrl")
+          input.form-control(ng-model="lesson.qaUrl", ng-blur="updateQaUrl(lesson, $event)")
         td(ng-show="config.columns.dueDate") {{lesson.dueDate() | date: 'MMM d, yyyy'}}
         td(ng-show="config.columns.status")
           span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="lesson.isShot")

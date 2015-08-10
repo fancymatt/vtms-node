@@ -49,6 +49,15 @@ angular.module('vtms').directive('lessonsList', function() {
         }
       };
       
+      $scope.sortOptions = [];
+      if($scope.config.sortOptions.dueDate) $scope.sortOptions.push({value: "dueDate()", text: "Sort by Due Date"});
+      if($scope.config.sortOptions.number) $scope.sortOptions.push({value: "number", text: "Sort by Number"});
+      if($scope.config.sortOptions.qaLog) $scope.sortOptions.push({value: "qaLog", text: "Sort by QA Log"});
+      if($scope.config.sortOptions.languageSeries) $scope.sortOptions.push({value: "languageSery.title", text: "Sort by Series"});
+      if($scope.config.sortOptions.language) $scope.sortOptions.push({value: ['languageSery.language.name', 'languageSery.title', 'number'], text: "Sort by Language"});
+      $scope.sortOrder = $scope.sortOptions[0].value;
+    
+      
       $scope.refreshList = function() {
         $scope.lessonsList = $scope.updateFn();
       };
@@ -107,6 +116,26 @@ angular.module('vtms').directive('lessonsList', function() {
         deletedLesson.delete().then(function() {
           $rootScope.$broadcast('lesson:deleted', deletedLesson);
         });
+      };
+      
+      $scope.updateQaLog = function(lesson, event) {
+        for(var i = 0; i < event.target.classList.length; i++) {
+          if(event.target.classList[i] === 'ng-dirty') {
+            lesson.update({qaLog: lesson.qaLog}).then(function() {
+              vtmsNotifier.success("Updated QA Log: " + lesson.qaLog);
+            });
+          }
+        }
+      };
+      
+      $scope.updateQaUrl = function(lesson, event) {
+        for(var i = 0; i < event.target.classList.length; i++) {
+          if(event.target.classList[i] === 'ng-dirty') {
+            lesson.update({qaUrl: lesson.qaUrl}).then(function() {
+              vtmsNotifier.success("Updated QA URL: " + lesson.qaUrl);
+            });
+          }
+        }
       };
      
       

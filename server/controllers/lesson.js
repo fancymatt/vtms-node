@@ -129,7 +129,7 @@ exports.getQaLessons = function (req, res) {
       }
     },
     include: [
-      models.LanguageSeries,
+      {model: models.LanguageSeries, include: [models.Language]},
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
