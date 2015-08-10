@@ -1,2 +1,6 @@
 .container-fluid
   h1 Video Checking / Archival
+.container-fluid
+  lessons-list(ng-show="archivableLessons.length", lessons="archivableLessons", update-fn="updateArchivableLessons()", config="archivableLessonsConfig")
+.container-fluid
+  lessons-list(ng-show="videoCheckLessons.length", lessons="videoCheckLessons", update-fn="updateVideoCheckLessons()", config="videoCheckLessonsConfig")

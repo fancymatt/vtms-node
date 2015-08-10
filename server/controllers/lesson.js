@@ -147,15 +147,17 @@ exports.getVideoCheckableLessons = function (req, res) {
   models.Lesson.findAll({
     where: {
       checkedVideo: false,
+      checkedLanguage: true,
       isCheckable: true,
       exportedTime: {
         $gt: 0
-      }
+      },
+      filesMoved: false
     },
-    include: {
-      model: models.PublishDate,
-      required: true
-    }
+    include: [
+      models.LanguageSeries,
+      {model: models.PublishDate, required: true}
+    ]
   }).then(function (lessons) {
     if (lessons) {
       res.send(lessons);
@@ -174,12 +176,13 @@ exports.getArchiveableLessons = function (req, res) {
       checkedLanguage: true,
       exportedTime: {
         $gt: 0
-      }
+      },
+      filesMoved: false
     },
-    include: {
-      model: models.PublishDate,
-      required: true
-    }
+    include: [
+      models.LanguageSeries,
+      {model: models.PublishDate, required: true}
+    ]
   }).then(function (lessons) {
     if (lessons) {
       res.send(lessons);

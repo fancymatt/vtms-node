@@ -1,5 +1,7 @@
-.panel.panel-primary
+.panel.panel-default
   .panel-heading.text-center {{config.title}}
+    a.pull-right(href="#", ng-click="refreshList()")
+      span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
   table.table.table-hover.table-striped.table-condensed#issues
     thead
@@ -30,6 +32,14 @@
                 a(href="#", ng-click="markAsExported(lesson)") Mark as Exported
               li(ng-show="config.actions.delete")
                 a(href="#", ng-click="deleteLesson(lesson)") Delete
+              li(ng-show="config.actions.markAsVideoChecked")
+                a(href="#", ng-click="markAsVideoChecked(lesson)") Mark as Video Checked
+              li(ng-show="config.actions.markAsLanguageChecked")
+                a(href="#", ng-click="markAsLanguageChecked(lesson)") Mark as Language Checked
+              li(ng-show="config.actions.markAsArchived")
+                a(href="#", ng-click="markAsArchived(lesson)") Mark as Archived
+              li(ng-show="config.actions.goToCheckingInterface")
+                a(href="lessons/{{lesson.id}}/checking") Go To Checking Interface
         td(ng-show="config.columns.series") {{lesson.languageSery.title}}
         td(ng-show="config.columns.number") {{lesson.number}}
         td(ng-show="config.columns.title") 
@@ -48,4 +58,3 @@
           span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
           span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")
           span.glyphicon.glyphicon-cloud-upload(aria-hidden="true", ng-show="lesson.isDetected")
-        

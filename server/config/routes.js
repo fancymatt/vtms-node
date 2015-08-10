@@ -24,8 +24,8 @@ module.exports = function(app) {
   //app.post('/api/lessons', controllers.lesson.newLesson); // not implemented
   app.get('/api/lessons/upcoming', controllers.lesson.getUpcomingLessons);
   app.get('/api/lessons/qa', controllers.lesson.getQALessons);
-  app.get('/api/lessons/needVideoCheck', controllers.lesson.getVideoCheckableLessons);
-  app.get('/api/lessons/needArchive', controllers.lesson.getArchiveableLessons);
+  app.get('/api/lessons/video-checkable', controllers.lesson.getVideoCheckableLessons);
+  app.get('/api/lessons/archivable', controllers.lesson.getArchiveableLessons);
   app.get('/api/lessons/queued', controllers.lesson.getQueuedLessons);
   app.get('/api/lessons/readyToRender', controllers.lesson.getReadyToRenderLessons);
   app.get('/api/lessons/issues', controllers.lesson.getIssuesForLessons);

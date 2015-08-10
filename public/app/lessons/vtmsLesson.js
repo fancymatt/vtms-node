@@ -5,8 +5,11 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     getQueued: {method:'GET', url: '/api/lessons/queued', isArray: true},
     getReadyToRender: {method:'GET', url: '/api/lessons/readyToRender', isArray: true},
     getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true},
-    getLessonsWithIssuesForMember: {method: 'GET', url: '/api/lessons/issues/team-member/:id', isArray: true}
+    getLessonsWithIssuesForMember: {method: 'GET', url: '/api/lessons/issues/team-member/:id', isArray: true},
+    getVideoCheckLessons: {method: 'GET', url: '/api/lessons/video-checkable', isArray: true},
+    getArchivableLessons: {method: 'GET', url: '/api/lessons/archivable', isArray: true}
   });
+  
   
   LessonResource.prototype.dueDate = function() {
     if(this.publishDates.length > 1) {
@@ -92,6 +95,44 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     this.update({
       isQueued: false,
       exportedTime: startTime.format('YYYY-MM-DD HH:mm:ss')
+    }).then(function(newData) {
+      vtmsNotifier.notify(notification);
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response.data.reason);
+    });
+    
+    return dfd.promise;
+  };
+  
+  LessonResource.prototype.markAsVideoChecked = function() {
+    var dfd = $q.defer();
+    
+    var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
+    var notification = lessonString + " has been marked as video checked.";
+    
+    this.update({
+      checkedVideo: true,
+      checkedVideoTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    }).then(function(newData) {
+      vtmsNotifier.notify(notification);
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response);
+    });
+    
+    return dfd.promise;
+  };
+  
+   LessonResource.prototype.markAsArchived = function() {
+    var dfd = $q.defer();
+    
+    var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
+    var notification = lessonString + " has been marked as video checked.";
+    
+    this.update({
+      filesMoved: true,
+      filesMovedTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
