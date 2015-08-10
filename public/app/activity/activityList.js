@@ -15,6 +15,32 @@ angular.module('vtms').directive('activityList', function() {
       $scope.refresh();
       
       
+      /**
+       * Sorting
+       */
+      $scope.sortOptions = [];
+      
+      if($scope.config.sortOptions) {
+        // Interpret config sort options
+        $scope.sortOptions.push({value: "timeStart", text: "Sort by Start Time - Ascending"});
+        $scope.sortOptions.push({value: "-timeStart", text: "Sort by Start Time - Descending"});
+        if($scope.config.sortOptions.lesson) {
+          $scope.sortOptions.push({
+            value: ['lesson.languageSery.language.name', 'lesson.languageSery.title', 'lesson.number'], 
+            text: "Sort by Language"
+          });
+        }
+        $scope.selectedSortOption = $scope.sortOptions[0].value;
+      } else {
+        // Default sort values
+        $scope.selectedSortOption = '-timeStart';
+      }
+      
+      
+      /**
+       * Private functions
+       */
+      
       var findIdOnList = function(id, list) {
         for(var i = 0; i < list.length; i++) {
           if(id === list[i].id) {
@@ -45,15 +71,6 @@ angular.module('vtms').directive('activityList', function() {
         }
       };
       
-      //TODO: Add Sort Options
-      
-      
-      $scope.newActivityValues = {
-        activity: '',
-        fkTeamMember: $scope.userId,
-        timeStart: ''
-      };
-      
       var extendItemOnList = function(item, list, object) {
         var indexFound = findIdOnList(item.id, list);
         if(indexFound > -1) {
@@ -78,6 +95,17 @@ angular.module('vtms').directive('activityList', function() {
             $scope.deactivateActivity($scope.activityList[i]);
           }
         }
+      };
+      
+      
+      /**
+       * Public functions
+       */
+      
+      $scope.newActivityValues = {
+        activity: '',
+        fkTeamMember: $scope.userId,
+        timeStart: ''
       };
       
       $scope.createActivity = function() {
@@ -143,6 +171,10 @@ angular.module('vtms').directive('activityList', function() {
         });
       };
       
+      
+      /**
+       * Listeners
+       */
       
       $rootScope.$on('task:activated', function(event, task, activity) {
         $scope.refresh();

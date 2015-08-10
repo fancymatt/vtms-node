@@ -73,6 +73,9 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       complete: true,
       deactivate: true
     },
+    sortOptions: {
+      lesson: true
+    },
     columns: {
       actions: true,
       teamMember: false,

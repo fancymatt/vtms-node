@@ -5,7 +5,6 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   ctrl.taskList = vtmsTask.getList({id: ctrl.lessonId});
   ctrl.issuesList = vtmsIssue.getListForLesson({id: ctrl.lessonId});
   ctrl.publishDatesList = vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
-  ctrl.activityList = vtmsActivity.getListForLesson({id: ctrl.lessonId});
   
   ctrl.updateTasks = function() {
     return vtmsTask.getList({id: ctrl.lessonId});
@@ -19,10 +18,6 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   
   ctrl.updatePublishDates = function() {
     return vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
-  }
-  
-  ctrl.updateActivities = function() {
-    return vtmsActivity.getListForLesson({id: ctrl.lessonId});
   }
   
   ctrl.tasksConfig = {
@@ -91,6 +86,10 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   
   ctrl.activityListConfig = {
     title: 'Activity History',
+    sortable: false,
+    update: function() {
+      return vtmsActivity.getListForLesson({id: ctrl.lessonId});
+    },
     actions: {
       delete: true,
       complete: false

@@ -17,7 +17,7 @@
         th(ng-show="config.columns.endTime") Completed
         th(ng-show="config.columns.duration") Duration
     tbody
-      tr(ng-repeat="activity in activityList | orderBy: sortOrder", ng-class="{success: activity.isActive}")
+      tr(ng-repeat="activity in activityList | orderBy:selectedSortOption", ng-class="{success: activity.isActive}")
         td(ng-show="config.columns.actions")
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
