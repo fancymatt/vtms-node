@@ -39,7 +39,7 @@
               li(ng-show="config.actions.markAsArchived")
                 a(href="#", ng-click="markAsArchived(lesson)") Mark as Archived
               li(ng-show="config.actions.goToCheckingInterface")
-                a(href="lessons/{{lesson.id}}/checking") Go To Checking Interface
+                a(href="lesson/{{lesson.id}}/checking") Go To Checking Interface
         td(ng-show="config.columns.series") {{lesson.languageSery.title}}
         td(ng-show="config.columns.number") {{lesson.number}}
         td(ng-show="config.columns.title") 

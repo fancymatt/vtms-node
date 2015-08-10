@@ -23,7 +23,7 @@ module.exports = function(app) {
   app.get('/api/lessons', controllers.lesson.getLessons);
   //app.post('/api/lessons', controllers.lesson.newLesson); // not implemented
   app.get('/api/lessons/upcoming', controllers.lesson.getUpcomingLessons);
-  app.get('/api/lessons/qa', controllers.lesson.getQALessons);
+  app.get('/api/lessons/qa', controllers.lesson.getQaLessons);
   app.get('/api/lessons/video-checkable', controllers.lesson.getVideoCheckableLessons);
   app.get('/api/lessons/archivable', controllers.lesson.getArchiveableLessons);
   app.get('/api/lessons/queued', controllers.lesson.getQueuedLessons);

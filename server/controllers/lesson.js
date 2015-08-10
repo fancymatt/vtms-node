@@ -119,7 +119,7 @@ exports.getUpcomingLessons = function (req, res) {
 };
 
 
-exports.getQALessons = function (req, res) {
+exports.getQaLessons = function (req, res) {
   models.Lesson.findAll({
     where: {
       checkedLanguage: false,
@@ -128,10 +128,10 @@ exports.getQALessons = function (req, res) {
         $gt: 0
       }
     },
-    include: {
-      model: models.PublishDate,
-      required: true
-    }
+    include: [
+      models.LanguageSeries,
+      {model: models.PublishDate, required: true}
+    ]
   }).then(function (lessons) {
     if (lessons) {
       res.send(lessons);

@@ -7,7 +7,8 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true},
     getLessonsWithIssuesForMember: {method: 'GET', url: '/api/lessons/issues/team-member/:id', isArray: true},
     getVideoCheckLessons: {method: 'GET', url: '/api/lessons/video-checkable', isArray: true},
-    getArchivableLessons: {method: 'GET', url: '/api/lessons/archivable', isArray: true}
+    getArchivableLessons: {method: 'GET', url: '/api/lessons/archivable', isArray: true},
+    getQaLessons: {method: 'GET', url: '/api/lessons/qa', isArray: true}
   });
   
   
@@ -114,6 +115,25 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     this.update({
       checkedVideo: true,
       checkedVideoTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    }).then(function(newData) {
+      vtmsNotifier.notify(notification);
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response);
+    });
+    
+    return dfd.promise;
+  };
+
+  LessonResource.prototype.markAsLanguageChecked = function() {
+    var dfd = $q.defer();
+    
+    var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
+    var notification = lessonString + " has been marked as language checked.";
+    
+    this.update({
+      checkedLanguage: true,
+      checkedLanguageTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);

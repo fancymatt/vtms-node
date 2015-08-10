@@ -91,7 +91,7 @@ angular.module('vtms').directive('lessonsList', function() {
       };
       
       $scope.markAsLanguageChecked = function(languageCheckedLesson) {
-        languageCheckedLesson.markAsExported().then(function(newData) {
+        languageCheckedLesson.markAsLanguageChecked().then(function(newData) {
           $rootScope.$broadcast('lesson:languageChecked', languageCheckedLesson);
         });
       };
@@ -131,6 +131,10 @@ angular.module('vtms').directive('lessonsList', function() {
       $rootScope.$on('lesson:videoChecked', function(event, lesson) {
         if($scope.config.type === 'archivableLessons') addToList(lesson, $scope.lessonsList);
         if($scope.config.type === 'videoCheckLessons') removeFromList(lesson, $scope.lessonsList);
+      });
+      
+      $rootScope.$on('lesson:languageChecked', function(event, lesson) {
+        if($scope.config.type === 'languageCheckLessons') removeFromList(lesson, $scope.lessonsList);
       });
       
       $rootScope.$on('lesson:archived', function(event, lesson) {

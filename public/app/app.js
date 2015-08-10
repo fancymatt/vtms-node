@@ -104,6 +104,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsRenderQueueController',
       resolve: routeRoleChecks.admin
     })
+    .when('/quality-assurance', {
+      templateUrl: '/partials/lessons/quality-assurance',
+      controller: 'vtmsQualityAssuranceController'
+    })
     .when('/video-check-archival', {
       templateUrl: '/partials/lessons/video-check-archival',
       controller: 'vtmsVideoCheckArchivalController'
