@@ -1,8 +1,6 @@
 .container
   h1 Rendering
 .container
-  lessons-list(lessons="lessonsToRender", config="lessonsToRenderConfig", update-fn="updateLessonsToRender()")
+  lessons-list(config="lessonsToRenderConfig")
 .container
-  lessons-list(lessons="lessonsInQueue", config="lessonsInQueueConfig")
-.container(ng-hide="lessonsToRender.length || lessonsInQueue.length") 
-  span ✧*｡٩(ˊᗜˋ*)و✧*｡
+  lessons-list(config="lessonsInQueueConfig")

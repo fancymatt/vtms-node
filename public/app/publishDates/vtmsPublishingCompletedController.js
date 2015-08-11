@@ -1,15 +1,15 @@
-angular.module('vtms').controller('vtmsPublishingCompletedController', function($scope, vtmsPublishDate, vtmsPlatform, vtmsNotifier) {
-  $scope.publishDates = vtmsPublishDate.getSurrounding();
+angular.module('vtms').controller('vtmsPublishingCompletedController', function($scope, vtmsPublishDate) {
   
   $scope.publishDatesConfig = {
     title: 'Ready to Publish',
+    update: function() {
+      return vtmsPublishDate.getSurrounding();
+    },
     actions: {
       deliver: true,
       delete: true
     },
     filter: {
-      platform: false,
-      lessonStatus: false,
       deliveryStatus: false
     },
     columns: {
@@ -19,13 +19,8 @@ angular.module('vtms').controller('vtmsPublishingCompletedController', function(
       title: true,
       platform: true,
       date: true,
-      lessonStatus: false,
       status: true
     }
   };
   
-  $scope.updatePublishDates = function() {
-    return $scope.publishDates = vtmsPublishDate.getSurrounding();
-  };
-
 });

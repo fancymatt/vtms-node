@@ -3,13 +3,15 @@ angular.module('vtms').directive('publishDatesList', function() {
     templateUrl: '/partials/publishDates/publish-dates-list',
     restrict: 'E',
     scope: {
-      publishDates: '=',
-      config: '=',
-      updateFn: '&'
+      config: '='
     },
     controller: function($scope, $rootScope, vtmsPublishDate) {
       
-      $scope.publishDateList = $scope.publishDates;
+      $scope.refresh = function() {
+        $scope.publishDateList = $scope.config.update();
+      };
+      
+      $scope.refresh();
       
       
       var findIdOnList = function(id, list) {
@@ -51,12 +53,7 @@ angular.module('vtms').directive('publishDatesList', function() {
       }
       
       $scope.sortOrder = $scope.sortOptions[0].value;
-    
-      
-      $scope.refreshList = function() {
-        $scope.publishDateList = $scope.updateFn();
-      };
-      
+  
       $scope.deliver = function(publishDate) {
         publishDate.deliver().then(function(newData) {
           angular.extend(publishDate, newData);

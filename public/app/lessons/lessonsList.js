@@ -4,9 +4,7 @@ angular.module('vtms').directive('lessonsList', function() {
     restrict: "E",
     scope: {
       languageSeries: '=',
-      lessons: '=',
       config: '=',
-      updateFn: '&'
     },
     controller: function($scope, $rootScope, vtmsLesson, vtmsNotifier) {
       
@@ -14,12 +12,11 @@ angular.module('vtms').directive('lessonsList', function() {
        * Data Initialization
        */
       
-      // Ensure that $scope.lessons is populated even if just the languageSeries was passed in
-      if($scope.lessons) {
-        $scope.lessonsList = $scope.lessons;
-      } else {
-        $scope.lessonsList = vtmsLesson.getList({id: $scope.languageSeries.id});
-      }
+      $scope.refresh = function() {
+        $scope.lessonsList = $scope.config.update();
+      };
+      
+      $scope.refresh();
       
       var findIdOnList = function(id, list) {
         for(var i = 0; i < list.length; i++) {
@@ -59,11 +56,6 @@ angular.module('vtms').directive('lessonsList', function() {
       }
       
       $scope.sortOrder = $scope.sortOptions[0].value;
-    
-      
-      $scope.refreshList = function() {
-        $scope.lessonsList = $scope.updateFn();
-      };
       
       var checkLessonCompletionStatus = function(task) {
         // Get all tasks from that lesson and update benchmarks

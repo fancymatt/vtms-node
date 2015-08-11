@@ -1,16 +1,11 @@
-angular.module('vtms').controller('vtmsRenderQueueController', function($scope, vtmsLesson, vtmsNotifier) {
-  
-  $scope.lessonsToRender = vtmsLesson.getReadyToRender();
-  
-  $scope.updateLessonsToRender = function() {
-    return vtmsLesson.getReadyToRender();
-  };
-  
-  $scope.lessonsInQueue = vtmsLesson.getQueued();
+angular.module('vtms').controller('vtmsRenderQueueController', function($scope, vtmsLesson) {
   
   $scope.lessonsToRenderConfig = {
     title: 'Lessons to Render',
     type: 'lessonsToRender',
+    update: function() {
+      return vtmsLesson.getReadyToRender();
+    },
     actions: {
       addtoRenderQueue: true,
       removeFromRenderQueue: false,
@@ -34,6 +29,9 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
   $scope.lessonsInQueueConfig = {
     title: 'Lessons in Queue',
     type: 'renderQueue',
+    update: function() {
+      return vtmsLesson.getQueued();
+    },
     actions: {
       addtoRenderQueue: false,
       removeFromRenderQueue: true,

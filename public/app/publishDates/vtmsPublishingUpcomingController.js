@@ -1,12 +1,10 @@
-angular.module('vtms').controller('vtmsPublishingUpcomingController', function($scope, vtmsPublishDate, vtmsPlatform, vtmsNotifier) {
-  $scope.publishDates = vtmsPublishDate.getSurrounding();
-  
-  $scope.updatePublishDates = function() {
-    return vtmsPublishDate.getSurrounding();
-  };
+angular.module('vtms').controller('vtmsPublishingUpcomingController', function($scope, vtmsPublishDate) {
   
   $scope.publishDatesConfig = {
     title: 'Upcoming Publish Dates',
+    update: function() {
+      return vtmsPublishDate.getSurrounding();
+    },
     actions: {
       deliver: false,
       delete: true
