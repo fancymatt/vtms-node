@@ -1,8 +1,8 @@
-.container
+.container-fluid
   h1 {{ctrl.teamMember.nameFull}}
-.container.col-md-6
+.container-fluid.col-md-6
   activity-list(config="ctrl.activityListConfig", user-id="ctrl.userId")
-.container.col-md-6(ng-show="ctrl.issueList.length")
+.container-fluid.col-md-6(ng-show="ctrl.issueList.length")
   .panel.panel-default
     .panel-heading.text-center Your Issues
     .panel-body
@@ -17,4 +17,4 @@
             .panel-body
               button.btn.btn-xs.pull-right(href="#", ng-click="ctrl.beginFixingIssues(task)") Begin Fixing 
               issues-list(ng-show="task.issues.length > 0", title="task.taskGlobal.name", issues="task.issues", config="ctrl.issuesConfig")
-  task-list(tasks="ctrl.actionableTasks", config="ctrl.actionableTasksConfig")
+  task-list(config="ctrl.actionableTasksConfig")

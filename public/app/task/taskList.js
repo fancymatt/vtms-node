@@ -42,7 +42,7 @@ angular.module('vtms').directive('taskList', function() {
         $scope.selectedSortOption = 'dueDate()';
       }
 
-      console.log($scope);
+
       /**
        * Private Functions
        */
@@ -112,8 +112,6 @@ angular.module('vtms').directive('taskList', function() {
         vtmsActivity.getActiveActivityForTeamMember({id: activatedTask.fkTeamMember}, function(activeActivity) {
           
           if(activeActivity) {
-            console.log('found an active activity');
-            console.log('activeActivity', activeActivity);
 
             activeActivity.deactivate().then(function(deactivatedActivity) {
               $rootScope.$broadcast('activity:deactivated', deactivatedActivity);

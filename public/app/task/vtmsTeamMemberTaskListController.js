@@ -1,10 +1,9 @@
-angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($rootScope, vtmsTeamMember, vtmsTask, vtmsLesson, vtmsIdentity, vtmsNotifier, vtmsIssue, vtmsActivity) {
+angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($rootScope, vtmsTeamMember, vtmsTask, vtmsLesson, vtmsIdentity, vtmsIssue, vtmsActivity) {
   var ctrl = this;
   
   ctrl.identity = vtmsIdentity.currentUser;
   ctrl.userId = ctrl.identity.fkTeamMember;
   ctrl.teamMember = vtmsTeamMember.get({id: ctrl.identity.fkTeamMember});
-  ctrl.actionableTasks = vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
   ctrl.issueList = vtmsLesson.getLessonsWithIssuesForMember({id: ctrl.identity.fkTeamMember});
   
@@ -27,7 +26,10 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
     
   ctrl.actionableTasksConfig = {
     title: 'Your Tasks',
-    type : 'actionable',
+    type: 'actionable',
+    update: function() {
+      return vtmsTask.getActionableTasksForMember({id: ctrl.identity.fkTeamMember});
+    },
     actions: {
       activate: true,
       deactivate: true,
