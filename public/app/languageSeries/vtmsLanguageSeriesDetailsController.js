@@ -10,10 +10,11 @@ angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function
   
   $scope.languageSeries = vtmsLanguageSeries.get({id: $routeParams.id});
   
-  $scope.lessonList = vtmsLesson.getList({id: $routeParams.id});
-  
   $scope.lessonsConfig = {
     title: 'Lessons',
+    update: function() {
+      return vtmsLesson.getList({id: $routeParams.id});
+    },
     actions: {
       addtoRenderQueue: false,
       removeFromRenderQueue: false,

@@ -5,8 +5,8 @@
     li
       a(href="/series/{{languageSeries.series.id}}") {{languageSeries.series.title}}
     li.active {{languageSeries.title}}
-.container
+.container-fluid
   h1
     a(href="#", editable-text="languageSeries.title", onbeforesave="update({title: $data})") {{languageSeries.title}}
-.container
-  lessons-list(lessons="lessonList", config="lessonsConfig")
+.container-fluid
+  lessons-list(config="lessonsConfig")

@@ -10,14 +10,14 @@
 .container
   h1
     a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
-.container
+.container-fluid
   task-list(config="ctrl.tasksConfig")
-.container
+.container-fluid
   shot-list(lesson="ctrl.lesson", config="ctrl.shotsConfig", update-fn="ctrl.updateShots()")
-.container
+.container-fluid
   h3
     a(ng-href='/lesson/{{ctrl.lesson.id}}/checking') Checking
   issues-list(issues="ctrl.issuesList", config="ctrl.issuesConfig", update-fn="ctrl.updateIssues()")
   publish-dates-list(publish-dates="ctrl.publishDatesList", config="ctrl.publishDatesConfig", update-fn="ctrl.updatePublishDates()")
-.container
+.container-fluid
   activity-list(activities="ctrl.activityList", config="ctrl.activityListConfig", update-fn="ctrl.updateActivities()")
