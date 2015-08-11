@@ -1,7 +1,8 @@
 angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
   var IssueResource = $resource('/api/issues/:id', {id: '@id'}, {
     update: {method:'PUT', isArray: false},
-    getListForLesson: {method:'GET', url: '/api/lessons/:id/issues', isArray:true}
+    getListForLesson: {method:'GET', url: '/api/lessons/:id/issues', isArray:true},
+    getIssuesForTask: {method:'GET', url: '/api/tasks/:id/issues', isArray:true}
   });
   
   IssueResource.prototype.update = function(newData) {

@@ -46,6 +46,7 @@ module.exports = function(app) {
   app.get('/api/teamMembers/:id/tasks/actionable', controllers.task.getActionableTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id/tasks/active', controllers.task.getActiveTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
+  app.get('/api/team-members/:id/tasks/issues', controllers.task.getTasksForTeamMemberWithIssues);
   app.get('/api/teamMembers/:id/issues', controllers.issue.getIssuesForTeamMember);
   app.get('/api/teamMembers/:id/activities', controllers.activity.getActivitiesForTeamMember);
   app.get('/api/teamMembers/:id/activities/recent', controllers.activity.getRecentActivitiesForTeamMember);
@@ -58,6 +59,7 @@ module.exports = function(app) {
   app.get('/api/tasks/recent', controllers.task.getRecentTasks);
   app.get('/api/tasks/:id', controllers.task.getTaskById);
   app.put('/api/tasks/:id', controllers.task.updateTaskById);
+  app.get('/api/tasks/:id/issues', controllers.issue.getIssuesForTask);
   
   app.get('/api/shifts', controllers.shift.getShifts);
   app.get('/api/shifts/:id', controllers.shift.getShiftById);

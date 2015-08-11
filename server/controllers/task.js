@@ -163,6 +163,25 @@ exports.getTasksForLessonWithId = function (req, res) {
   });
 };
 
+exports.getTasksForTeamMemberWithIssues = function(req, res) {
+  models.Task.findAll({
+    where: {isCompleted: true, fkTeamMember: req.params.id},
+    include: [
+      models.TaskGlobal,
+      {model: models.Issue, where: {isCompleted: false}, required: true},
+      {model: models.Lesson, include: [{model: models.LanguageSeries}, {model: models.PublishDate, required: true}]}
+    ]
+  }).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks);
+    } else {
+      res.status(404).send({error: "No tasks found"});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err})
+  });
+};
+
 exports.getActionableTasksForTeamMemberWithId = function(req, res) {
   models.Task.findAll({
     where: {isCompleted: false, isActionable: true, fkTeamMember: req.params.id},

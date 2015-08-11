@@ -2,14 +2,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
-  ctrl.issuesList = vtmsIssue.getListForLesson({id: ctrl.lessonId});
   ctrl.publishDatesList = vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
-  
-  ctrl.updateIssues = function() {
-    return vtmsIssue.getListForLesson({id: ctrl.lessonId});
-  }
-  
-  ctrl.updateShots; // TODO
   
   ctrl.updatePublishDates = function() {
     return vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
@@ -39,6 +32,9 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
   
   ctrl.issuesConfig = {
     title: 'Issues',
+    update: function() {
+      return vtmsIssue.getListForLesson({id: ctrl.lessonId});
+    },
     actions: {
       complete: true,
       delete: true,
@@ -46,6 +42,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       getTime: false
     },
     columns: {
+      actions: true,
       lesson: false,
       task: true,
       timecode: true,

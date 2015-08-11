@@ -99,3 +99,9 @@ exports.getIssuesForTeamMember = function(req, res) {
     where: {isCompleted: false}
   });
 };
+
+exports.getIssuesForTask = function(req, res) {
+  getList(req, res, {
+    where: {fkTask: req.params.id, isCompleted: false}
+  });
+};

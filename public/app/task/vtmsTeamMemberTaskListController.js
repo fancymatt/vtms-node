@@ -5,12 +5,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   ctrl.userId = ctrl.identity.fkTeamMember;
   ctrl.teamMember = vtmsTeamMember.get({id: ctrl.identity.fkTeamMember});
   ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
-  ctrl.issueList = vtmsLesson.getLessonsWithIssuesForMember({id: ctrl.identity.fkTeamMember});
-  
-  ctrl.updateIssues = function() {
-    ctrl.activityList = vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
-  };
-  
+    
   ctrl.beginFixingIssues = function(task) {
     console.log('task', task);
     // create a new activity
@@ -44,22 +39,11 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       dueDate: true
     }
   };
-
-  ctrl.issuesConfig = {
-    taskBeingFixed: 0,
-    actions: {
-      complete: true,
-      delete: false,
-      reassign: false,
-      getTime: false
-    },
-    columns: {
-      actions: false,
-      lesson: false,
-      task: false,
-      timecode: true,
-      issue: true,
-      creator: true
+  
+  ctrl.teamMemberIssuesListConfig = {
+    title: 'Your Issues',
+    update: function() {
+      return vtmsTask.getTasksForTeamMemberWithIssues({id: ctrl.identity.fkTeamMember});
     }
   };
   

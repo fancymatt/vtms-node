@@ -4,7 +4,8 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, vtmsNotifier)
     getList: {method:'GET', url:'/api/lessons/:id/tasks', isArray:true},
     getActionableTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/actionable', isArray:true},
     getActiveTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/active', isArray:true},
-    getAssets: {method:'GET', url:'/api/lessons/:id/assets', isArray:true}
+    getAssets: {method:'GET', url:'/api/lessons/:id/assets', isArray:true},
+    getTasksForTeamMemberWithIssues: {method:'GET', url:'/api/team-members/:id/tasks/issues', isArray: true}
   });
   
   TaskResource.prototype.dueDate = function() {

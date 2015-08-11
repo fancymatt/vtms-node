@@ -1,0 +1,9 @@
+.panel.panel-warning(ng-repeat="task in taskList")
+  .panel-heading.text-center
+    a(ng-href="/lesson/{{task.lesson.id}}")
+      span {{task.lesson.languageSery.title}}
+      span {{" #" + task.lesson.number}}
+      span {{" - " + task.lesson.title}}
+    span {{": " + task.taskGlobal.name}}
+  .panel-body
+    issues-list(config="issuesConfig", task="task")

@@ -1,29 +1,27 @@
 angular.module('vtms').directive('issuesList', function() {
   return {
-    templateUrl: "/partials/issues/issues-list",
-    restrict: "E",
+    templateUrl: '/partials/issues/issues-list',
+    restrict: 'E',
     scope: {
-      lesson: '=',
-      title: '=',
-      issues: '=',
       config: '=',
+      task: '=',
       currentTime: '=',
-      updateFn: '&'
     },
-    controller: function($scope, $window, vtmsLesson, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
       
       /**
        * Data Initialization
        */
       
-      // Ensure that $scope.issues is populated even if just the lesson was passed in
-      if($scope.issues) {
-        // just use those issues
-        $scope.issuesList = $scope.issues;
-      } else {
-        // we must be passing in lesson, so get the issues for that lesson
-        $scope.issuesList = vtmsIssue.getListForLesson({id: $scope.lesson.id}); 
-      }
+      $scope.refresh = function() {
+        if($scope.task) {
+          $scope.issuesList = $scope.config.update($scope.task.id);
+        } else {
+          $scope.issuesList = $scope.config.update();
+        }
+      };
+      
+      $scope.refresh();
       
       // Grab any additional data that certain functionality requires
       if($scope.config.actions.reassign) {
@@ -41,7 +39,7 @@ angular.module('vtms').directive('issuesList', function() {
         itemToDelete.delete().then(function() {
           list.splice(index, 1);
         });
-      };
+      }
       
       var removeFromList = function(object, list) {
         list.splice(list.indexOf(object),1);
@@ -50,20 +48,15 @@ angular.module('vtms').directive('issuesList', function() {
       $scope.sortOptions = [];
       
       if($scope.config.sortOptions) {
-        if($scope.config.sortOptions.task) $scope.sortOptions.push({value: "number", text: "Sort by Number"});
-        if($scope.config.sortOptions.lesson) $scope.sortOptions.push({value: ['task.lesson.languageSery.language.name', 'task.lesson.languageSery.title', 'task.lesson.number'], text: "Sort by Lesson"});
-        if($scope.config.sortOptions.creator) $scope.sortOptions.push({value: "creator", text: "Sort by Creator"});
-        if($scope.config.sortOptions.timecode) $scope.sortOptions.push({value: "timecode", text: "Sort by Timecode"});
-        if($scope.config.sortOptions.issue) $scope.sortOptions.push({value: "body", text: "Sort by Issue Body"});
-        if($scope.config.sortOptions.status) $scope.sortOptions.push({value: "isCompleted", text: "Sort by Status"});  
+        if($scope.config.sortOptions.task) $scope.sortOptions.push({value: 'number', text: 'Sort by Number'});
+        if($scope.config.sortOptions.lesson) $scope.sortOptions.push({value: ['task.lesson.languageSery.language.name', 'task.lesson.languageSery.title', 'task.lesson.number'], text: 'Sort by Lesson'});
+        if($scope.config.sortOptions.creator) $scope.sortOptions.push({value: 'creator', text: 'Sort by Creator'});
+        if($scope.config.sortOptions.timecode) $scope.sortOptions.push({value: 'timecode', text: 'Sort by Timecode'});
+        if($scope.config.sortOptions.issue) $scope.sortOptions.push({value: 'body', text: 'Sort by Issue Body'});
+        if($scope.config.sortOptions.status) $scope.sortOptions.push({value: 'isCompleted', text: 'Sort by Status'});  
         
         $scope.sortOrder = $scope.sortOptions[0].value;
       }
-    
-      
-      $scope.refreshList = function() {
-        $scope.issuesList = $scope.updateFn();
-      };
       
       
       /**
@@ -75,16 +68,16 @@ angular.module('vtms').directive('issuesList', function() {
           for(var i = 0; i < $scope.taskList.length; i++) {
             if($scope.taskList[i].id === id) return $scope.taskList[i].taskGlobal.name;
           }
-          return "Unassigned";
+          return 'Unassigned';
         }
       };
       
       $scope.newIssueValues = {
-        creator: "Checker", 
-        fkTask: "",
-        fkLesson: "",
-        timecode: "",
-        body: ""
+        creator: 'Checker', 
+        fkTask: '',
+        fkLesson: '',
+        timecode: '',
+        body: ''
       };
       
       $scope.newIssue = function() {
@@ -94,9 +87,9 @@ angular.module('vtms').directive('issuesList', function() {
           $scope.issuesList[$scope.issuesList.length] = issue;
         });
 
-        $window.document.getElementById("newIssue").focus();
-        $scope.newIssueValues.timecode = "";
-        $scope.newIssueValues.body = "";
+        $window.document.getElementById('newIssue').focus();
+        $scope.newIssueValues.timecode = '';
+        $scope.newIssueValues.body = '';
       };
       
       $scope.getCurrentTime = function() {
@@ -105,7 +98,7 @@ angular.module('vtms').directive('issuesList', function() {
 
       $scope.deleteIssue = function(issue) {
         deleteFromList(issue, $scope.issuesList);
-        var notification = "You deleted an issue.";
+        var notification = 'You deleted an issue.';
       };
             
       $scope.assignIssueToTask = function(theIssue, task) {
@@ -115,7 +108,7 @@ angular.module('vtms').directive('issuesList', function() {
             removeFromList(theIssue, $scope.issuesList);
           });
         });
-        vtmsNotifier.notify("Assigned to " + task.taskGlobal.name);
+        vtmsNotifier.notify('Assigned to ' + task.taskGlobal.name);
       };
       
       $scope.completeIssue = function(theIssue) {
@@ -126,12 +119,12 @@ angular.module('vtms').directive('issuesList', function() {
             } else {
               removeFromList(issue, $scope.issuesList);
             }
-            var notification = "";
-            notification += "You've completed the issue \"" + issue.body + "\"\n";
+            var notification = '';
+            notification += 'You\'ve completed the issue \'' + issue.body + '\'\n';
             vtmsNotifier.notify(notification);
           });
         });
       };
     }
-  }
+  };
 });
