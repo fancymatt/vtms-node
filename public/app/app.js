@@ -90,6 +90,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsPublishingCompletedController',
       resolve: routeRoleChecks.admin
     })
+    .when('/undelivered-assets', {
+      templateUrl: '/partials/task/undelivered-assets',
+      controller: 'vtmsUndeliveredAssetsController'
+    })
     .when('/publishing-upcoming', {
       templateUrl: '/partials/publishDates/publishingUpcoming',
       controller: 'vtmsPublishingUpcomingController',

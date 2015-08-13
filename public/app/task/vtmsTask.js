@@ -6,7 +6,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, vtmsNotifier)
     getActiveTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/active', isArray:true},
     getAssets: {method:'GET', url:'/api/lessons/:id/assets', isArray:true},
     getTasksForTeamMemberWithIssues: {method:'GET', url:'/api/team-members/:id/tasks/issues', isArray: true},
-    getUndeliveredTasks: {method: 'GET', url: '/api//tasks/undelivered', isArray: true},
+    getUndeliveredTasks: {method: 'GET', url: '/api/tasks/undelivered', isArray: true},
     getUndeliveredTasksForTeamMember: {method: 'GET', url: '/api/team-members/:id/tasks/undelivered', isArray: true}
   });
   
