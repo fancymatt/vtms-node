@@ -14,7 +14,11 @@ angular.module('vtms').directive('issuesList', function() {
        * Data Initialization
        */
       
-      console.log($scope);
+      if($scope.lesson) {
+        $scope.lessonId = $scope.lesson.id;
+      } else {
+        $scope.lessonId = $scope.config.lessonId;
+      }
       
       $scope.refresh = function() {
         if($scope.task) {
@@ -33,7 +37,6 @@ angular.module('vtms').directive('issuesList', function() {
       
       // Grab any additional data that certain functionality requires
       if($scope.config.actions.reassign) {
-        if($scope.lesson) $scope.lessonId = $scope.lesson.id;
         $scope.taskList = $scope.taskList = vtmsTask.getList({id: $scope.lessonId});
       }
       

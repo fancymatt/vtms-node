@@ -62,7 +62,9 @@ exports.getLessonsWithUnassignedIssues = function (req, res) {
         model: models.Issue,
         required: true,
         where: {
-          fkTask: 0
+          fkTask: {
+            $lt: 1
+          }
         }
       }
     ]
