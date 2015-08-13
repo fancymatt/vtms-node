@@ -46,7 +46,7 @@ var User = db.define('user', {
 
 User.sync({force: true}).then(function() {
   var salt = encrypt.createSalt();
-  var hash = encrypt.hashPwd(salt, 'pikachu');
+  var hash = encrypt.hashPwd(salt, 'password');
   User.create({
     firstName: "Matt", 
     lastName: "Henry", 
@@ -57,11 +57,94 @@ User.sync({force: true}).then(function() {
     fkTeamMember: 1
   });
   User.create({
-    firstName: "Jaimee", 
-    lastName: "Haaland", 
-    username: "jhaaland",
+    firstName: "Ice", 
+    lastName: "Elloso", 
+    username: "ielloso",
     salt: salt,
-    hashed_pwd: hash
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 3
+  });
+  User.create({
+    firstName: "Keith", 
+    lastName: "McCreary", 
+    username: "kmcreary",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "admin",
+    fkTeamMember: 2
+  });
+  User.create({
+    firstName: "Max", 
+    lastName: "Le", 
+    username: "mle",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 10
+  });
+  User.create({
+    firstName: "Reed", 
+    lastName: "Nakamura", 
+    username: "rnakamura",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 4
+  });
+  User.create({
+    firstName: "Edan", 
+    lastName: "Mason", 
+    username: "emason",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 11
+  });
+  User.create({
+    firstName: "Meg", 
+    lastName: "Igarashi", 
+    username: "migarashi",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 12
+  });
+  User.create({
+    firstName: "Dave", 
+    lastName: "Woo", 
+    username: "dwoo",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 18
+  });
+  User.create({
+    firstName: "Stefania", 
+    lastName: "Charitou", 
+    username: "scharitou",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 21
+  });
+  User.create({
+    firstName: "Rob", 
+    lastName: "Jones", 
+    username: "rjones",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 28
+  });
+  User.create({
+    firstName: "Nori", 
+    lastName: "Takaike", 
+    username: "ntakaike",
+    salt: salt,
+    hashed_pwd: hash,
+    role: "teamMember",
+    fkTeamMember: 29
   });
 });
 

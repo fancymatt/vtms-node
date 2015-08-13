@@ -8,7 +8,8 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     getLessonsWithIssuesForMember: {method: 'GET', url: '/api/lessons/issues/team-member/:id', isArray: true},
     getVideoCheckLessons: {method: 'GET', url: '/api/lessons/video-checkable', isArray: true},
     getArchivableLessons: {method: 'GET', url: '/api/lessons/archivable', isArray: true},
-    getQaLessons: {method: 'GET', url: '/api/lessons/qa', isArray: true}
+    getQaLessons: {method: 'GET', url: '/api/lessons/qa', isArray: true},
+    getLessonsWithUnassignedIssues: {method: 'GET', url: '/api/issues/lessons/unassigned', isArray: true}
   });
   
   

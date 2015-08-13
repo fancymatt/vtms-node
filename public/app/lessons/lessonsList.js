@@ -6,7 +6,7 @@ angular.module('vtms').directive('lessonsList', function() {
       languageSeries: '=',
       config: '=',
     },
-    controller: function($scope, $rootScope, vtmsLesson, vtmsNotifier) {
+    controller: function($scope, $rootScope, vtmsLesson, vtmsTask, vtmsNotifier) {
       
       /**
        * Data Initialization
@@ -132,7 +132,7 @@ angular.module('vtms').directive('lessonsList', function() {
           }
         }
       };
-     
+      
       
       /**
        * Listeners

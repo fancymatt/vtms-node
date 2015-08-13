@@ -1,0 +1,8 @@
+.panel.panel-warning(ng-repeat="lesson in lessonsList")
+  .panel-heading.text-center
+    a(ng-href="/lesson/{{lesson.id}}")
+      span {{lesson.languageSery.title}}
+      span {{" #" + lesson.number}}
+      span {{" - " + lesson.title}}
+  .panel-body
+    issues-list(config="issuesConfig", lesson="lesson")

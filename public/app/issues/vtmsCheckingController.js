@@ -1,13 +1,25 @@
 angular.module('vtms').controller('vtmsCheckingController', function($scope, vtmsLesson, vtmsIssue, $routeParams, vtmsNotifier, $sce, $q) {
   var ctrl = this;
   
+  console.log($routeParams);
+  
+  ctrl.lessonId = $routeParams.id;
+  
   ctrl.issuesConfig = {
+    title: 'Issues for lesson',
+    update: function() {
+      console.log('lessonId', ctrl.lessonId);
+      return vtmsIssue.getListForLesson({id: ctrl.lessonId});
+    },
+    lessonId: ctrl.lessonId,
     actions: {
       delete: true,
+      add: true,
       reassign: false,
       getTime: true
     },
     columns: {
+      actions: true,
       task: false,
       timecode: true,
       issue: true,
@@ -16,7 +28,7 @@ angular.module('vtms').controller('vtmsCheckingController', function($scope, vtm
     }
   };
   
-  ctrl.lessonId = $routeParams.id;
+  
   
   cleanUrl = function(url) {
     var index = url.indexOf('.mp4');

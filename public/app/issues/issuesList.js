@@ -5,6 +5,7 @@ angular.module('vtms').directive('issuesList', function() {
     scope: {
       config: '=',
       task: '=',
+      lesson: '=',
       currentTime: '=',
     },
     controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
@@ -13,9 +14,16 @@ angular.module('vtms').directive('issuesList', function() {
        * Data Initialization
        */
       
+      console.log($scope);
+      
       $scope.refresh = function() {
         if($scope.task) {
+          // For use team-member-issues-list
           $scope.issuesList = $scope.config.update($scope.task.id);
+        } else if($scope.lesson) {
+          // For use in lesson-issues-list
+          console.log($scope.lesson);
+          $scope.issuesList = $scope.config.update($scope.lesson.id);
         } else {
           $scope.issuesList = $scope.config.update();
         }
@@ -25,7 +33,8 @@ angular.module('vtms').directive('issuesList', function() {
       
       // Grab any additional data that certain functionality requires
       if($scope.config.actions.reassign) {
-        $scope.taskList = $scope.taskList = vtmsTask.getList({id: $scope.lesson.id});
+        if($scope.lesson) $scope.lessonId = $scope.lesson.id;
+        $scope.taskList = $scope.taskList = vtmsTask.getList({id: $scope.lessonId});
       }
       
       
@@ -81,7 +90,7 @@ angular.module('vtms').directive('issuesList', function() {
       };
       
       $scope.newIssue = function() {
-        $scope.newIssueValues.fkLesson = $scope.lesson.id;
+        $scope.newIssueValues.fkLesson = $scope.lessonId;
         var newIssue = new vtmsIssue($scope.newIssueValues);
         newIssue.$save().then(function(issue) {
           $scope.issuesList[$scope.issuesList.length] = issue;

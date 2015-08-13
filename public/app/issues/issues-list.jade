@@ -39,7 +39,7 @@
         td(ng-show="config.columns.timecode") {{issue.timecode}}
         td(ng-show="config.columns.issue") {{issue.body}}
         td(ng-show="config.columns.status") {{issue.isCompleted ? "Completed" : "Incomplete"}}
-      tr(ng-show="!!lesson")
+      tr(ng-show="config.actions.add")
         td
           button.btn.btn-primary.btn-sm(ng-show="config.actions.getTime", ng-click="getCurrentTime()") Get Time
         td(ng-show="config.columns.lesson") Lesson
@@ -47,10 +47,10 @@
           select(ng-model="newIssueValues.fkTask" convert-to-number)
             option(ng-repeat="task in taskList", value="{{task.id}}") {{task.taskGlobal.name}}
         td(ng-show="config.columns.creator")
-          input(ng-model="newIssueValues.creator")
+          input.form-control(ng-model="newIssueValues.creator")
         td(ng-show="config.columns.timecode")
-          input(ng-model="newIssueValues.timecode")
+          input.form-control(ng-model="newIssueValues.timecode")
         td(ng-show="config.columns.issue")
-          textarea(ng-model="newIssueValues.body", id="newIssue")
+          input.form-control(ng-model="newIssueValues.body", id="newIssue")
         td(ng-show="config.columns.status")
           button.btn.btn-primary.btn-sm(ng-click="newIssue()") Add issue

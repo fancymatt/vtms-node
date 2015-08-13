@@ -9,10 +9,12 @@ var PublishDate = db.define('publishDate', {
     autoIncrement: true
   },
   fkLesson: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: true
   },
   fkPlatform: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    allowNull: true
   },
   date: {
     type: Sequelize.DATEONLY
@@ -24,11 +26,12 @@ var PublishDate = db.define('publishDate', {
     type: Sequelize.DATE
   }
 }, {
+  timestamps: false,
   freezeTableName: true
 });
 
 /*
-PublishDate.sync({force: true}).then(function() {
+PublishDate.sync().then(function() {
   console.log("Publish Date migration: Searching for levels...");
   Lesson.findAll().then(function(lessons) {
     lessons.forEach(function(lesson) {

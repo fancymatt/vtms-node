@@ -53,14 +53,11 @@ exports.getLessonById = function (req, res) {
   });
 };
 
-exports.getIssuesForLessons = function (req, res) {
+exports.getLessonsWithUnassignedIssues = function (req, res) {
   models.Lesson.findAll({
-    where: {
-      isCheckable: true,
-      checkedLanguage: false,
-    },
     include: [
       models.LanguageSeries,
+      models.PublishDate,
       {
         model: models.Issue,
         required: true,
@@ -144,11 +141,15 @@ exports.getQaLessons = function (req, res) {
 };
 
 exports.getVideoCheckableLessons = function (req, res) {
+  
+  // TODO: Take into account the last issue and last task
+  
   models.Lesson.findAll({
     where: {
       checkedVideo: false,
       checkedLanguage: true,
       isCheckable: true,
+      allTasksCompleted: true,
       exportedTime: {
         $gt: 0
       },
@@ -159,7 +160,7 @@ exports.getVideoCheckableLessons = function (req, res) {
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
-    if (lessons) {
+    if (lessons) {  
       res.send(lessons);
     } else {
       res.send(404).send({error: "No lessons found."});

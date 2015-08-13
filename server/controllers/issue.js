@@ -87,6 +87,10 @@ exports.getIssuesForLessonWithId = function(req, res) {
   });
 };
 
+exports.getUnassignedIssuesForLesson = function(req, res) {
+  getList(req, res, {where: {fkLesson: req.params.id, fkTask: 0}});
+};
+
 exports.getIssuesForTeamMember = function(req, res) {
   getList(req, res, {
     include: [

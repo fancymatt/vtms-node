@@ -28,12 +28,12 @@ module.exports = function(app) {
   app.get('/api/lessons/archivable', controllers.lesson.getArchiveableLessons);
   app.get('/api/lessons/queued', controllers.lesson.getQueuedLessons);
   app.get('/api/lessons/readyToRender', controllers.lesson.getReadyToRenderLessons);
-  app.get('/api/lessons/issues', controllers.lesson.getIssuesForLessons);
   app.get('/api/lessons/issues/team-member/:id', controllers.lesson.getLessonsForTeamMemberWithIssues);
   //app.get('/api/lessons/recentlyCompleted', controllers.lesson.getRecentlyCompletedLessons);
   app.get('/api/lessons/:id', controllers.lesson.getLessonById);
   app.delete('/api/lessons/:id', controllers.lesson.deleteLesson);
   app.get('/api/lessons/:id/issues', controllers.issue.getIssuesForLessonWithId);
+  app.get('/api/lessons/:id/issues/unassigned', controllers.issue.getUnassignedIssuesForLesson);
   app.get('/api/lessons/:id/tasks', controllers.task.getTasksForLessonWithId);
   app.get('/api/lessons/:id/assets', controllers.task.getAssetsForLessonWithId);
   app.get('/api/lessons/:id/shots', controllers.shot.getShotsForLessonWithId);
@@ -98,6 +98,7 @@ module.exports = function(app) {
   app.post('/api/issues', controllers.issue.createIssue);
   app.delete('/api/issues/:id', controllers.issue.deleteIssue);
   app.put('/api/issues/:id', controllers.issue.updateIssue);
+  app.get('/api/issues/lessons/unassigned', controllers.lesson.getLessonsWithUnassignedIssues);
   
   app.get('/api/activities', controllers.activity.getActivities);
   app.get('/api/activities/active', controllers.activity.getActiveActivities);
