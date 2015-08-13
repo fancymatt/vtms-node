@@ -1,4 +1,4 @@
-.panel.panel-default
+.panel.panel-default(ng-show="taskList.length")
   .panel-heading.text-center {{config.title}}
     a.pull-right(href="#", ng-click="refresh()")
       span.glyphicon.glyphicon-refresh(aria-hidden="true")
