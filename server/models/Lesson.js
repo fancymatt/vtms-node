@@ -110,6 +110,21 @@ var Lesson = db.define('lesson', {
   customYtField: {
     type: Sequelize.STRING,
     field: 'customYTfield'
+  },
+  fkLastTask: {
+    type: Sequelize.INTEGER
+  },
+  fkLastIssue: {
+    type: Sequelize.INTEGER
+  },
+  lastTaskTime: {
+    type: Sequelize.DATE
+  },
+  lastIssueTime: {
+    type: Sequelize.DATE
+  },
+  incompleteIssues: {
+    type: Sequelize.INTEGER
   }
 }, {
   timestamps: false,
