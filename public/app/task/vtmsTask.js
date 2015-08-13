@@ -5,7 +5,9 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, vtmsNotifier)
     getActionableTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/actionable', isArray:true},
     getActiveTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/active', isArray:true},
     getAssets: {method:'GET', url:'/api/lessons/:id/assets', isArray:true},
-    getTasksForTeamMemberWithIssues: {method:'GET', url:'/api/team-members/:id/tasks/issues', isArray: true}
+    getTasksForTeamMemberWithIssues: {method:'GET', url:'/api/team-members/:id/tasks/issues', isArray: true},
+    getUndeliveredTasks: {method: 'GET', url: '/api//tasks/undelivered', isArray: true},
+    getUndeliveredTasksForTeamMember: {method: 'GET', url: '/api/team-members/:id/tasks/undelivered', isArray: true}
   });
   
   TaskResource.prototype.dueDate = function() {
@@ -89,6 +91,40 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, vtmsNotifier)
       timeActual: newTimeRunning
     }).then(function(newData) {
       vtmsNotifier.success(notification);
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response.data.reason);
+    });
+    
+    return dfd.promise;
+  };
+  
+  TaskResource.prototype.deliver = function() {
+    var dfd = $q.defer();
+    
+    var taskString = this.toString();
+    var notification = 'Delivered ' + taskString + '.';
+    
+    this.update({
+      isDelivered: true,
+      timeDelivered: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+    }).then(function(newData) {
+      vtmsNotifier.success(notification);
+      dfd.resolve(newData);
+    }, function(response) {
+      dfd.reject(response.data.reason);
+    });
+    
+    return dfd.promise;
+  };
+  
+  TaskResource.prototype.undeliver = function() {
+    var dfd = $q.defer();
+    
+    this.update({
+      isDelivered: false,
+      timeDelivered: null
+    }).then(function(newData) {
       dfd.resolve(newData);
     }, function(response) {
       dfd.reject(response.data.reason);

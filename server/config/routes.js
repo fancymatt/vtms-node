@@ -47,6 +47,7 @@ module.exports = function(app) {
   app.get('/api/teamMembers/:id/tasks/active', controllers.task.getActiveTasksForTeamMemberWithId);
   app.get('/api/teamMembers/:id', controllers.teamMember.getTeamMemberById);
   app.get('/api/team-members/:id/tasks/issues', controllers.task.getTasksForTeamMemberWithIssues);
+  app.get('/api/team-members/:id/tasks/undelivered', controllers.task.getUndeliveredTasksForTeamMember);
   app.get('/api/teamMembers/:id/issues', controllers.issue.getIssuesForTeamMember);
   app.get('/api/teamMembers/:id/activities', controllers.activity.getActivitiesForTeamMember);
   app.get('/api/teamMembers/:id/activities/recent', controllers.activity.getRecentActivitiesForTeamMember);
@@ -56,6 +57,7 @@ module.exports = function(app) {
   app.get('/api/tasks', controllers.task.getTasks);
   app.get('/api/tasks/active', controllers.task.getActiveTasks);
   app.get('/api/tasks/actionable', controllers.task.getActionableTasks);
+  app.get('/api/tasks/undelivered', controllers.task.getUndeliveredTasks);
   app.get('/api/tasks/recent', controllers.task.getRecentTasks);
   app.get('/api/tasks/:id', controllers.task.getTaskById);
   app.put('/api/tasks/:id', controllers.task.updateTaskById);

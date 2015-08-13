@@ -1,6 +1,31 @@
 var models = require('../models/models'),
     sequelize = require('../config/sequelize');
 
+var getList = function(req, res, query) {
+  models.Task.findAll(query).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks);
+    } else {
+      res.status(404).send({error: 'No tasks were found.'});
+    }
+  }).catch(function(err) {
+    console.log(err);
+    res.status(500).send({error: err});
+  });
+};
+
+var getOne = function(req, res, query) {
+  models.Task.findOne(query).then(function(task) {
+    if(task) {
+      res.send(task);
+    } else {
+      res.status(404).send({error: 'No task was found.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getTasks = function(req, res) {
   models.Task.findAll().then(function(tasks) {
     if(tasks) {
@@ -179,6 +204,33 @@ exports.getTasksForTeamMemberWithIssues = function(req, res) {
     }
   }).catch(function(err) {
     res.status(500).send({error: err})
+  });
+};
+
+exports.getUndeliveredTasks = function(req, res) {
+  getList(req, res, {
+    where: {
+      isCompleted: true,
+      isDelivered: false
+    },
+    include: [
+      {model: models.TaskGlobal, where: {isAsset: true}},
+      {model: models.Lesson, include: [{model: models.LanguageSeries}, {model: models.PublishDate, required: true}]}
+    ]
+  });
+};
+
+exports.getUndeliveredTasksForTeamMember = function(req, res) {
+  getList(req, res, {
+    where: {
+      isCompleted: true,
+      isDelivered: false,
+      fkTeamMember: req.params.id
+    },
+    include: [
+      {model: models.TaskGlobal, where: {isAsset: true}},
+      {model: models.Lesson, include: [{model: models.LanguageSeries}, {model: models.PublishDate, required: true}]}
+    ]
   });
 };
 

@@ -40,6 +40,27 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
     }
   };
   
+  ctrl.undeliveredTasksConfig = {
+    title: 'Your Undelivered Assets',
+    type: 'undeliveredAssets',
+    update: function() {
+      return vtmsTask.getUndeliveredTasksForTeamMember({id: ctrl.identity.fkTeamMember});
+    },
+    actions: {
+      activate: true,
+      deactivate: true,
+      complete: false,
+      incomplete: false,
+    },
+    columns : {
+      lesson: true,
+      task: true,
+      teamMember: false,
+      status: false,
+      dueDate: true
+    }
+  };
+  
   ctrl.teamMemberIssuesListConfig = {
     title: 'Your Issues',
     update: function() {

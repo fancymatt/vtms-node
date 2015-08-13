@@ -148,10 +148,27 @@ angular.module('vtms').directive('taskList', function() {
         });
       };
       
+      $scope.deliverTask = function(deliveredAsset) {
+        deliveredAsset.deliver().then(function(newData) {
+          angular.extend(deliveredAsset, newData);
+          checkLessonCompletionStatus(deliveredAsset);
+          $rootScope.$broadcast('task:delivered', deliveredAsset);
+        });
+      };
+      
       $scope.incompleteTask = function(incompletedTask) {
         incompletedTask.incomplete().then(function(newData) {
           angular.extend(incompletedTask, newData);
+          checkLessonCompletionStatus(incompletedTask);
           $rootScope.$broadcast('task:incompleted', incompletedTask);
+        });
+      };
+      
+      $scope.undeliverTask = function(undeliveredTask) {
+        undeliveredTask.undeliver().then(function(newData) {
+          angular.extend(undeliveredTask, newData);
+          checkLessonCompletionStatus(undeliveredTask);
+          $rootScope.$broadcast('task:undelivered', undeliveredTask);
         });
       };
       
@@ -170,6 +187,12 @@ angular.module('vtms').directive('taskList', function() {
       $rootScope.$on('task:activated', function(event, task) {
         // No functionality
       });
+      
+      $rootScope.$on('task:delivered', function(event, task) {
+        if($scope.config.type === 'undeliveredAssets') {
+          removeFromList(task, $scope.taskList);
+        }
+      });
             
       $rootScope.$on('task:deactivated', function(event, task) {
         if($scope.config.type === 'active') {
@@ -187,6 +210,13 @@ angular.module('vtms').directive('taskList', function() {
         if($scope.config.type === 'active') {
           removeFromList(task, $scope.taskList);
         }
+        if($scope.config.type === 'undeliveredAssets') {
+          if(task.taskGlobal.isAsset) {
+            addToList(task, $scope.taskList);
+            $scope.refresh();
+          }
+        }
+        
       });
     }
   };

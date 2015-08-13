@@ -72,8 +72,15 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     var completionValue = 0;
     for(var i = 0; i < tasks.length; i++) {
       if(tasks[i].isCompleted) {
-        console.log("Task: " + tasks[i].taskGlobal.name + " is complete, adding completion value of " + tasks[i].taskGlobal.completionValue);
-        completionValue += tasks[i].taskGlobal.completionValue;
+        if(tasks[i].taskGlobal.isAsset) {
+          if(tasks[i].isDelivered) {
+            console.log("Task: " + tasks[i].taskGlobal.name + " is complete and delivered, adding completion value of " + tasks[i].taskGlobal.completionValue);
+            completionValue += tasks[i].taskGlobal.completionValue;
+          }
+        } else {
+          console.log("Task: " + tasks[i].taskGlobal.name + " is complete, adding completion value of " + tasks[i].taskGlobal.completionValue);
+          completionValue += tasks[i].taskGlobal.completionValue;
+        }
       }
     }
     // Stuck at line below: "Series is undefined"
