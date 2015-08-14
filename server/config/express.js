@@ -10,7 +10,8 @@ module.exports = function(app, config) {
   app.set('views', config.path + 'server/views/');
   app.use(logger('dev'));
   app.use(cookieParser());
-  app.use(bodyParser());
+  app.use(bodyParser.urlencoded());
+  app.use(bodyParser.json());
   app.use(session({secret: 'matt is so secretive'}));
   app.use(passport.initialize());
   app.use(passport.session());
