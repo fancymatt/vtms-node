@@ -5,7 +5,7 @@ angular.module('vtms').controller('vtmsProfileController', function($scope, vtms
   
   $scope.update = function() {
     var newUserData = {
-      username: $scope.email,
+      username: $scope.username,
       firstName: $scope.firstName,
       lastName: $scope.lastName
     }
