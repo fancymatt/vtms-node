@@ -9,20 +9,18 @@ block content
         ul.nav.navbar-nav(ng-controller="vtmsNavBarController")
           li
             a(href='/series') Lesson DB
+          li
+            a(href='/activity-feed') Activity Feed
           li.dropdown(ng-show="identity.currentUser.isAdmin()")
             a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Team Members
               span.caret
             ul.dropdown-menu(role="menu")
               li(ng-repeat="teamMember in teamMembers")
                 a(href="team-members/{{teamMember.id}}") {{teamMember.nameFull}}
-          li.dropdown(ng-show="identity.currentUser.isAdmin()")
+          li.dropdown(ng-show="identity.currentUser.isManager()")
             a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Management
               span.caret
             ul.dropdown-menu
-              li
-                a(href='/publishing-completed') Publishing
-              li
-                a(href='/publishing-upcoming') Upcoming Due Dates
               li
                 a(href='/video-check-archival') Video Check & Archival
               li
@@ -33,8 +31,14 @@ block content
                 a(href='/undelivered-assets') Undelivered Assets
               li
                 a(href='/issue-assignment') Issue Assignment
+          li.dropdown(ng-show="identity.currentUser.isManager()")
+            a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-expanded="false") Publishing
+              span.caret
+            ul.dropdown-menu
               li
-                a(href='/activity-feed') Activity Feed
+                a(href='/publishing-completed') Publishing
+              li
+                a(href='/publishing-upcoming') Upcoming Due Dates
         div(ng-include="'/partials/account/navbar-login'")
   section.content
     div(ng-view)
