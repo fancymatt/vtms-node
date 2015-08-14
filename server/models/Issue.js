@@ -4,7 +4,8 @@ var db = require('../config/sequelize.js'),
   
 var Issue = db.define('issue', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   fkTask: {
     type: Sequelize.INTEGER

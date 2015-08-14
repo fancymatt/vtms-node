@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var Talent = db.define('talent', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   nameFirst: {
     type: Sequelize.STRING

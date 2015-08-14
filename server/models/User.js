@@ -5,6 +5,7 @@ var db = require('../config/sequelize.js'),
 var User = db.define('user', {
   id: {
     type: Sequelize.INTEGER,
+    primaryKey: true,
     unique: true,
     allowNull: false,
     autoIncrement: true

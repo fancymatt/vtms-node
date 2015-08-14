@@ -6,7 +6,8 @@ var db = require('../config/sequelize.js'),
   
 var Lesson = db.define('lesson', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   fkLanguageSeries: {
     type: Sequelize.INTEGER

@@ -8,7 +8,8 @@ var db = require('../config/sequelize.js'),
   
 var Series = db.define('series', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   code: {
     type: Sequelize.STRING

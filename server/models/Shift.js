@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var Shift = db.define('shift', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   fkTeamMember: {
     type: Sequelize.INTEGER

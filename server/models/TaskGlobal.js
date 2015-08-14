@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var TaskGlobal = db.define('taskGlobal', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   dueDateOffset: {
     type: Sequelize.INTEGER

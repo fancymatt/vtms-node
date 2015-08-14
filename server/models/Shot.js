@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var Shot = db.define('shot', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   fkLesson: {
     type: Sequelize.INTEGER

@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var Activity = db.define('activity', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   fkShift: {
     type: Sequelize.INTEGER

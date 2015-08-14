@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var Task = db.define('task', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   fkTaskGlobal: {
     type: Sequelize.INTEGER

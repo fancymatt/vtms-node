@@ -3,7 +3,8 @@ var db = require('../config/sequelize.js'),
   
 var Language = db.define('language', {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true
   },
   name: {
     type: Sequelize.STRING
