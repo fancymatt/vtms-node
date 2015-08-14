@@ -70,25 +70,41 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     var dfd = $q.defer();
     
     var completionValue = 0;
+    
+    // Loop through all tasks and calculate completion value
     for(var i = 0; i < tasks.length; i++) {
       if(tasks[i].isCompleted) {
         if(tasks[i].taskGlobal.isAsset) {
           if(tasks[i].isDelivered) {
+            // Assets which are completed and delivered
             console.log("Task: " + tasks[i].taskGlobal.name + " is complete and delivered, adding completion value of " + tasks[i].taskGlobal.completionValue);
             completionValue += tasks[i].taskGlobal.completionValue;
           }
         } else {
+          // Tasks which are completed
           console.log("Task: " + tasks[i].taskGlobal.name + " is complete, adding completion value of " + tasks[i].taskGlobal.completionValue);
           completionValue += tasks[i].taskGlobal.completionValue;
         }
       }
     }
-    // Stuck at line below: "Series is undefined"
+    
+    // Check how completion value affects lesson benchmarks
     if(completionValue >= this.languageSery.series.checkableAt) {
       console.log("Lesson completion value is " + completionValue + " and threshold is " + this.languageSery.series.checkableAt + " so marking as checkable");
       this.update({isCheckable: true}).then(function(newData) {
         return dfd.resolve(newData);
       });
+    }
+    
+    // Now loop through the tasks again, this time updating isActionable
+    for(var i = 0; i < tasks.length; i++) {
+      console.log("task: " + tasks[i].taskGlobal.name + " is actionable at " + tasks[i].taskGlobal.actionableAt + " and it's currently " + completionValue);
+      if(completionValue >= tasks[i].taskGlobal.actionableAt) {
+        console.log("setting as actionable");
+        tasks[i].update({isActionable: true});
+      } else {
+        tasks[i].update({isActionable: false});
+      }
     }
     
     return dfd.promise;

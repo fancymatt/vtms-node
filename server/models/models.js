@@ -36,8 +36,8 @@ models.Lesson.hasMany(models.Shot, { foreignKey: 'fkLesson' } );
 models.Lesson.hasMany(models.Task, { foreignKey: 'fkLesson' } );
 models.Lesson.hasMany(models.PublishDate, {foreignKey: 'fkLesson'} );
 models.Lesson.hasMany(models.Issue, {foreignKey: 'fkLesson'} );
-models.Lesson.hasOne(models.Task, { as: 'lastTask', foreignKey: 'fkLastTask'} );
-models.Lesson.hasOne(models.Issue, { as: 'lastIssue', foreignKey: 'fkLastIssue'} );
+models.Lesson.belongsTo(models.Task, { as: 'lastTask', foreignKey: 'fkLastTask'} );
+models.Lesson.belongsTo(models.Issue, { as: 'lastIssue', foreignKey: 'fkLastIssue'} );
 
 models.Language.hasMany(models.LanguageSeries, { foreignKey: 'fkLanguage' } );
 

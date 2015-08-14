@@ -94,8 +94,15 @@ angular.module('vtms').directive('taskList', function() {
         });
       };
       
-      
-      
+      var setAsMostRecentTask = function(task) {
+        console.log("setAsMostRecentTask called");
+        vtmsLesson.get({id: task.fkLesson}, function(lesson) {
+          console.log(lesson);
+          lesson.update({fkLastTask: task.id, lastTaskTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
+          });
+        });
+      };
+  
       
       /**
        * Public Functions
@@ -143,6 +150,9 @@ angular.module('vtms').directive('taskList', function() {
       $scope.completeTask = function(completedTask) {
         completedTask.complete().then(function(newData) {
           angular.extend(completedTask, newData);
+          console.log("completeTask");
+          console.log(completedTask);
+          if(!completedTask.taskGlobal.isAsset) setAsMostRecentTask(completedTask);
           checkLessonCompletionStatus(completedTask);
           $rootScope.$broadcast('task:completed', completedTask);
         });
@@ -205,9 +215,6 @@ angular.module('vtms').directive('taskList', function() {
       
       $rootScope.$on('task:completed', function(event, task) {
         if($scope.config.type === 'actionable') {
-          removeFromList(task, $scope.taskList);
-        }
-        if($scope.config.type === 'active') {
           removeFromList(task, $scope.taskList);
         }
         if($scope.config.type === 'undeliveredAssets') {

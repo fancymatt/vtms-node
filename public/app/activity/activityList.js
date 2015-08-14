@@ -6,7 +6,7 @@ angular.module('vtms').directive('activityList', function() {
       config: '=',
       userId: '='
     },
-    controller: function($scope, $rootScope, vtmsActivity, vtmsTask, vtmsNotifier) {
+    controller: function($scope, $rootScope, vtmsActivity, vtmsLesson, vtmsTask, vtmsNotifier) {
       
       $scope.refresh = function() {
         $scope.activityList = $scope.config.update();
@@ -81,6 +81,24 @@ angular.module('vtms').directive('activityList', function() {
         }
       };
       
+      var setAsMostRecentTask = function(task) {
+        console.log("setAsMostRecentTask called");
+        vtmsLesson.get({id: task.fkLesson}, function(lesson) {
+          console.log(lesson);
+          lesson.update({fkLastTask: task.id, lastTaskTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
+          });
+        });
+      };
+      
+      var checkLessonCompletionStatus = function(task) {
+        // Get all tasks from that lesson and update benchmarks
+        vtmsTask.getList({id: task.fkLesson}, function(tasks) {
+          vtmsLesson.get({id: task.fkLesson}, function(lesson) {
+            lesson.updateBenchmarks(tasks);
+          });
+        });
+      };
+      
       function deleteFromList(item, list) {
         var index = list.indexOf(item);
         var itemToDelete = list[index];
@@ -138,6 +156,8 @@ angular.module('vtms').directive('activityList', function() {
             } else {
               vtmsTask.get({id: activity.fkTask}, function(task) {
                 task.complete().then(function() {
+                  if(!task.taskGlobal.isAsset) setAsMostRecentTask(task);
+                  checkLessonCompletionStatus(task);
                   $rootScope.$broadcast('task:completed', task);
                   $scope.refresh();
                 });
