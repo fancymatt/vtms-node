@@ -11,16 +11,21 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, vtmsNotifier)
   });
   
   TaskResource.prototype.dueDate = function() {
-    var earliestDate = new Date(this.lesson.publishDates[0].date);
-    if(this.lesson.publishDates.length > 1) {
-      for(var i = 1, dateToCompare; i < this.lesson.publishDates.length; i++) {
-        dateToCompare = new Date(this.lesson.publishDates[i].date);
-        if(dateToCompare < earliestDate) {
-          earliestDate = dateToCompare;
+    if(this.lesson.publishDates.length) {
+      var earliestDate = new Date(this.lesson.publishDates[0].date);
+      if(this.lesson.publishDates.length > 1) {
+        for(var i = 1, dateToCompare; i < this.lesson.publishDates.length; i++) {
+          dateToCompare = new Date(this.lesson.publishDates[i].date);
+          if(dateToCompare < earliestDate) {
+            earliestDate = dateToCompare;
+          }
         }
       }
+      return earliestDate.setDate(earliestDate.getDate()-this.taskGlobal.dueDateOffset);
+    } else {
+      return "No publish dates";
     }
-    return earliestDate.setDate(earliestDate.getDate()-this.taskGlobal.dueDateOffset);
+    
   };
   
   TaskResource.prototype.activate = function() {

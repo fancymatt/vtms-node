@@ -38,7 +38,7 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     })
     .when('/signup', { 
       templateUrl: '/partials/account/signup', 
-      controller: 'vtmsSignupController' 
+      controller: 'vtmsSignupController'
     })
     .when('/profile', { 
       templateUrl: '/partials/account/profile', 
@@ -47,7 +47,8 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     })
     .when('/shifts', { 
       templateUrl: '/partials/shift/recent-shifts', 
-      controller: 'vtmsRecentShiftsController'
+      controller: 'vtmsRecentShiftsController',
+      resolve: routeRoleChecks.user
     })
     .when('/series', { 
       templateUrl: '/partials/series/series-list', 
@@ -68,11 +69,13 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/team-members/:id', {
       templateUrl: '/partials/teamMembers/team-member-details',
       controller: 'vtmsTeamMemberDetailsController',
-      controllerAs: 'ctrl'
+      controllerAs: 'ctrl',
+      resolve: routeRoleChecks.user
     })
     .when('/activity-feed', {
       templateUrl: '/partials/activity/activity-feed',
-      controller: 'vtmsActivityFeedController'
+      controller: 'vtmsActivityFeedController',
+      resolve: routeRoleChecks.user
     })
     .when('/lesson/:id', {
       templateUrl: '/partials/lessons/lesson-details',
@@ -101,7 +104,8 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     })
     .when('/issue-assignment', {
       templateUrl: '/partials/issues/issue-assignment',
-      controller: 'vtmsIssueAssignmentController'
+      controller: 'vtmsIssueAssignmentController',
+      resolve: routeRoleChecks.admin
     })
     .when('/render-queue', {
       templateUrl: '/partials/lessons/render-queue',
@@ -110,16 +114,19 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     })
     .when('/quality-assurance', {
       templateUrl: '/partials/lessons/quality-assurance',
-      controller: 'vtmsQualityAssuranceController'
+      controller: 'vtmsQualityAssuranceController',
+      resolve: routeRoleChecks.user
     })
     .when('/video-check-archival', {
       templateUrl: '/partials/lessons/video-check-archival',
-      controller: 'vtmsVideoCheckArchivalController'
+      controller: 'vtmsVideoCheckArchivalController',
+      resolve: routeRoleChecks.user
     })
     .when('/lesson/:id/checking', {
       templateUrl: '/partials/issues/checking',
       controller: 'vtmsCheckingController',
-      controllerAs: 'ctrl'
+      controllerAs: 'ctrl',
+      resolve: routeRoleChecks.user
   });
 });
 
