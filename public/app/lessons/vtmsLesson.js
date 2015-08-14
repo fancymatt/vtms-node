@@ -70,9 +70,11 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     var dfd = $q.defer();
     
     var completionValue = 0;
+    var maxCompletionValue = 0;
     
     // Loop through all tasks and calculate completion value
     for(var i = 0; i < tasks.length; i++) {
+      maxCompletionValue += tasks[i].taskGlobal.completionValue;
       if(tasks[i].isCompleted) {
         if(tasks[i].taskGlobal.isAsset) {
           if(tasks[i].isDelivered) {
@@ -89,9 +91,23 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     }
     
     // Check how completion value affects lesson benchmarks
+    if(completionValue >= this.languageSery.series.shotAt) {
+      console.log("Lesson completion value is " + completionValue + " and threshold is " + this.languageSery.series.shotAt + " so marking as shot");
+      this.update({isShot: true}).then(function(newData) {
+        return dfd.resolve(newData);
+      });
+    }
+    
     if(completionValue >= this.languageSery.series.checkableAt) {
       console.log("Lesson completion value is " + completionValue + " and threshold is " + this.languageSery.series.checkableAt + " so marking as checkable");
       this.update({isCheckable: true}).then(function(newData) {
+        return dfd.resolve(newData);
+      });
+    }
+    
+    if(completionValue >= maxCompletionValue) {
+      console.log("Lesson completion value is " + completionValue + " and max is " + maxCompletionValue + " so all tasks are complete");
+      this.update({allTasksCompleted: true}).then(function(newData) {
         return dfd.resolve(newData);
       });
     }
