@@ -157,6 +157,9 @@ angular.module('vtms').directive('issuesList', function() {
             angular.extend(issue, newData);
             setAsMostRecentIssue(theIssue);
             updateIncompleteIssuesCount(theIssue);
+            if($scope.config.type = 'incompleteIssues') {
+              removeFromList(theIssue, $scope.issuesList);
+            }
             var notification = '';
             notification += 'You\'ve completed the issue \'' + issue.body + '\'\n';
             vtmsNotifier.notify(notification);

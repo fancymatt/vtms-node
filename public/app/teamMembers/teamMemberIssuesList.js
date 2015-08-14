@@ -16,6 +16,7 @@ angular.module('vtms').directive('teamMemberIssuesList', function() {
       
       $scope.issuesConfig = {
         title: 'Issues',
+        type: 'incompleteIssues',
         update: function(taskId) {
           return vtmsIssue.getIssuesForTask({id: taskId});
         },
@@ -23,6 +24,7 @@ angular.module('vtms').directive('teamMemberIssuesList', function() {
           complete: true,
         },
         columns: {
+          actions: true,
           timecode: true,
           issue: true,
           creator: true
