@@ -8,7 +8,7 @@ angular.module('vtms').directive('issuesList', function() {
       lesson: '=',
       currentTime: '=',
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, $filter) {
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, vtmsLesson, $filter) {
       
       /**
        * Data Initialization
@@ -57,6 +57,31 @@ angular.module('vtms').directive('issuesList', function() {
         list.splice(list.indexOf(object),1);
       };
       
+      var updateIncompleteIssuesCount = function(issue) {
+        console.log("updateIncompleteIssuesCount called");
+        var incompleteIssues = 0;
+        var lessonId = issue.task ? issue.task.fkLesson : issue.fkLesson;
+        vtmsLesson.get({id: lessonId}, function(lesson) {
+          vtmsIssue.getListForLesson({id: lessonId}, function(issues) {
+            issues.forEach(function(issue) {
+              if(!issue.isCompleted) incompleteIssues += 1;
+            });
+              
+            lesson.update({incompleteIssues: incompleteIssues});
+          });
+        });
+      };
+      
+      var setAsMostRecentIssue = function(issue) {
+        console.log("setAsMostRecentIssue called");
+        var lessonId = issue.task.fkLesson || issue.fkLesson;
+        vtmsLesson.get({id: lessonId}, function(lesson) {
+          console.log(lesson);
+          lesson.update({fkLastIssue: issue.id, lastIssueTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
+          });
+        });
+      };
+      
       $scope.sortOptions = [];
       
       if($scope.config.sortOptions) {
@@ -97,11 +122,13 @@ angular.module('vtms').directive('issuesList', function() {
         var newIssue = new vtmsIssue($scope.newIssueValues);
         newIssue.$save().then(function(issue) {
           $scope.issuesList[$scope.issuesList.length] = issue;
+          updateIncompleteIssuesCount(issue);
         });
 
         $window.document.getElementById('newIssue').focus();
         $scope.newIssueValues.timecode = '';
         $scope.newIssueValues.body = '';
+        
       };
       
       $scope.getCurrentTime = function() {
@@ -109,6 +136,7 @@ angular.module('vtms').directive('issuesList', function() {
       };
 
       $scope.deleteIssue = function(issue) {
+        updateIncompleteIssuesCount(issue);
         deleteFromList(issue, $scope.issuesList);
         var notification = 'You deleted an issue.';
       };
@@ -126,11 +154,9 @@ angular.module('vtms').directive('issuesList', function() {
       $scope.completeIssue = function(theIssue) {
         vtmsIssue.get({id: theIssue.id}, function(issue) {
           issue.complete().then(function(newData) {
-            if($scope.persistant) {
-              angular.extend(issue, newData);
-            } else {
-              removeFromList(issue, $scope.issuesList);
-            }
+            angular.extend(issue, newData);
+            setAsMostRecentIssue(theIssue);
+            updateIncompleteIssuesCount(theIssue);
             var notification = '';
             notification += 'You\'ve completed the issue \'' + issue.body + '\'\n';
             vtmsNotifier.notify(notification);
