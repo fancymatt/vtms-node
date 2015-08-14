@@ -143,32 +143,34 @@ exports.getQaLessons = function (req, res) {
 };
 
 exports.getVideoCheckableLessons = function (req, res) {
-  
-  // TODO: Take into account the last issue and last task
-  
   models.Lesson.findAll({
     where: {
-      checkedVideo: false,
+      filesMoved: false,
       checkedLanguage: true,
-      isCheckable: true,
       allTasksCompleted: true,
-      exportedTime: {
-        $gt: 0
-      },
-      filesMoved: false
+      isQueued: false,
+      incompleteIssues: {$lt: 1}
     },
     include: [
-      models.LanguageSeries,
+      {model: models.Issue, as: 'lastIssue'},
+      {model: models.Task, as: 'lastTask', include: [models.TaskGlobal, models.TeamMember]},
+      {model: models.LanguageSeries},
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
-    if (lessons) {  
-      res.send(lessons);
+    if (lessons) {
+      var checkableLessons = [];
+      for(var i = 0; i < lessons.length; i++) {
+        if(lessons[i].lastIssueTime < lessons[i].queuedTime && lessons[i].lastTaskTime < lessons[i].queuedTime) {
+          checkableLessons.push(lessons[i]);
+        }
+      }
+      res.send(checkableLessons);
     } else {
-      res.send(404).send({error: "No lessons found."});
+      res.status(404).send({error: "No lessons found."});
     }
   }).catch(function (err) {
-    res.status(500).send({error: err});
+    res.status(500).send(err);
   });
 };
 
@@ -233,22 +235,16 @@ exports.deleteLesson = function (req, res) {
 };
 
 exports.getReadyToRenderLessons = function (req, res) {
-  // TODO: With no issues.
   models.Lesson.findAll({
     where: {
       filesMoved: false,
       isCheckable: true,
-      isQueued: false
+      isQueued: false,
+      incompleteIssues: {$lt: 1}
     },
     include: [
-      {
-        model: models.Task,
-        include: [
-          models.Issue,
-          models.TaskGlobal,
-          models.TeamMember
-        ]
-      },
+      {model: models.Issue, as: 'lastIssue'},
+      {model: models.Task, as: 'lastTask', include: [models.TaskGlobal, models.TeamMember]},
       {model: models.LanguageSeries},
       {model: models.PublishDate, required: true}
     ]
@@ -256,39 +252,7 @@ exports.getReadyToRenderLessons = function (req, res) {
     if (lessons) {
       var renderQueueLessons = [];
       for(var i = 0; i < lessons.length; i++) {
-        // each lesson
-        for(var j = 0; j < lessons[i].tasks.length; j++) {
-          // each task
-          if(lessons[i].tasks[j].dataValues.isCompleted) {
-            var completedTime = new Date(lessons[i].tasks[j].dataValues.timeCompleted);
-            var queuedTime = new Date(lessons[i].dataValues.queuedTime);
-            if(completedTime > queuedTime) {
-              if(!lessons[i].dataValues.mostRecentTask) {
-                lessons[i].dataValues.mostRecentTask = lessons[i].tasks[j];
-              }
-              if(lessons[i].tasks[j].dataValues.timeCompleted > lessons[i].dataValues.mostRecentTask.dataValues.timeCompleted) {
-                lessons[i].dataValues.mostRecentTask = lessons[i].tasks[j];
-              }
-            }
-          }
-          for(var k = 0; k < lessons[i].tasks[j].issues.length; k++) {
-            // each issue
-            if(lessons[i].tasks[j].issues[k].dataValues.isCompleted) {
-              if(lessons[i].tasks[j].issues[k].dataValues.timeCompleted > lessons[i].dataValues.queuedTime) {
-                if(!lessons[i].dataValues.mostRecentIssue) {
-                  lessons[i].dataValues.mostRecentIssue = lessons[i].tasks[j].issues[k];
-                }
-                if(lessons[i].tasks[j].issues[k].dataValues.timeCompleted > lessons[i].dataValues.mostRecentIssue.dataValues.timeCompleted) {
-                  console.log("Found a most recent issue");
-                  lessons[i].dataValues.mostRecentIssue = lessons[i].tasks[j].issues[k];
-                }
-              } 
-            } else {
-              lessons[i].incompleteIssues = true;
-            }
-          }  
-        }
-        if(!lessons[i].incompleteIssues && (lessons[i].dataValues.mostRecentTask || lessons[i].dataValues.mostRecentIssue)) {
+        if(lessons[i].lastIssueTime > lessons[i].queuedTime || lessons[i].lastTaskTime > lessons[i].queuedTime) {
           renderQueueLessons.push(lessons[i]);
         }
       }
@@ -297,7 +261,7 @@ exports.getReadyToRenderLessons = function (req, res) {
       res.status(404).send({error: "No lessons found."});
     }
   }).catch(function (err) {
-    res.status(500).send({error: err});
+    res.status(500).send(err);
   });
 };
 

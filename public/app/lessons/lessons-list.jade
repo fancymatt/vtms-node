@@ -53,8 +53,8 @@
         td(ng-show="config.columns.lastRender") {{lesson.lastRender | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.lastAction") 
           ul
-            li(ng-show="lesson.mostRecentTask") {{lesson.mostRecentTask.teamMember.nameFirst}} - {{lesson.mostRecentTask.taskGlobal.name}} {{lesson.mostRecentTask.timeCompleted | date: 'MMM d, yyyy, h:mm a'}}
-            li(ng-show="lesson.mostRecentIssue") Issues fixed
+            li(ng-show="lesson.lastTask") {{lesson.lastTask.teamMember.nameFirst}} - {{lesson.lastTask.taskGlobal.name}} {{lesson.lastTaskTime | date: 'MMM d, yyyy, h:mm a'}}
+            li(ng-show="lesson.lastIssues") Issues fixed {{lesson.lastIssueTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.queuedTime") {{lesson.queuedTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.trt") {{lesson.trt | secondsToDateTime | date:'m:ss' }}
         td(ng-show="config.columns.qaLog")

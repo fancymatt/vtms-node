@@ -3,6 +3,8 @@ var db = require('../config/sequelize.js'),
 
 var models = {};
 
+models.Sequelize = Sequelize;
+
 models.Series = require('./Series.js');
 models.LanguageSeries = require('./LanguageSeries.js');
 models.Lesson = require('./Lesson.js');
