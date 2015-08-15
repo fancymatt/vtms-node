@@ -11,6 +11,7 @@ module.exports = function(app) {
   app.get('/api/series/:id', controllers.series.getSeriesById);
   app.get('/api/series', controllers.series.getSeries);
   app.get('/api/series/:id/languageSeries', controllers.series.getLanguageSeriesForSeriesWithId);
+  app.get('/api/series/:id/lessons', controllers.lesson.getLessonsForSeries);
   app.get('/api/series/:id/globalTasks', controllers.taskGlobal.getGlobalTasksForSeries);
   
   app.get('/api/languageSeries', controllers.languageSeries.getLanguageSeries);
@@ -77,6 +78,7 @@ module.exports = function(app) {
   app.get('/api/levels/:id', controllers.level.getLevelById);
   
   app.get('/api/publishDates', controllers.publishDate.getPublishDates);
+  app.post('/api/publishDates', controllers.publishDate.createPublishDate);
   app.get('/api/publishDates/incomplete', controllers.publishDate.getIncompletePublishDates);
   app.get('/api/publishDates/surrounding', controllers.publishDate.getSurroundingPublishDates);
   app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);

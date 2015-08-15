@@ -8,7 +8,7 @@ var Platform = db.define('platform', {
     autoIncrement: true
   },
   name: {
-    type: Sequelize.INTEGER
+    type: Sequelize.STRING
   },
   instructions: {
     type: Sequelize.TEXT

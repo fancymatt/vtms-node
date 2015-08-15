@@ -1,0 +1,11 @@
+.controller-fluid
+  h2 Database Migration
+  ul
+    li(ng-repeat="sery in series")
+      a(href="#", ng-click="createPublishDates(sery.id)") Create Publish Dates for {{sery.title}}
+    li(ng-repeat="sery in series")
+      a(href="#", ng-click="updateLessonsAndTasks(sery.id)") Update Lessons and Tasks for {{sery.title}}
+    li
+      a(href="#", ng-click="updateActivities()") Update Activities
+    li
+      a(href="#", ng-click="updateIssues()") Update Issues

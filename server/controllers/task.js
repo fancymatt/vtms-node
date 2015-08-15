@@ -1,5 +1,6 @@
 var models = require('../models/models'),
-    sequelize = require('../config/sequelize');
+    sequelize = require('../config/sequelize'),
+    moment = require('moment');
 
 var getList = function(req, res, query) {
   models.Task.findAll(query).then(function(tasks) {
@@ -241,11 +242,12 @@ exports.getActionableTasksForTeamMemberWithId = function(req, res) {
       models.TaskGlobal,
       {
         model: models.Lesson,
-        include: [{model: models.PublishDate, required: true}, 
+        include: [{model: models.PublishDate,
+                   where: {date: {$lt: moment(Date.now()).add(3, 'months').format('YYYY-MM-DD')}},
+                   required: true}, 
                   models.LanguageSeries]
       }
-    ],
-    limit: 100
+    ]
   }).then(function(tasks) {
     if(tasks) {
       res.send(tasks);

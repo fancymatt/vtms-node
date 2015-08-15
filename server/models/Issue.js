@@ -41,6 +41,7 @@ var Issue = db.define('issue', {
 
 module.exports = Issue;
 
+/*
 Issue.sync().then(function() {
   console.log("Issue migration");
   Issue.findAll({include: [Task]}).then(function(issues) {
@@ -52,3 +53,4 @@ Issue.sync().then(function() {
     });
   });
 });
+*/

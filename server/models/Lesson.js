@@ -1,6 +1,8 @@
 var db = require('../config/sequelize.js'),
     Task = require('./Task.js'),
     Lesson = require('./Lesson.js'),
+    LanguageSeries = require('./LanguageSeries.js'),
+    Series = require('./Series.js'),
     TaskGlobal = require('./TaskGlobal.js'),
     Sequelize = require('sequelize');
   
@@ -131,34 +133,5 @@ var Lesson = db.define('lesson', {
   timestamps: false,
   freezeTableName: true
 });
-
-/*
-Lesson.sync().then(function() {
-  Lesson.findAll({where: {filesMoved: false}, include: [{model: Task, include: [TaskGlobal]}]}).then(function(lessons) {
-    lessons.forEach(function(lesson) {
-      if(!lesson.isShot) {
-        var completionValue = 0;
-        console.log("Evaluating lesson with id of " + lesson.id);
-        lesson.tasks.forEach(function(task) {
-          if(task.isCompleted) {
-            completionValue += task.taskGlobal.completionValue;
-            console.log("Lesson + " + lesson.id + " completion value is now " + completionValue);
-          }
-        });
-        lesson.tasks.forEach(function(task) {
-          if(task.taskGlobal.actionableAt <= completionValue) {
-            task.isActionable = true;
-            console.log("Lesson + " + lesson.id + "'s completion value of " + completionValue + " is greater than actionable threshold of " + task.taskGlobal.actionableAt);
-          } else {
-            task.isActionable = false;
-            console.log("Lesson + " + lesson.id + "'s completion value of " + completionValue + " is less than actionable threshold of " + task.taskGlobal.actionableAt);
-          }
-          task.save();
-        });      
-      }
-    });
-  });
-});
-*/
 
 module.exports = Lesson;

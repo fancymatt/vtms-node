@@ -265,6 +265,20 @@ exports.getReadyToRenderLessons = function (req, res) {
   });
 };
 
+exports.getLessonsForSeries = function(req, res) {
+   getList(req, res, {
+     include: [
+       {
+          model: models.LanguageSeries,
+          include: [models.Series],
+          where: {
+            fkSeries: req.params.id
+          }
+       }
+      ]
+   });
+};
+
 exports.getLessonsForTeamMemberWithIssues = function(req, res) {
   getList(req, res, {
     include: [
