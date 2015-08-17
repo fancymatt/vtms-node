@@ -1,8 +1,8 @@
-angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsIssue, vtmsTask, vtmsPublishDate, vtmsActivity, $routeParams) {
+angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsIssue, vtmsShot, vtmsTask, vtmsPublishDate, vtmsActivity, $routeParams) {
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
-  
+
   ctrl.tasksConfig = {
     title: 'Tasks',
     type: 'default',
@@ -23,7 +23,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       dueDate: true
     }
   };
-  
+
   ctrl.issuesConfig = {
     title: 'Issues',
     update: function() {
@@ -42,16 +42,20 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       creator: true
     }
   };
-  
+
   ctrl.shotsConfig = {
     title: 'Shots',
     sortable: false,
+    lessonId: ctrl.lessonId,
+    update: function() {
+      return vtmsShot.getList({id: ctrl.lessonId});
+    },
     actions: {},
     columns: {
       actions: true
     }
   };
-  
+
   ctrl.publishDatesConfig = {
     title: 'Publish Dates',
     update: function() {
@@ -67,7 +71,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       status: true
     }
   };
-  
+
   ctrl.activityListConfig = {
     title: 'Activity History',
     sortable: false,
@@ -88,5 +92,5 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       task: true
     }
   };
-  
+
 });

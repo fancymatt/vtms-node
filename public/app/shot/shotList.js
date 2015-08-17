@@ -3,16 +3,17 @@ angular.module('vtms').directive('shotList', function() {
     templateUrl: "/partials/shot/shot-list",
     restrict: "E",
     scope: {
-      lesson: '=',
-      config: '=',
-      updateFn: '&'
+      config: '='
     },
     controller: function($scope, $window, vtmsShot, vtmsTask, vtmsNotifier) {
-      
-      $scope.lesson.$promise.then(function(lesson) {
-        $scope.shotList = vtmsShot.getList({id: $scope.lesson.id});
-        $scope.assetList = vtmsTask.getAssets({id: $scope.lesson.id});
-      });
+
+      $scope.assetList = vtmsTask.getAssets({id: $scope.config.lessonId});
+
+      $scope.refresh = function() {
+        $scope.shotList = $scope.config.update();
+      };
+
+      $scope.refresh();
 
       function deleteFromList(item, list) {
         var index = list.indexOf(item);
@@ -21,7 +22,7 @@ angular.module('vtms').directive('shotList', function() {
           list.splice(index, 1);
         });
       };
-      
+
       $scope.getNameFromTaskId = function(id) {
         if($scope.assetList.length) {
           for(var i = 0; i < $scope.assetList.length; i++) {
@@ -36,26 +37,21 @@ angular.module('vtms').directive('shotList', function() {
         script: "",
         type: ""
       };
-      
+
       $scope.sortOptions = [{value: ['section', 'shot'], text: "Sort Chronologically"}];
-      
+
       if($scope.config.sortOptions) {
         if($scope.config.sortOptions.section) $scope.sortOptions.push({value: "section", text: "Sort by Section"});
         if($scope.config.sortOptions.shot) $scope.sortOptions.push({value: "shot", text: "Sort by Shot"});
         if($scope.config.sortOptions.type) $scope.sortOptions.push({value: "type", text: "Sort by Type"});
         if($scope.config.sortOptions.script) $scope.sortOptions.push({value: "script", text: "Sort by Script"});
-        if($scope.config.sortOptions.asset) $scope.sortOptions.push({value: "asset", text: "Sort by Asset"});  
+        if($scope.config.sortOptions.asset) $scope.sortOptions.push({value: "asset", text: "Sort by Asset"});
       }
-      
+
       $scope.sortOrder = $scope.sortOptions[0].value;
-      
-      $scope.refreshList = function() {
-        $scope.shotList = $scope.updateFn();
-      };
-            
-      
+
       $scope.newShot = function() {
-        $scope.newShotValues.fkLesson = $scope.lessonId;
+        $scope.newShotValues.fkLesson = $scope.config.lessonId;
         var newShot = new vtmsShot($scope.newShotValues);
         newShot.$save().then(function(shot) {
           $scope.shotList[$scope.shotList.length] = shot;
