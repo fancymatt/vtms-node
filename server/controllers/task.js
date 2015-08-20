@@ -76,7 +76,7 @@ exports.getTaskById = function(req, res) {
 exports.updateTaskById = function(req, res) {
   console.log("  WELCOME TO THE PROBLEMATIC UPDATETASKBYID FUNCTION");
   console.log("req", req);
-  models.Task.findOne({id: req.body.id})
+  models.Task.findOne({id: req.params.id})
   .then(function (task) {
     console.log("found task", task);
     for (var key in req.query) {

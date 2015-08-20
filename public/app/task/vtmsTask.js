@@ -75,7 +75,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
-      dfd.reject(response.data.reason);
+      dfd.reject(response.reason);
     });
 
     return dfd.promise;
