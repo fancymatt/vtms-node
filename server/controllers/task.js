@@ -81,10 +81,7 @@ exports.updateTaskById = function(req, res) {
     where: {id: req.params.id}
   }).then(function (task) {
     console.log("found task", task);
-    for (var key in req.query) {
-      task[key] = req.query[key];
-    }
-    task.save()
+    task.updateAttributes (req.query)
       .then(function (task) {
         res.status(200);
         return res.send();
