@@ -74,7 +74,8 @@ exports.getTaskById = function(req, res) {
 };
 
 exports.updateTaskById = function(req, res) {
-  models.Task.findById(req.body.id).then(function (task) {
+  models.Task.findById(req.body.id)
+  .then(function (task) {
     for (var key in req.query) {
       task[key] = req.query[key];
     }
@@ -87,6 +88,10 @@ exports.updateTaskById = function(req, res) {
         res.status(400);
         return res.send({reason: err.toString()});
       });
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.status(500).send({error: err})
   });
 };
 
