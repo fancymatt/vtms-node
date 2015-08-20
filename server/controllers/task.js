@@ -74,8 +74,11 @@ exports.getTaskById = function(req, res) {
 };
 
 exports.updateTaskById = function(req, res) {
-  models.Task.findById(req.body.id)
+  console.log("  WELCOME TO THE PROBLEMATIC UPDATETASKBYID FUNCTION");
+  console.log("req", req);
+  models.Task.findOne({id: req.body.id})
   .then(function (task) {
+    console.log("found task", task);
     for (var key in req.query) {
       task[key] = req.query[key];
     }
@@ -90,7 +93,7 @@ exports.updateTaskById = function(req, res) {
       });
   })
   .catch(function(err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send({reason: err.toString()})
   });
 };
