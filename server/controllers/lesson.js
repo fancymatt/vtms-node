@@ -80,27 +80,22 @@ exports.getLessonsWithUnassignedIssues = function (req, res) {
 };
 
 exports.updateLesson = function (req, res) {
-  models.Lesson.findById(req.body.id).then(function (lesson) {
-    for (var key in req.query) {
-      lesson[key] = req.query[key];
-    }
-    lesson.save()
-      .then(function (lesson) {
-        res.status(200);
-        return res.send();
-      })
-      .catch(function (err) {
-        res.status(400);
-        return res.send({reason: err.toString()});
-      });
+  models.Lesson.update(req.query, {where: {id: req.params.id}})
+  .then(function() {
+    res.status(200);
+    return res.send();
+  })
+  .catch(function (err) {
+    res.status(400);
+    return res.send({reason: err.toString()});
   });
 };
 
 exports.getUpcomingLessons = function (req, res) {
     models.Lesson.findAll({
       include: {
-        model: models.PublishDate, 
-        required: true, 
+        model: models.PublishDate,
+        required: true,
         //attributes: ['date', [sequelize.literal('MIN(date)')]]
       },
       where: { filesMoved: false },

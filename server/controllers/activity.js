@@ -37,22 +37,14 @@ exports.createActivity = function(req, res) {
 };
 
 exports.updateActivity = function(req, res) {
-  models.Activity.findById(req.params.id).then(function(activity) {
-    for (var key in req.query) {
-      if(req.query[key]) {
-        activity[key] = req.query[key];
-      }
-    }
-    activity.save().then(function(savedActivity) {
-      res.status(200);
-      return res.send();
-    }).catch(function(err) {
-      res.status(400);
-      return res.send({reason: err.toString()});
-    });
-  }).catch(function(err) {
+  models.Activity.update(req.query, {where: {id: req.params.id}})
+  .then(function() {
+    res.status(200);
+    return res.send();
+  })
+  .catch(function (err) {
     res.status(400);
-    return res.status({reason: err});
+    return res.send({reason: err.toString()});
   });
 };
 

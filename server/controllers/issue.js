@@ -38,19 +38,14 @@ exports.createIssue = function (req, res, next) {
 };
 
 exports.updateIssue = function (req, res) {
-  models.Issue.findById(req.params.id).then(function (issue) {
-    for (var key in req.query) {
-      issue[key] = req.query[key];
-    }
-    issue.save()
-      .then(function (issue) {
-        res.status(200);
-        return res.send();
-      })
-      .catch(function (err) {
-        res.status(400);
-        return res.send({reason: err.toString()});
-      });
+  models.Issue.update(req.query, {where: {id: req.params.id}})
+  .then(function() {
+    res.status(200);
+    return res.send();
+  })
+  .catch(function (err) {
+    res.status(400);
+    return res.send({reason: err.toString()});
   });
 };
 

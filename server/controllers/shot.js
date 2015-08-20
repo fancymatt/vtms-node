@@ -51,19 +51,14 @@ exports.createShot = function (req, res, next) {
 };
 
 exports.updateShot = function (req, res) {
-  models.Shot.findById(req.params.id).then(function (shot) {
-    for (var key in req.query) {
-      shot[key] = req.query[key];
-    }
-    shot.save()
-      .then(function (shot) {
-        res.status(200);
-        return res.send();
-      })
-      .catch(function (err) {
-        res.status(400);
-        return res.send({reason: err.toString()});
-      });
+  models.Shot.update(req.query, {where: {id: req.params.id}})
+  .then(function() {
+    res.status(200);
+    return res.send();
+  })
+  .catch(function (err) {
+    res.status(400);
+    return res.send({reason: err.toString()});
   });
 };
 

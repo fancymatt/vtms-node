@@ -74,9 +74,6 @@ exports.getTaskById = function(req, res) {
 };
 
 exports.updateTaskById = function(req, res) {
-  console.log("  WELCOME TO THE PROBLEMATIC UPDATETASKBYID FUNCTION");
-  console.log("req", req);
-  console.log("The id we're using to search with is: " + req.params.id);
   models.Task.update(req.query, {where: {id: req.params.id}})
   .then(function() {
     res.status(200);
