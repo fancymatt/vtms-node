@@ -1,11 +1,10 @@
 angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($rootScope, vtmsTeamMember, vtmsTask, vtmsLesson, vtmsIdentity, vtmsIssue, vtmsActivity) {
   var ctrl = this;
-  
+
   ctrl.identity = vtmsIdentity.currentUser;
   ctrl.userId = ctrl.identity.fkTeamMember;
   ctrl.teamMember = vtmsTeamMember.get({id: ctrl.identity.fkTeamMember});
-  ctrl.activeTasks = vtmsTask.getActiveTasksForMember({id: ctrl.identity.fkTeamMember});
-    
+
   ctrl.beginFixingIssues = function(task) {
     console.log('task', task);
     // create a new activity
@@ -13,12 +12,12 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
     var newActivity = new vtmsActivity();
     newActivity.createActivityForIssues(task).then(function(activity) {
       $rootScope.$broadcast('activity:created', activity);
-    });   
-    
+    });
+
     // allow using the buttons on the underlying task
     ctrl.issuesConfig.taskBeingFixed = task.id;
   };
-    
+
   ctrl.actionableTasksConfig = {
     title: 'Your Tasks',
     type: 'actionable',
@@ -39,7 +38,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       dueDate: true
     }
   };
-  
+
   ctrl.undeliveredTasksConfig = {
     title: 'Your Undelivered Assets',
     type: 'undeliveredAssets',
@@ -60,18 +59,19 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       dueDate: true
     }
   };
-  
+
   ctrl.teamMemberIssuesListConfig = {
     title: 'Your Issues',
     update: function() {
       return vtmsTask.getTasksForTeamMemberWithIssues({id: ctrl.identity.fkTeamMember});
     }
   };
-  
+
   ctrl.activityListConfig = {
     title: 'Your Activities',
     create: true,
     sortable: false,
+    teamMemberId: ctrl.userId,
     update: function() {
       return vtmsActivity.getRecentListForTeamMember({id: ctrl.identity.fkTeamMember});
     },
@@ -96,7 +96,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       lesson: true,
       task: true
     },
-    
+
   };
-  
+
 });

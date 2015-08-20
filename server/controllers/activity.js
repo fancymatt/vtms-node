@@ -19,7 +19,7 @@ var getOne = function(req, res, query) {
     if(activity) {
       res.send(activity);
     } else {
-      res.status(404).send({error: 'No activity was found.'});
+      res.status(200).send({});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -93,9 +93,9 @@ exports.getRecentActivities = function(req, res) {
         model: models.Task,
         include: [
           {
-            model: models.Lesson, 
+            model: models.Lesson,
             include: [models.LanguageSeries]
-          }, 
+          },
           models.TaskGlobal
         ]
       }
@@ -143,9 +143,9 @@ exports.getActivitiesForTeamMember = function(req, res) {
         model: models.Task,
         include: [
           {
-            model: models.Lesson, 
+            model: models.Lesson,
             include: [models.LanguageSeries]
-          }, 
+          },
           models.TaskGlobal
         ]
       }
@@ -166,9 +166,9 @@ exports.getRecentActivitiesForTeamMember = function(req, res) {
         model: models.Task,
         include: [
           {
-            model: models.Lesson, 
+            model: models.Lesson,
             include: [models.LanguageSeries]
-          }, 
+          },
           models.TaskGlobal
         ]
       }
@@ -177,5 +177,5 @@ exports.getRecentActivitiesForTeamMember = function(req, res) {
 };
 
 exports.getActiveActivityForTeamMember = function(req, res) {
-  getOne(req, res, {where: {fkTeamMember: req.params.id, isActive: true}});
+  getOne(req, res, {where: {fkTeamMember: req.params.id, isActive: true}, order: [['timeStart']]});
 };

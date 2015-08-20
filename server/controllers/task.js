@@ -41,7 +41,7 @@ exports.getTasks = function(req, res) {
 
 exports.getAssetsForLessonWithId = function(req, res) {
   models.Task.findAll({
-    where: {fkLesson: req.params.id}, 
+    where: {fkLesson: req.params.id},
     include: [
       {model: models.TaskGlobal, required: true, where: {isAsset: true}},
       {model: models.Lesson, include: [models.PublishDate]}
@@ -60,10 +60,10 @@ exports.getAssetsForLessonWithId = function(req, res) {
 exports.getTaskById = function(req, res) {
   models.Task.findOne({
     where: {id: req.params.id},
-    include: [ 
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] }, 
-      {model: models.TeamMember}, 
-      {model: models.TaskGlobal}]    
+    include: [
+      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.TeamMember},
+      {model: models.TaskGlobal}]
   }).then(function(task) {
     if(task) {
       res.send(task);
@@ -93,15 +93,15 @@ exports.updateTaskById = function(req, res) {
 exports.getActiveTasks = function(req, res) {
   models.Task.findAll({
     where: {isActive: true},
-    include: [ 
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] }, 
-      {model: models.TeamMember}, 
-      {model: models.TaskGlobal}]   
+    include: [
+      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.TeamMember},
+      {model: models.TaskGlobal}]
   }).then(function(tasks) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(404).send({error: "There are no active tasks."});
+      res.status(200).send({error: "There are no active tasks."});
     }
   }).catch(function(err) {
     res.status(500).send({error: err})
@@ -109,7 +109,7 @@ exports.getActiveTasks = function(req, res) {
 };
 
 exports.getActiveTasksForTeamMemberWithId = function(req,  res) {
-  models.Task.findAll({
+  models.Task.findOne({
     where: {
       isActive: true,
       fkTeamMember: req.params.id
@@ -122,7 +122,7 @@ exports.getActiveTasksForTeamMemberWithId = function(req,  res) {
     if(tasks) {
       res.send(tasks)
     } else {
-      res.status(404).send({error: "There are no active tasks."});
+      res.status(200).send({error: "There are no active tasks."});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -135,7 +135,7 @@ exports.getActionableTasks = function(req, res) {
       isCompleted: false,
       isActionable: true
            },
-    include: [ 
+    include: [
       {model: models.Lesson, include: [models.PublishDate]},
       {model: models.TaskGlobal}
       ]
@@ -154,11 +154,11 @@ exports.getRecentTasks = function(req, res) {
   models.Task.findAll({
     where: {isCompleted: true},
     order: [['timeCompleted', 'DESC']],
-    include: [ 
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] }, 
-      {model: models.TeamMember}, 
+    include: [
+      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.TeamMember},
       {model: models.TaskGlobal}],
-    limit: 50         
+    limit: 50
   }).then(function(tasks) {
     if(tasks) {
       res.send({tasks: tasks});
@@ -175,7 +175,7 @@ exports.getTasksForLessonWithId = function (req, res) {
     where: {fkLesson: req.params.id},
     include: [
       {model: models.Lesson, include: [models.PublishDate]},
-      {model: models.TeamMember}, 
+      {model: models.TeamMember},
       {model: models.TaskGlobal}
     ]
   }).then(function(tasks) {
@@ -244,7 +244,7 @@ exports.getActionableTasksForTeamMemberWithId = function(req, res) {
         model: models.Lesson,
         include: [{model: models.PublishDate,
                    where: {date: {$lt: moment(Date.now()).add(3, 'months').format('YYYY-MM-DD')}},
-                   required: true}, 
+                   required: true},
                   models.LanguageSeries]
       }
     ]

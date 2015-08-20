@@ -24,14 +24,14 @@
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
-              li(ng-show="config.actions.complete && !activity.isCompleted")
+              li(ng-show="config.actions.complete && activity.isActive")
                 a(href="#", ng-click="completeActivity(activity)") Complete
-              li(ng-show="config.actions.deactivate && !activity.isCompleted")
+              li(ng-show="config.actions.deactivate && activity.isActive")
                 a(href="#", ng-click="deactivateActivity(activity)") Deactivate
               li(ng-show="config.actions.delete")
                 a(href="#", ng-click="deleteActivity(activity)") Delete
-        td(ng-show="config.columns.teamMember") {{activity.shift ? activity.shift.teamMember.nameFirst : activity.teamMember.nameFirst}} 
-        td(ng-show="config.columns.activity") 
+        td(ng-show="config.columns.teamMember") {{activity.shift ? activity.shift.teamMember.nameFirst : activity.teamMember.nameFirst}}
+        td(ng-show="config.columns.activity")
           span {{activity.activity}}
           span(ng-if="activity.task") {{": "}}
           a(ng-if="config.activityDetail.lesson", ng-href="/lesson/{{activity.task.lesson.id}}")
@@ -40,15 +40,15 @@
           span(ng-if="activity.task", ng-show="config.activityDetail.task") {{activity.task.taskGlobal.name}}
         td(ng-show="config.columns.startTime") {{activity.timeStart | date: 'MMM d, yyyy HH:mm'}}
         td(ng-show="config.columns.endTime")
-          span(ng-show="activity.isCompleted") {{activity.timeEnd | date: 'MMM d, yyyy HH:mm'}}
+          span(ng-show="!activity.isActive") {{activity.timeEnd | date: 'MMM d, yyyy HH:mm'}}
         td(ng-show="config.columns.duration")
-          span(ng-show="activity.isCompleted") {{activity.duration()}}
+          span(ng-show="!activity.isActive") {{activity.duration()}}
       tr(ng-show="config.create")
         td(ng-show="config.columns.actions")
-          button.btn.btn-primary.btn-sm(ng-show="newActivityValues.activity.length > 0", ng-click="createActivity()") New Activity
+          button.btn.btn-primary.btn-sm(ng-show="newActivityValue.length > 0", ng-click="createActivity()") New Activity
         td(ng-show="config.columns.teamMember")
         td(ng-show="config.columns.activity")
-          input.form-control(ng-model="newActivityValues.activity")
+          input.form-control(ng-model="newActivityValue")
         td(ng-show="config.columns.startTime")
         td(ng-show="config.columns.endTime")
         td(ng-show="config.columns.duration")
