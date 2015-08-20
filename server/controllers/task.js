@@ -77,23 +77,14 @@ exports.updateTaskById = function(req, res) {
   console.log("  WELCOME TO THE PROBLEMATIC UPDATETASKBYID FUNCTION");
   console.log("req", req);
   console.log("The id we're using to search with is: " + req.params.id);
-  models.Task.findOne({
-    where: {id: req.params.id}
-  }).then(function (task) {
-    console.log("found task", task);
-    task.updateAttributes (req.query)
-      .then(function (task) {
-        res.status(200);
-        return res.send();
-      })
-      .catch(function (err) {
-        res.status(400);
-        return res.send({reason: err.toString()});
-      });
+  models.Task.update(req.query, where: {id: req.params.id})
+  .then(function() {
+    res.status(200);
+    return res.send();
   })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send({reason: err.toString()})
+  .catch(function (err) {
+    res.status(400);
+    return res.send({reason: err.toString()});
   });
 };
 
