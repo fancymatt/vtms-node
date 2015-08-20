@@ -91,7 +91,7 @@ exports.updateTaskById = function(req, res) {
   })
   .catch(function(err) {
     console.log(err);
-    res.status(500).send({error: err})
+    res.status(500).send({reason: err.toString()})
   });
 };
 
