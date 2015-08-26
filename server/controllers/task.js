@@ -184,6 +184,26 @@ exports.getTasksForLessonWithId = function (req, res) {
   });
 };
 
+exports.getLastTaskForLessonWithId = function (req, res) {
+  models.Task.findOne({
+    where: {
+      fkLesson: req.params.id,
+      isCompleted: true
+    },
+    include: [{model: models.TaskGlobal, where: {isAsset: false}}],
+    order: [['timeCompleted', 'desc']],
+    limit: 1
+  }).then(function(task) {
+    if(task) {
+      res.send(task);
+    } else {
+      res.status(200).send({error: "No tasks were completed for this lesson."});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getTasksForTeamMemberWithIssues = function(req, res) {
   models.Task.findAll({
     where: {isCompleted: true, fkTeamMember: req.params.id},

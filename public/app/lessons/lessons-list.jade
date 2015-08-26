@@ -12,6 +12,7 @@
       tr
         th(ng-show="config.columns.actions") Actions
         th(ng-show="config.columns.series") Series
+        th(ng-show="config.columns.level") Level
         th(ng-show="config.columns.number") Number
         th(ng-show="config.columns.title") Title
         th(ng-show="config.columns.lastRender") Last Render
@@ -26,7 +27,7 @@
       tr(ng-repeat="lesson in lessonsList | orderBy: sortOrder")
         td(ng-show="config.columns.actions")
           div.btn-group
-            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
@@ -47,14 +48,15 @@
               li(ng-show="config.actions.goToCheckingInterface")
                 a(href="lesson/{{lesson.id}}/checking") Go To Checking Interface
         td(ng-show="config.columns.series") {{lesson.languageSery.title}}
+        td(ng-show="config.columns.level") {{lesson.languageSery.level.name}}
         td(ng-show="config.columns.number") {{lesson.number}}
-        td(ng-show="config.columns.title") 
+        td(ng-show="config.columns.title")
           a(ng-href="/lesson/{{lesson.id}}") {{lesson.title}}
         td(ng-show="config.columns.lastRender") {{lesson.lastRender | date: 'MMM d, yyyy, h:mm a'}}
-        td(ng-show="config.columns.lastAction") 
+        td(ng-show="config.columns.lastAction")
           ul
-            li(ng-show="lesson.lastTask") {{lesson.lastTask.teamMember.nameFirst}} - {{lesson.lastTask.taskGlobal.name}} {{lesson.lastTaskTime | date: 'MMM d, yyyy, h:mm a'}}
-            li(ng-show="lesson.lastIssues") Issues fixed {{lesson.lastIssueTime | date: 'MMM d, yyyy, h:mm a'}}
+            li(ng-show="lesson.fkLastTask > 0") {{lesson.lastTask.teamMember.nameFirst}} - {{lesson.lastTask.taskGlobal.name}} {{lesson.lastTaskTime | date: 'MMM d, yyyy, h:mm a'}}
+            li(ng-show="lesson.fkLastIssue > 0") Issues fixed {{lesson.lastIssueTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.queuedTime") {{lesson.queuedTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.trt") {{lesson.trt | secondsToDateTime | date:'m:ss' }}
         td(ng-show="config.columns.qaLog")

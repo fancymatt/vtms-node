@@ -63,7 +63,7 @@ exports.deleteIssue = function (req, res) {
 };
 
 exports.getIssues = function(req, res) {
-  getList(req, res, {});
+  getList(req, res, {include: [models.Task]});
 };
 
 exports.getIssueById = function(req, res) {
@@ -84,6 +84,25 @@ exports.getIssuesForLessonWithId = function(req, res) {
 
 exports.getUnassignedIssuesForLesson = function(req, res) {
   getList(req, res, {where: {fkLesson: req.params.id, fkTask: 0}});
+};
+
+exports.getLastIssueForLessonWithId = function(req, res) {
+  models.Issue.findOne({
+    where: {
+      fkLesson: req.params.id,
+      isCompleted: true
+    },
+    order: [['timeCompleted', 'desc']],
+    limit: 1
+  }).then(function(issue) {
+    if(issue) {
+      res.send(issue);
+    } else {
+      res.status(200).send({error: 'No issues were completed for this lesson.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
 };
 
 exports.getIssuesForTeamMember = function(req, res) {

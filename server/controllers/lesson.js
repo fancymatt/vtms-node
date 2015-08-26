@@ -201,7 +201,7 @@ exports.getQueuedLessons = function (req, res) {
       isQueued: true
     },
     include: [
-      models.LanguageSeries,
+      {model: models.LanguageSeries, include: [models.Level]},
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
@@ -240,15 +240,22 @@ exports.getReadyToRenderLessons = function (req, res) {
     include: [
       {model: models.Issue, as: 'lastIssue'},
       {model: models.Task, as: 'lastTask', include: [models.TaskGlobal, models.TeamMember]},
-      {model: models.LanguageSeries},
+      {model: models.LanguageSeries, include: [models.Level]},
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
     if (lessons) {
       var renderQueueLessons = [];
       for(var i = 0; i < lessons.length; i++) {
-        if(lessons[i].lastIssueTime > lessons[i].queuedTime || lessons[i].lastTaskTime > lessons[i].queuedTime) {
-          renderQueueLessons.push(lessons[i]);
+        if(lessons[i].lastTaskTime > lessons[i].queuedTime || lessons[i].lastIssueTime > lessons[i].queuedTime || lessons[i].queuedTime === '0000-00-00') {
+          if(lessons[i].checkedLanguage) {
+            // if it's checked language, then we shouldn't export again until all tasks are completed
+            if(lessons[i].allTasksCompleted) {
+              renderQueueLessons.push(lessons[i]);
+            }
+          } else {
+            renderQueueLessons.push(lessons[i]);
+          }
         }
       }
       res.send(renderQueueLessons);

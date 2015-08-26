@@ -1,11 +1,12 @@
 angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
   var IssueResource = $resource('/api/issues/:id', {id: '@id'}, {
     update: {method:'PUT', isArray: false},
+    getLastIssueForLesson: {method:'GET', url: '/api/lessons/:id/issues/last-completed', isArray: false},
     getListForLesson: {method:'GET', url: '/api/lessons/:id/issues', isArray:true},
     getUnassignedIssuesForLesson: {method: 'GET', url: '/api/lessons/:id/issues/unassigned', isArray: true},
     getIssuesForTask: {method:'GET', url: '/api/tasks/:id/issues', isArray:true}
   });
-  
+
   IssueResource.prototype.update = function(newData) {
     var dfd = $q.defer();
     this.$update(newData).then(function() {
@@ -15,7 +16,7 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
     });
     return dfd.promise;
   };
-  
+
   IssueResource.prototype.delete = function() {
     var dfd = $q.defer();
     this.$delete().then(function() {
@@ -25,10 +26,10 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
     });
     return dfd.promise;
   };
-  
+
   IssueResource.prototype.complete = function() {
     var dfd = $q.defer();
-    
+
     var finishTime = moment(Date.now());
 
     this.update({
@@ -41,7 +42,6 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
     });
     return dfd.promise;
   };
-  
+
   return IssueResource;
 });
-  

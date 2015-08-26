@@ -10,7 +10,7 @@ var getList = function(req, res, query) {
     }
   }).catch(function(err) {
     console.log(err);
-    res.status(500).send({error: err});
+    res.status(500).send({reason: err.toString()});
   });
 };
 

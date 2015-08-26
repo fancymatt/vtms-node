@@ -8,4 +8,10 @@
     li
       a(href="#", ng-click="updateActivities()") Update Activities
     li
-      a(href="#", ng-click="updateIssues()") Update Issues
+      a(href="#", ng-click="updateIssuesRelationship()") Update Issues Relationship
+    li(ng-repeat="sery in series")
+      a(href="#", ng-click="updateIncompleteIssues(sery.id)") Update IncompleteIssues for {{sery.title}}
+    li(ng-repeat="sery in series")
+      a(href="#", ng-click="updateLastTask(sery.id)") Update Last Task for {{sery.title}}
+    li(ng-repeat="sery in series")
+      a(href="#", ng-click="updateLastIssue(sery.id)") Update Last Issue for {{sery.title}}

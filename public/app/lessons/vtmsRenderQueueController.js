@@ -1,5 +1,5 @@
 angular.module('vtms').controller('vtmsRenderQueueController', function($scope, vtmsLesson) {
-  
+
   $scope.lessonsToRenderConfig = {
     title: 'Lessons to Render',
     type: 'lessonsToRender',
@@ -13,11 +13,12 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
       delete: false
     },
     columns: {
-      actions: true,      
+      actions: true,
       series: true,
+      level: true,
       number: true,
       title: false,
-      lastRender: true,
+      queuedTime: true,
       lastAction: true,
       queuedTime: true,
       trt: false,
@@ -25,7 +26,7 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
       status: true
     }
   };
-  
+
   $scope.lessonsInQueueConfig = {
     title: 'Lessons in Queue',
     type: 'renderQueue',
@@ -39,8 +40,9 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
       delete: false
     },
     columns: {
-      actions: true,      
+      actions: true,
       series: true,
+      level: true,
       number: true,
       title: false,
       lastRender: false,

@@ -2,6 +2,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
   var TaskResource = $resource('/api/tasks/:id', {id: '@id'}, {
     update: {method:'PUT', isArray: false},
     getList: {method:'GET', url:'/api/lessons/:id/tasks', isArray:true},
+    getLastTaskForLesson: {method: 'GET', url:'/api/lessons/:id/tasks/last-completed', isArray: false},
     getActionableTasksForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/actionable', isArray:true},
     getActiveTaskForMember: {method: 'GET', url:'/api/teamMembers/:id/tasks/active', isArray:false},
     getAssets: {method:'GET', url:'/api/lessons/:id/assets', isArray:true},

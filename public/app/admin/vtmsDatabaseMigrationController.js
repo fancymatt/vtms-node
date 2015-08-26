@@ -1,12 +1,12 @@
-angular.module('vtms').controller('vtmsDatabaseMigrationController', function($scope, vtmsSeries, vtmsLesson, vtmsTask, vtmsPublishDate) {
-  
+angular.module('vtms').controller('vtmsDatabaseMigrationController', function($scope, vtmsSeries, vtmsLesson, vtmsIssue, vtmsTask, vtmsPublishDate) {
+
   $scope.series = vtmsSeries.query();
-  
+
   $scope.createPublishDates = function(seriesId) {
     // Create Publish Date entries
     // Set as completed if completed
     console.log('createPublishDates for '+ seriesId);
-    
+
     vtmsLesson.getLessonsForSeries({id: seriesId}, function(lessons) {
       lessons.forEach(function(lesson) {
         console.log("Looking at lesson id: " + lesson.id);
@@ -34,22 +34,22 @@ angular.module('vtms').controller('vtmsDatabaseMigrationController', function($s
         }
       });
     });
-                   
+
   };
-  
+
   $scope.updateLessonsAndTasks = function(seriesId) {
     console.log('updateLessonsAndTasks: ' + seriesId);
-    
+
     vtmsLesson.getLessonsForSeries({id: seriesId}, function(lessons) {
-      
+
       lessons.forEach(function(lesson) {
 
         var completionValue = 0;
         var maxCompletionValue = 0;
         var lessonUpdateObject = {};
-        
+
         vtmsTask.getList({id: lesson.id}, function(tasks) {
-          
+
           // Loop through all tasks and calculate completion value
           for(var i = 0; i < tasks.length; i++) {
             maxCompletionValue += tasks[i].taskGlobal.completionValue;
@@ -67,7 +67,7 @@ angular.module('vtms').controller('vtmsDatabaseMigrationController', function($s
               }
             }
           }
-          
+
           // Check how completion value affects lesson benchmarks
           if(completionValue >= lesson.languageSery.series.shotAt) {
             console.log("Lesson completion value is " + completionValue + " and threshold is " + lesson.languageSery.series.shotAt + " so marking as shot");
@@ -83,8 +83,8 @@ angular.module('vtms').controller('vtmsDatabaseMigrationController', function($s
             console.log("Lesson completion value is " + completionValue + " and max is " + maxCompletionValue + " so all tasks are complete");
            lessonUpdateObject.allTasksCompleted = true;
           }
-          
-          lesson.update(lessonUpdateObject);
+
+          if(lessonUpdateObject.isShot) lesson.update(lessonUpdateObject);
 
           // Now loop through the tasks again, this time updating isActionable
           for(var i = 0; i < tasks.length; i++) {
@@ -94,23 +94,80 @@ angular.module('vtms').controller('vtmsDatabaseMigrationController', function($s
               if(tasks[i].isActionable !== true) tasks[i].update({isActionable: true});
             }
           }
-          
+
         });
-          
+
       });
-      
+
     });
-    
+
   };
-  
+
   $scope.updateActivities = function() {
     // populate fkTeamMember field based on fkShift
     console.log('updateActivities');
   };
-  
-  $scope.updateIssues = function() {
-    // populate fkLesson based on fkTask
-    console.log('updateIssues');
+
+  $scope.updateIssuesRelationship = function() {
+    console.log('updateIssuesRelationship');
+    vtmsIssue.query({}, function(issues) {
+      issues.forEach(function(issue) {
+        if(issue.task && issue.fkLesson < 1) issue.update({fkLesson: issue.task.fkLesson});
+      });
+    });
   };
-  
+
+  $scope.updateLastTask = function(seriesId) {
+    vtmsLesson.getLessonsForSeries({id: seriesId}, function(lessons) {
+      lessons.forEach(function(lesson) {
+        vtmsTask.getLastTaskForLesson({id: lesson.id}, function(task) {
+          if(task.id) {
+            console.log('Lesson ' + lesson.id + ' last task is ' + task.id + '.');
+            lesson.update({fkLastTask: task.id, lastTaskTime: task.timeCompleted});
+          }
+        });
+      });
+    });
+
+  };
+
+  $scope.updateLastIssue = function(seriesId) {
+    console.log('updateLastIssue for ' + seriesId);
+    vtmsLesson.getLessonsForSeries({id: seriesId}, function(lessons) {
+      lessons.forEach(function(lesson) {
+        vtmsIssue.getLastIssueForLesson({id: lesson.id}, function(issue) {
+          if(issue.id) {
+            console.log('Lesson ' + lesson.id + ' last issue is ' + issue.id + '.');
+            lesson.update({fkLastIssue: issue.id, lastIssueTime: issue.timeCompleted});
+          }
+        });
+      });
+    });
+  };
+
+  $scope.updateIncompleteIssues = function(seriesId) {
+    // populate fkLesson based on fkTask
+    // add incomplete issues
+    console.log('updateIssues for ' + seriesId);
+    vtmsLesson.getLessonsForSeries({id: seriesId}, function(lessons) {
+
+      lessons.forEach(function(lesson) {
+
+        vtmsIssue.getListForLesson({id: lesson.id}, function(issues) {
+          var incompletedIssues = 0;
+
+          issues.forEach(function(issue) {
+            if(!issue.isCompleted) incompletedIssues++;
+          });
+
+          console.log("Lesson " + lesson.id + " has " + incompletedIssues + " incompleted issues");
+          if(incompletedIssues > 0) lesson.update({incompleteIssues: incompletedIssues});
+
+        });
+
+      });
+
+    });
+  };
+
 });
