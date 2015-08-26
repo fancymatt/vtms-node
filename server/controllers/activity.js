@@ -62,7 +62,7 @@ exports.deleteActivity = function(req, res) {
 };
 
 exports.getActivities = function(req, res) {
-  getList(req, res, {});
+  getList(req, res, {include: [models.Shift]});
 };
 
 exports.getActivityById = function(req, res) {

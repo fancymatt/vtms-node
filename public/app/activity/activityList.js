@@ -132,7 +132,7 @@ angular.module('vtms').directive('activityList', function() {
       };
 
       $scope.completeActivity = function(activity) {
-        if(activity.activity === 'Working on task') {
+        if(activity.fkTask > 0) {
           vtmsTask.get({id: activity.fkTask}, function(task) {
             task.complete();
           });
@@ -142,7 +142,7 @@ angular.module('vtms').directive('activityList', function() {
       };
 
       $scope.deactivateActivity = function(activity) {
-        if(activity.activity === 'Working on task') {
+        if(activity.fkTask > 0) {
           vtmsTask.get({id: activity.fkTask}, function(task) {
             task.deactivate();
           });

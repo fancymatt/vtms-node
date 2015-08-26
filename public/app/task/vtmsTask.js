@@ -122,7 +122,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
     var newTimeRunning = this.timeRunning + durationInSeconds;
 
     var taskString = this.toString();
-    var durationString = duration.humanize();
+    var durationString = newTimeRunning.humanize();
     var notification = 'Completed ' + taskString + '.\nIt took ' + durationString + '.';
 
     var theTask = this;

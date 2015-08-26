@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsDatabaseMigrationController', function($scope, vtmsSeries, vtmsLesson, vtmsIssue, vtmsTask, vtmsPublishDate) {
+angular.module('vtms').controller('vtmsDatabaseMigrationController', function($scope, vtmsSeries, vtmsActivity, vtmsLesson, vtmsIssue, vtmsTask, vtmsPublishDate) {
 
   $scope.series = vtmsSeries.query();
 
@@ -106,6 +106,11 @@ angular.module('vtms').controller('vtmsDatabaseMigrationController', function($s
   $scope.updateActivities = function() {
     // populate fkTeamMember field based on fkShift
     console.log('updateActivities');
+    vtmsActivity.query({}, function(activities) {
+      activities.forEach(function(activity) {
+        if(activity.shift && activity.fkTeamMember < 1) activity.update({fkTeamMember: activity.shift.fkTeamMember});
+      });
+    });
   };
 
   $scope.updateIssuesRelationship = function() {
