@@ -27,14 +27,15 @@
         th(ng-show="config.columns.number") Number
         th(ng-show="config.columns.title") Title
         th(ng-show="config.columns.platform") Platform
-        th(ng-show="config.columns.date") Date
+        th(ng-show="config.columns.date") Publish Date
+        th(ng-show="config.columns.deliveredOn") Delivered
         th(ng-show="config.columns.status") Status
         th(ng-show="config.columns.lessonStatus") Lesson Status
     tbody
       tr(ng-repeat="publishDate in publishDateList | orderBy: sortOrder")
         td(ng-show="config.columns.actions")
           div.btn-group
-            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
@@ -44,10 +45,11 @@
                 a(href="#", ng-click="delete(publishDate)") Delete
         td(ng-show="config.columns.series") {{publishDate.lesson.languageSery.title}}
         td(ng-show="config.columns.number") {{publishDate.lesson.number}}
-        td(ng-show="config.columns.title") 
+        td(ng-show="config.columns.title")
           a(ng-href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.title}}
         td(ng-show="config.columns.platform") {{publishDate.platform.name }}
         td(ng-show="config.columns.date") {{publishDate.date | date: 'MMM d, yyyy'}}
+        td(ng-show="config.columns.deliveredOn") {{publishDate.deliveredTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.status") {{publishDate.isDelivered ? "Delivered" : "Not Delivered"}}
         td(ng-show="config.columns.lessonStatus")
           span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="publishDate.lesson.isShot")
@@ -55,4 +57,3 @@
           span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="publishDate.lesson.checkedVideo")
           span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="publishDate.lesson.filesMoved")
           span.glyphicon.glyphicon-cloud-upload(aria-hidden="true", ng-show="publishDate.lesson.isDetected")
-        

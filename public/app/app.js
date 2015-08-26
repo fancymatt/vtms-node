@@ -1,10 +1,10 @@
 angular.module('vtms', [
-  'ngResource', 
-  'ngRoute', 
-  'xeditable', 
-  'ui.bootstrap', 
-  'ngSanitize', 
-  'com.2fdevs.videogular', 
+  'ngResource',
+  'ngRoute',
+  'xeditable',
+  'ui.bootstrap',
+  'ngSanitize',
+  'com.2fdevs.videogular',
   'com.2fdevs.videogular.plugins.controls'
 ]);
 
@@ -26,40 +26,40 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     }
   $locationProvider.html5Mode(true);
   $routeProvider
-    .when('/', { 
-      templateUrl: '/partials/main/main', 
+    .when('/', {
+      templateUrl: '/partials/main/main',
       controller: 'vtmsMainController',
       controllerAs: 'ctrl'
     })
-    .when('/admin/users', { 
-      templateUrl: '/partials/admin/user-list', 
+    .when('/admin/users', {
+      templateUrl: '/partials/admin/user-list',
       controller: 'vtmsUserListController',
       resolve: routeRoleChecks.admin
     })
-    .when('/signup', { 
-      templateUrl: '/partials/account/signup', 
+    .when('/signup', {
+      templateUrl: '/partials/account/signup',
       controller: 'vtmsSignupController'
     })
-    .when('/profile', { 
-      templateUrl: '/partials/account/profile', 
-      controller: 'vtmsProfileController', 
+    .when('/profile', {
+      templateUrl: '/partials/account/profile',
+      controller: 'vtmsProfileController',
       resolve: routeRoleChecks.user
     })
-    .when('/shifts', { 
-      templateUrl: '/partials/shift/recent-shifts', 
+    .when('/shifts', {
+      templateUrl: '/partials/shift/recent-shifts',
       controller: 'vtmsRecentShiftsController',
       resolve: routeRoleChecks.user
     })
-    .when('/series', { 
-      templateUrl: '/partials/series/series-list', 
+    .when('/series', {
+      templateUrl: '/partials/series/series-list',
       controller: 'vtmsSeriesListController'
     })
-    .when('/series/:id', { 
-      templateUrl: '/partials/series/series-details', 
+    .when('/series/:id', {
+      templateUrl: '/partials/series/series-details',
       controller: 'vtmsSeriesDetailController'
     })
-    .when('/language-series/:id', { 
-      templateUrl: '/partials/languageSeries/language-series-details', 
+    .when('/language-series/:id', {
+      templateUrl: '/partials/languageSeries/language-series-details',
       controller: 'vtmsLanguageSeriesDetailController'
     })
     .when('/team-members', {
@@ -88,10 +88,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controllerAs: 'ctrl',
       resolve: routeRoleChecks.teamMember
     })
-    .when('/publishing-completed', {
-      templateUrl: '/partials/publishDates/publishingCompleted',
-      controller: 'vtmsPublishingCompletedController',
-      resolve: routeRoleChecks.admin
+    .when('/publishing-delivered', {
+      templateUrl: '/partials/publishDates/publishing-delivered',
+      controller: 'vtmsPublishingDeliveredController',
+      resolve: routeRoleChecks.user
     })
     .when('/undelivered-assets', {
       templateUrl: '/partials/task/undelivered-assets',
