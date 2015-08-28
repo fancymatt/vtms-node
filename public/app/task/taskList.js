@@ -142,6 +142,7 @@ angular.module('vtms').directive('taskList', function() {
 
       $scope.assignTaskToTeamMember = function(task, teamMember) {
         task.update({fkTeamMember: teamMember.id}).then(function(newData) {
+          $rootScope.$broadcast('task:reassigned', task);
           vtmsNotifier.notify('Assigned to ' + teamMember.nameFirst);
         });
       };
@@ -182,6 +183,12 @@ angular.module('vtms').directive('taskList', function() {
         checkLessonCompletionStatus(task);
         if(!task.taskGlobal.isAsset) setAsMostRecentTask(task);
         $scope.refresh();
+      });
+
+      $rootScope.$on('task:reassigned', function(event, task) {
+        if($scope.config.type === 'unassignedTasks') {
+          removeFromList(task, $scope.taskList);
+        }
       });
     }
   };

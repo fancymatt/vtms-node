@@ -97,6 +97,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       templateUrl: '/partials/task/undelivered-assets',
       controller: 'vtmsUndeliveredAssetsController'
     })
+    .when('/unassigned-tasks', {
+      templateUrl: '/partials/task/unassigned-tasks',
+      controller: 'vtmsUnassignedTasksController'
+    })
     .when('/publishing-upcoming', {
       templateUrl: '/partials/publishDates/publishingUpcoming',
       controller: 'vtmsPublishingUpcomingController',
