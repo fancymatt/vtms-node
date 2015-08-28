@@ -64,6 +64,9 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     actions: {
       delete: true
     },
+    sortOptions: {
+      date: true
+    },
     columns: {
       actions: true,
       platform: true,
