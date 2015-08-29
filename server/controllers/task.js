@@ -1,5 +1,6 @@
 var models = require('../models/models'),
-    sequelize = require('../config/sequelize');
+    sequelize = require('../config/sequelize'),
+    moment = require('moment-timezone');
 
 var getList = function(req, res, query) {
   models.Task.findAll(query).then(function(tasks) {
