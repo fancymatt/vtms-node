@@ -5,8 +5,8 @@ var auth = require('./auth'),
 module.exports = function(app) {
 
   app.get('/api/users', auth.requiresRole('admin'), controllers.user.getUsers);
-  app.post('/api/users', auth.requiresRole('admin'), controllers.user.createUser);
-  app.put('/api/users', auth.requiresRole('admin'),  controllers.user.updateUser);
+  app.post('/api/users', controllers.user.createUser);
+  app.put('/api/users',  controllers.user.updateUser);
 
   app.get('/api/series/:id', controllers.series.getSeriesById);
   app.get('/api/series', controllers.series.getSeries);
