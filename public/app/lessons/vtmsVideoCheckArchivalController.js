@@ -1,5 +1,5 @@
 angular.module('vtms').controller('vtmsVideoCheckArchivalController', function($scope, vtmsLesson) {
-  
+
   $scope.videoCheckLessonsConfig = {
     title: 'Check These',
     type: 'videoCheckLessons',
@@ -18,9 +18,10 @@ angular.module('vtms').controller('vtmsVideoCheckArchivalController', function($
       number: true,
       title: true,
       dueDate: true,
+      status: true
     }
   };
-  
+
   $scope.archivableLessonsConfig = {
     title: 'Move These',
     type: 'archivableLessons',
@@ -36,8 +37,8 @@ angular.module('vtms').controller('vtmsVideoCheckArchivalController', function($
       series: true,
       number: true,
       title: true,
-      dueDate: true,
+      dueDate: true
     }
   };
-  
+
 });

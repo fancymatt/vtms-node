@@ -66,6 +66,7 @@
         td(ng-show="config.columns.dueDate") {{lesson.dueDate() | date: 'MMM d, yyyy'}}
         td(ng-show="config.columns.status")
           span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="lesson.isShot")
+          span.glyphicon.glyphicon-apple(aria-hidden="true", ng-show="lesson.allTasksCompleted")
           span.glyphicon.glyphicon-font(aria-hidden="true", ng-show="lesson.checkedLanguage")
           span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
           span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")
