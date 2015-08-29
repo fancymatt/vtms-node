@@ -38,9 +38,11 @@ block content
               span.caret
             ul.dropdown-menu
               li
-                a(href='/publishing-delivered') Recently Delivered
-              li
                 a(href='/publishing-upcoming') Upcoming
+              li
+                a(href='/publishing-ready') Ready to Publish
+              li
+                a(href='/publishing-delivered') Recently Published
         div(ng-include="'/partials/account/navbar-login'")
   section.content
     div(ng-view)

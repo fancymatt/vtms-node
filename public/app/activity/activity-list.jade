@@ -30,7 +30,7 @@
                 a(href="#", ng-click="deactivateActivity(activity)") Deactivate
               li(ng-show="config.actions.delete && identity.isAdmin()")
                 a(href="#", ng-click="deleteActivity(activity)") Delete
-        td(ng-show="config.columns.teamMember") {{activity.shift ? activity.shift.teamMember.nameFirst : activity.teamMember.nameFirst}}
+        td(ng-show="config.columns.teamMember") {{activity.teamMember.nameFirst}}
         td(ng-show="config.columns.activity")
           span {{activity.activity}}
           span(ng-if="activity.task") {{": "}}

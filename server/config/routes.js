@@ -86,6 +86,7 @@ module.exports = function(app) {
   app.get('/api/publish-dates/upcoming', controllers.publishDate.getSurroundingUndeliveredPublishDates);
   app.get('/api/publish-dates/delivered', controllers.publishDate.getSurroundingDeliveredPublishDates);
   app.get('/api/publishDates/:id', controllers.publishDate.getPublishDateById);
+  app.get('/api/publish-dates/ready', controllers.publishDate.getReadyToDeliverPublishDates);
   app.put('/api/publishDates/:id', controllers.publishDate.updatePublishDate);
   app.delete('/api/publishDates/:id', controllers.publishDate.deletePublishDate);
 

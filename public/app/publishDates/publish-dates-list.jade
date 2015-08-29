@@ -40,7 +40,7 @@
               span(class="caret")
             ul(class="dropdown-menu")
               li(ng-show="config.actions.deliver && identity.isTeamMember()")
-                a(href="#", ng-click="deliver(publishDate)") Deliver
+                a(href="#", ng-click="deliver(publishDate)") Publish
               li(ng-show="config.actions.delete && identity.isAdmin()")
                 a(href="#", ng-click="delete(publishDate)") Delete
         td(ng-show="config.columns.series") {{publishDate.lesson.languageSery.title}}

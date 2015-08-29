@@ -111,6 +111,34 @@ exports.getSurroundingUndeliveredPublishDates = function(req, res) {
   });
 };
 
+exports.getReadyToDeliverPublishDates = function(req, res) {
+  models.PublishDate.findAll({
+    where: {
+      isDelivered: false
+    },
+    include: [
+      models.Platform,
+      {
+        model: models.Lesson,
+        where: {
+          filesMoved: true
+        },
+        include: [models.LanguageSeries]
+      }
+    ]
+  })
+  .then(function(publishDates) {
+    if(publishDates) {
+     res.send(publishDates);
+    } else {
+      res.status(404).send({error: 'No publish dates were found.'});
+    }
+  })
+  .catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getPublishDateById = function(req, res) {
   models.PublishDate.findOne({where: {id: req.params.id}}).then(function(publishDate) {
     if(publishDate) {

@@ -53,7 +53,8 @@ angular.module('vtms').directive('publishDatesList', function() {
         if($scope.config.sortOptions.title) $scope.sortOptions.push({value: "lesson.title", text: "Sort by Lesson Title"});
         if($scope.config.sortOptions.platform) $scope.sortOptions.push({value: ["platform.name", "date"], text: "Sort by Platform"});
         if($scope.config.sortOptions.status) $scope.sortOptions.push({value: "status", text: "Sort by Status"});
-        if($scope.config.sortOptions.deliveredOn) $scope.sortOptions.push({value: ["platform.name", "-deliveredTime"], text: "Delivered Time"});
+        if($scope.config.sortOptions.deliveredOnPlatform) $scope.sortOptions.push({value: ["platform.name", "-deliveredTime"], text: "Sort by Platform"});
+        if($scope.config.sortOptions.deliveredOn) $scope.sortOptions.push({value: "-deliveredTime", text: "Delivered Time"});
       }
 
       $scope.sortOrder = $scope.sortOptions[0].value;
@@ -61,7 +62,7 @@ angular.module('vtms').directive('publishDatesList', function() {
       $scope.deliver = function(publishDate) {
         publishDate.deliver().then(function(newData) {
           angular.extend(publishDate, newData);
-          $rootScope.$broadcast('publishDate:delivered');
+          $rootScope.$broadcast('publishDate:delivered', publishDate);
         });
       };
 
@@ -103,25 +104,11 @@ angular.module('vtms').directive('publishDatesList', function() {
       /**
        * Listeners
        */
-      /*
-      $rootScope.$on('lesson:addedToRenderQueue', function(event, lesson) {
-        if($scope.config.type === 'renderQueue') addToList(lesson, $scope.lessonsList);
-        if($scope.config.type === 'lessonsToRender') removeFromList(lesson, $scope.lessonsList);
+
+      $rootScope.$on('publishDate:delivered', function(event, publishDate) {
+        if($scope.config.type === 'readyToPublish') removeFromList(publishDate, $scope.publishDateList);
       });
 
-      $rootScope.$on('lesson:removedFromRenderQueue', function(event, lesson) {
-        if($scope.config.type === 'renderQueue') removeFromList(lesson, $scope.lessonsList);
-        if($scope.config.type === 'lessonsToRender') addToList(lesson, $scope.lessonsList);
-      });
-
-      $rootScope.$on('lesson:exported', function(event, lesson) {
-        if($scope.config.type === 'renderQueue') removeFromList(lesson, $scope.lessonsList);
-      });
-
-      $rootScope.$on('lesson:deleted', function(event, lesson) {
-        removeFromList(lesson, $scope.lessonsList);
-      });
-      */
     }
 
   };

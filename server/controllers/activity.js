@@ -116,12 +116,7 @@ exports.getActivitiesForLesson = function(req, res) {
         ]
       },
       {
-        model: models.Shift,
-        include: [
-          {
-            model: models.TeamMember
-          }
-        ]
+        model: models.TeamMember
       }
     ]
   });

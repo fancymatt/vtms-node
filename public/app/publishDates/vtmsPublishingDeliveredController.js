@@ -1,13 +1,13 @@
 angular.module('vtms').controller('vtmsPublishingDeliveredController', function($scope, vtmsPublishDate) {
 
   $scope.publishDatesConfig = {
-    title: 'Recently Delivered Lessons',
+    title: 'Recently Published Lessons',
     update: function() {
       return vtmsPublishDate.getDelivered();
     },
     sortable: true,
     sortOptions: {
-      platform: true,
+      deliveredOnPlatform: true,
       deliveredOn: true
     },
     columns: {

@@ -106,6 +106,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsPublishingUpcomingController',
       resolve: routeRoleChecks.admin
     })
+    .when('/publishing-ready', {
+      templateUrl: '/partials/publishDates/publishing-ready',
+      controller: 'vtmsPublishingReadyController'
+    })
     .when('/issue-assignment', {
       templateUrl: '/partials/issues/issue-assignment',
       controller: 'vtmsIssueAssignmentController',
