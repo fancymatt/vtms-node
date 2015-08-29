@@ -4,7 +4,7 @@ var auth = require('./auth'),
 
 module.exports = function(app) {
 
-  app.get('/api/users', auth.requiresRole('admin'), controllers.user.getUsers);
+  app.get('/api/users', controllers.user.getUsers);
   app.post('/api/users', controllers.user.createUser);
   app.put('/api/users',  controllers.user.updateUser);
 
