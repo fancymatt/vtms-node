@@ -10,7 +10,7 @@
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
-        th(ng-show="config.columns.actions || issuesList[0].fkTask === config.taskBeingFixed") Actions
+        th(ng-show="(config.columns.actions || issuesList[0].fkTask === config.taskBeingFixed) && identity.isLoggedIn()") Actions
         th(ng-show="config.columns.lesson") Lesson
         th(ng-show="config.columns.task") Task
         th(ng-show="config.columns.creator") Creator
@@ -19,18 +19,18 @@
         th(ng-show="config.columns.status") Status
     tbody
       tr(ng-repeat="issue in issuesList | orderBy: sortOrder")
-        td(ng-show="config.columns.actions || issuesList[0].fkTask === config.taskBeingFixed")
+        td(ng-show="(config.columns.actions || issuesList[0].fkTask === config.taskBeingFixed) && identity.isLoggedIn()")
           div.btn-group
-            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
-              li(ng-show="config.actions.delete")
+              li(ng-show="config.actions.delete && identity.isAdmin()")
                 a(href="#", ng-click="deleteIssue(issue)") Delete
-              li(ng-show="config.actions.complete")
+              li(ng-show="config.actions.complete && identity.isTeamMember()")
                 a(href="#", ng-click="completeIssue(issue)") Complete
               li.divider(role="separator", ng-if="actions.reassign")
-              li(ng-if="config.actions.reassign", ng-repeat="task in taskList")
+              li(ng-if="config.actions.reassign && identity.isAdmin()", ng-repeat="task in taskList")
                 a(href="#", ng-click="assignIssueToTask(issue, task)") {{task.taskGlobal.name}}
         td(ng-show="config.columns.lesson")
               a(href="/lesson/{{issue.task.lesson.id}}") {{issue.task.lesson.languageSery.title}} {{"#" + issue.task.lesson.number}}: {{issue.task.lesson.title}}

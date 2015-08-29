@@ -22,7 +22,7 @@
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
-        th(ng-show="config.columns.actions") Actions
+        th(ng-show="config.columns.actions && identity.isLoggedIn()") Actions
         th(ng-show="config.columns.series") Series
         th(ng-show="config.columns.number") Number
         th(ng-show="config.columns.title") Title
@@ -33,15 +33,15 @@
         th(ng-show="config.columns.lessonStatus") Lesson Status
     tbody
       tr(ng-repeat="publishDate in publishDateList | orderBy: sortOrder")
-        td(ng-show="config.columns.actions")
+        td(ng-show="config.columns.actions && identity.isLoggedIn()")
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
-              li(ng-show="config.actions.deliver")
+              li(ng-show="config.actions.deliver && identity.isTeamMember()")
                 a(href="#", ng-click="deliver(publishDate)") Deliver
-              li(ng-show="config.actions.delete")
+              li(ng-show="config.actions.delete && identity.isAdmin()")
                 a(href="#", ng-click="delete(publishDate)") Delete
         td(ng-show="config.columns.series") {{publishDate.lesson.languageSery.title}}
         td(ng-show="config.columns.number") {{publishDate.lesson.number}}

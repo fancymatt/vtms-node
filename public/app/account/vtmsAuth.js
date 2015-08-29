@@ -14,12 +14,12 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
       });
       return dfd.promise;
     },
-    
+
     createUser: function(newUserData) {
       var newUser = new vtmsUser(newUserData);
       var dfd = $q.defer();
       console.log("user created");
-      
+
       newUser.$save().then(function() {
         console.log("user saved");
         vtmsIdentity.currentUser = newUser;
@@ -27,10 +27,10 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
       }, function(response) {
         dfd.reject(response.data.reason);
       });
-      
+
       return dfd.promise;
     },
-    
+
     updateCurrentUser: function(newUserData) {
       var dfd = $q.defer();
       var clone = angular.copy(vtmsIdentity.currentUser);
@@ -43,7 +43,7 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
       });
       return dfd.promise;
     },
-    
+
     logoutUser: function() {
       var dfd = $q.defer();
       $http.post('/logout', {logout: true}).then(function() {
@@ -52,23 +52,25 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
       });
       return dfd.promise;
     },
-    
+
     authorizeCurrentUserForRoute: function(role) {
-      if(vtmsIdentity.isAuthorized(role)) { 
+      if(vtmsIdentity.isAuthorized(role)) {
         return true;
       } else {
         return $q.reject('not authorized');
       }
     },
-    
+
     authorizeAuthenticatedUserForRoute: function() {
-      if(vtmsIdentity.isAuthenticated()) { 
+      if(vtmsIdentity.isAuthenticated()) {
         return true;
       } else {
+        vtmsNotifier.error('You don\'t have permission to do that.');
+        $location.path('/');
         return $q.reject('not logged in');
       }
     },
-    
+
     authorizeCurrentUserIsTeamMember: function() {
       var dfd = $q.defer();
       if(vtmsIdentity.isAuthenticated()) {

@@ -6,13 +6,15 @@ angular.module('vtms').directive('activityList', function() {
       config: '=',
       userId: '='
     },
-    controller: function($scope, $rootScope, vtmsActivity, vtmsLesson, vtmsTask, vtmsNotifier) {
+    controller: function($scope, $rootScope, vtmsActivity, vtmsLesson, vtmsTask, vtmsNotifier, vtmsIdentity) {
 
       $scope.refresh = function() {
         $scope.activityList = $scope.config.update();
       };
 
       $scope.refresh();
+
+      $scope.identity = vtmsIdentity.currentUser;
 
       $scope.newActivityValue = '';
 

@@ -10,7 +10,7 @@
   table.table.table-hover.table-striped.table-condensed#tasks
     thead
       tr
-        th Actions
+        th(ng-show="identity.isLoggedIn()") Actions
         th(ng-show="config.columns.lesson") Lesson
         th(ng-show="config.columns.task") Task
         th(ng-show="config.columns.teamMember") Team Member
@@ -18,29 +18,29 @@
         th(ng-show="config.columns.dueDate") Due Date
     tbody
       tr(ng-repeat="task in taskList | orderBy: selectedSortOption", ng-class="{success: task.isActive}")
-        td
+        td(ng-show="identity.isLoggedIn()")
           div.btn-group
-            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") 
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
               | Actions
               span(class="caret")
             ul(class="dropdown-menu")
-              li(ng-show="config.actions.activate && !task.isActive && !task.isCompleted")
+              li(ng-show="config.actions.activate && !task.isActive && !task.isCompleted && identity.isTeamMember()")
                 a(href="#", ng-click="activateTask(task)") Activate
-              li(ng-show="config.actions.complete && !task.isCompleted")
-                a(href="#", ng-click="completeTask(task)") Complete
+              li(ng-show="config.actions.complete && !task.isCompleted && identity.isTeamMember()")
+                a(href="#", ng-click="completeTask(task) && identity.isTeamMember()") Complete
               li(ng-show="task.taskGlobal.isAsset && task.isCompleted && !task.isDelivered")
-                a(href="#", ng-click="deliverTask(task)") Deliver
-              li(ng-show="config.actions.incomplete && task.isCompleted")
+                a(href="#", ng-click="deliverTask(task) && identity.isTeamMember()") Deliver
+              li(ng-show="config.actions.incomplete && task.isCompleted && identity.isAdmin()")
                 a(href="#", ng-click="incompleteTask(task)") Mark as Incomplete
-              li(ng-show="task.isDelivered")
+              li(ng-show="task.isDelivered && identity.isTeamMember() && identity.isAdmin()")
                 a(href="#", ng-click="undeliverTask(task)") Mark as Not Delivered
-              li(ng-if="config.actions.reassign", ng-repeat="teamMember in eligibleTeamMembers")
+              li(ng-if="config.actions.reassign && identity.isAdmin()", ng-repeat="teamMember in eligibleTeamMembers")
                 a(href="#", ng-click="assignTaskToTeamMember(task, teamMember)") Assign to {{teamMember.nameFirst}}
         td(ng-show="config.columns.lesson")
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
         td(ng-show="config.columns.task") {{task.taskGlobal.name}}
         td(ng-show="config.columns.teamMember") {{task.teamMember.nameFull}}
-        td(ng-show="config.columns.status") 
+        td(ng-show="config.columns.status")
           span {{task.isCompleted ? "Completed" : "Incomplete"}}
           span(ng-show="task.taskGlobal.isAsset") {{task.isDelivered ? " (Delivered) " : " (Not delivered)"}}
         td(ng-show="config.columns.dueDate") {{task.dueDate() | date: 'MMM d, yyyy'}}

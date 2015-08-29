@@ -5,13 +5,15 @@ angular.module('vtms').directive('publishDatesList', function() {
     scope: {
       config: '='
     },
-    controller: function($scope, $rootScope, vtmsPublishDate) {
+    controller: function($scope, $rootScope, vtmsPublishDate, vtmsIdentity) {
 
       $scope.refresh = function() {
         $scope.publishDateList = $scope.config.update();
       };
 
       $scope.refresh();
+
+      $scope.identity = vtmsIdentity.currentUser;
 
 
       var findIdOnList = function(id, list) {

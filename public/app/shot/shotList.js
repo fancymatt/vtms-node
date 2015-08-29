@@ -5,7 +5,7 @@ angular.module('vtms').directive('shotList', function() {
     scope: {
       config: '='
     },
-    controller: function($scope, $window, vtmsShot, vtmsTask, vtmsNotifier) {
+    controller: function($scope, $window, vtmsShot, vtmsTask, vtmsNotifier, vtmsIdentity) {
 
       $scope.assetList = vtmsTask.getAssets({id: $scope.config.lessonId});
 
@@ -14,6 +14,8 @@ angular.module('vtms').directive('shotList', function() {
       };
 
       $scope.refresh();
+
+      $scope.identity = vtmsIdentity.currentUser;
 
       function deleteFromList(item, list) {
         var index = list.indexOf(item);

@@ -5,7 +5,7 @@ angular.module('vtms').directive('taskList', function() {
     scope: {
       config: '='
     },
-    controller: function($scope, $rootScope, vtmsTask, vtmsActivity, vtmsTeamMember, vtmsLesson, vtmsNotifier) {
+    controller: function($scope, $rootScope, vtmsTask, vtmsActivity, vtmsTeamMember, vtmsLesson, vtmsNotifier, vtmsIdentity) {
 
       /**
        * Data Initialiazation
@@ -16,6 +16,8 @@ angular.module('vtms').directive('taskList', function() {
       };
 
       $scope.refresh();
+
+      $scope.identity = vtmsIdentity.currentUser;
 
       // Grab any additional data that certain functionality requires
       $scope.eligibleTeamMembers = vtmsTeamMember.query();

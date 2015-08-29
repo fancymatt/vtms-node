@@ -15,7 +15,7 @@
         th Shot
         th Type
         th Script
-        th Actions
+        th(ng-show="identity.isAdmin()") Actions
     tbody(ng-show="assetList")
       tr(ng-repeat="shot in shotList | filter:shotSearchText | orderBy: sortOrder" )
         td {{getNameFromTaskId(shot.fkAsset)}}
@@ -23,9 +23,9 @@
         td {{shot.shot}}
         td {{shot.type}}
         td {{shot.script}}
-        td
+        td(ng-show="identity.isAdmin()")
           button.btn.btn-xs(ng-click="deleteShot(shot)") X
-      tr
+      tr(ng-show="identity.isAdmin()")
         td
           select(ng-model="newShotValues.fkAsset" convert-to-number)
             option(ng-repeat="asset in assetList", value="{{asset.id}}") {{asset.taskGlobal.name}}

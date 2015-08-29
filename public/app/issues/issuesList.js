@@ -8,7 +8,7 @@ angular.module('vtms').directive('issuesList', function() {
       lesson: '=',
       currentTime: '=',
     },
-    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, vtmsLesson, $filter) {
+    controller: function($scope, $window, vtmsIssue, vtmsTask, vtmsNotifier, vtmsLesson, $filter, vtmsIdentity) {
 
       /**
        * Data Initialization
@@ -34,6 +34,8 @@ angular.module('vtms').directive('issuesList', function() {
       };
 
       $scope.refresh();
+
+      $scope.identity = vtmsIdentity.currentUser;
 
       // Grab any additional data that certain functionality requires
       if($scope.config.actions.reassign) {
