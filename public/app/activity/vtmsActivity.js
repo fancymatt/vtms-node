@@ -62,7 +62,7 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q, $rootScop
   ActivityResource.prototype.deactivate = function() {
     var dfd = $q.defer();
     var newData = {}
-    newData.timeEnd = moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss');
+    newData.timeEnd = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     newData.isActive = false;
 
     if(this.fkTask > 0) {
@@ -106,7 +106,7 @@ angular.module('vtms').factory('vtmsActivity', function($resource, $q, $rootScop
   ActivityResource.prototype.createActivity = function(activity, teamMemberId, task) {
     var dfd = $q.defer();
 
-    this.timeStart = moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss');
+    this.timeStart = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     this.fkTeamMember = teamMemberId;
     this.isActive = true;
 
