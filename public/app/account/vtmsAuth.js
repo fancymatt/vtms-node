@@ -79,12 +79,10 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
         } else {
           dfd.reject('not a member.');
           $location.path('/');
-          vtmsNotifier.error("The user you are logged in as is not associated with a team member.");
         }
       } else {
         dfd.reject('not logged in');
         $location.path('/');
-        vtmsNotifier.error("You must be logged in to view a task list.");
       }
       return dfd.promise;
     }
