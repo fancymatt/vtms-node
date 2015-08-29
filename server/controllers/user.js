@@ -27,7 +27,7 @@ exports.createUser = function(req, res, next) {
 exports.updateUser = function(req, res) {
   var userUpdates = req.body;
   console.log(req);
-  if(req.user.id != userUpdates.id && !req.user.hasRole('admin')) {
+  if(req.user.id != userUpdates.id) {
     res.status(403);
     return res.end();
   }
@@ -38,13 +38,13 @@ exports.updateUser = function(req, res) {
     req.user.salt = encrypt.createSalt();
     req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password);
   }
-  
+
   req.user.save()
     .then(function(user) {
       res.send(req.user);
     })
     .catch(function(err) {
-      res.status(400); 
+      res.status(400);
       return res.send({reason: err.toString()});
   });
 };
