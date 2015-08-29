@@ -48,6 +48,8 @@ angular.module('vtms').controller('vtmsRenderQueueController', function($scope, 
       lastRender: false,
       lastAction: false,
       queuedTime: true,
+      qaLog: true,
+      qaUrl: true,
       trt: false,
       dueDate: true,
       status: true
