@@ -15,7 +15,7 @@ angular.module('vtms').factory('vtmsPublishDate', function($resource, $q, vtmsNo
 
     this.update({
       isDelivered: true,
-      deliveredTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      deliveredTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       console.log(newData);
       vtmsNotifier.notify(notification);

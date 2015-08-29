@@ -70,7 +70,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
 
     this.update({
       isActive: true,
-      timeActivate: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      timeActivate: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       $rootScope.$broadcast('task:activated', theTask);
       vtmsNotifier.notify(notification);
@@ -85,7 +85,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
   TaskResource.prototype.deactivate = function() {
     var dfd = $q.defer();
 
-    var endTime = moment(Date.now());
+    var endTime = moment(Date.now()).utc();
     var startTime = moment(this.timeActivate);
     var duration = moment.duration(endTime.diff(startTime));
     var durationInSeconds = Math.floor(duration.asSeconds());
@@ -115,7 +115,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
   TaskResource.prototype.complete = function() {
     var dfd = $q.defer();
 
-    var endTime = moment(Date.now());
+    var endTime = moment(Date.now()).utc();
     var startTime = !this.timeActivate ? moment(this.timeActivate) : endTime;
     var duration = moment.duration(endTime.diff(startTime));
     var durationInSeconds = Math.floor(duration.asSeconds());
@@ -154,7 +154,7 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
 
     this.update({
       isDelivered: true,
-      timeDelivered: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      timeDelivered: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.success(notification);
       $rootScope.$broadcast('task:delivered', theTask);

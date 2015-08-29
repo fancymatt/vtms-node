@@ -99,7 +99,7 @@ angular.module('vtms').directive('taskList', function() {
       var setAsMostRecentTask = function(task) {
         console.log("Setting this task as most recent for the lesson...");
         vtmsLesson.get({id: task.fkLesson}, function(lesson) {
-          lesson.update({fkLastTask: task.id, lastTaskTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
+          lesson.update({fkLastTask: task.id, lastTaskTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
           });
         });
       };

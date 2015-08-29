@@ -79,7 +79,7 @@ angular.module('vtms').directive('issuesList', function() {
         var lessonId = issue.task ? issue.task.fkLesson : issue.fkLesson;
         vtmsLesson.get({id: lessonId}, function(lesson) {
           console.log(lesson);
-          lesson.update({fkLastIssue: issue.id, lastIssueTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
+          lesson.update({fkLastIssue: issue.id, lastIssueTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
           });
         });
       };

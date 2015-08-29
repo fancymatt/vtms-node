@@ -30,7 +30,7 @@ angular.module('vtms').factory('vtmsIssue', function($resource, $q) {
   IssueResource.prototype.complete = function() {
     var dfd = $q.defer();
 
-    var finishTime = moment(Date.now());
+    var finishTime = moment(Date.now()).utc();
 
     this.update({
       isCompleted: true,

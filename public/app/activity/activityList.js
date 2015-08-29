@@ -85,7 +85,7 @@ angular.module('vtms').directive('activityList', function() {
 
       var setAsMostRecentTask = function(task) {
         vtmsLesson.get({id: task.fkLesson}, function(lesson) {
-          lesson.update({fkLastTask: task.id, lastTaskTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
+          lesson.update({fkLastTask: task.id, lastTaskTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
           });
         });
       };

@@ -38,7 +38,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
     this.update({
       isQueued: true,
-      queuedTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      queuedTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
@@ -126,7 +126,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     var lessonString = this.languageSery.title + " #" + this.number + " - " + this.title;
     var notification = lessonString + " has been successfully exported.";
 
-    var startTime = moment(Date.now());
+    var startTime = moment(Date.now()).utc();
     this.update({
       isQueued: false,
       exportedTime: startTime.format('YYYY-MM-DD HH:mm:ss')
@@ -148,7 +148,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
     this.update({
       checkedVideo: true,
-      checkedVideoTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      checkedVideoTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
@@ -167,7 +167,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
     this.update({
       checkedLanguage: true,
-      checkedLanguageTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      checkedLanguageTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
@@ -186,7 +186,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
     this.update({
       filesMoved: true,
-      filesMovedTime: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+      filesMovedTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
