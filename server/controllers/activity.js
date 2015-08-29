@@ -1,5 +1,5 @@
 var models = require('../models/models');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 var getList = function(req, res, query) {
   models.Activity.findAll(query).then(function(activities) {

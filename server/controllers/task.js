@@ -1,6 +1,5 @@
 var models = require('../models/models'),
-    sequelize = require('../config/sequelize'),
-    moment = require('moment');
+    sequelize = require('../config/sequelize');
 
 var getList = function(req, res, query) {
   models.Task.findAll(query).then(function(tasks) {
