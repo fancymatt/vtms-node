@@ -1,5 +1,5 @@
 angular.module('vtms').controller('vtmsQualityAssuranceController', function($scope, vtmsLesson) {
-  
+
   $scope.qaLessonsConfig = {
     title: 'Lessons needing Language Check',
     type: 'languageCheckLessons',
@@ -21,7 +21,7 @@ angular.module('vtms').controller('vtmsQualityAssuranceController', function($sc
       removeFromRenderQueue: false,
       markAsExported: false,
       markAsVideoChecked: false,
-      markAsLanguageChecked: true,
+      markAsLanguageChecked: false,
       markAsArchived: false,
       goToCheckingInterface: true,
       delete: false
@@ -41,5 +41,5 @@ angular.module('vtms').controller('vtmsQualityAssuranceController', function($sc
       status: false
     }
   };
-  
+
 });
