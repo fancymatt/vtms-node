@@ -1,7 +1,19 @@
+.container-fluid
+  ol.breadcrumb
+    li
+      a(href="/series") Series List
+    li
+      a(href="/series/{{ctrl.lesson.languageSery.series.id}}") {{ctrl.lesson.languageSery.series.title}}
+    li
+      a(href="/language-series/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
+    li
+      a(href="/lesson/{{ctrl.lesson.id}}") {{ctrl.lesson.title}}
+    li.active Checking
 .container(ng-if="ctrl.lesson")
   .panel.panel-primary
     .panel-heading.text-center {{ctrl.lesson.languageSery.title + " #" + ctrl.lesson.number + " - " + ctrl.lesson.title}}
     .panel-body.text-center
+      h4.pull-left Back to Lesson Page
       video-player(config="ctrl.config")
 .container
   issues-list(config="ctrl.issuesConfig", current-time="ctrl.currentTime")
