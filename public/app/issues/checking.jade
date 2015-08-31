@@ -1,6 +1,6 @@
 .container(ng-if="ctrl.lesson")
   .panel.panel-primary
-    .panel-heading.text-center {{ctrl.lesson.title}}
+    .panel-heading.text-center {{ctrl.lesson.languageSery.title + " #" + ctrl.lesson.number + " - " + ctrl.lesson.title}}
     .panel-body.text-center
       video-player(config="ctrl.config")
 .container
