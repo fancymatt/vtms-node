@@ -15,5 +15,9 @@
     .panel-body.text-center
       h4.pull-left Back to Lesson Page
       video-player(config="ctrl.config")
+.container(ng-show="ctrl.identity.isAdmin()")
+  .btn-group(role="group")
+    button.btn.btn-default(ng-hide="ctrl.lesson.checkedLanguage", type="button", ng-click="ctrl.markAsLanguageApproved()") Mark as Language Approved
+    button.btn.btn-default(ng-hide="ctrl.lesson.checkedVideo", type="button", ng-click="ctrl.markAsVideoApproved()") Mark as Video Approved
 .container
   issues-list(config="ctrl.issuesConfig", current-time="ctrl.currentTime")
