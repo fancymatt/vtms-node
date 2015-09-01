@@ -17,7 +17,6 @@ exports.createUser = function(req, res, next) {
       res.send(user);
     })
   }).catch(function(err) {
-      console.log(err);
       // should have handling for duplicate username here
       res.status(400);
       return res.send({reason: err.errors[0].message});
@@ -26,7 +25,6 @@ exports.createUser = function(req, res, next) {
 
 exports.updateUser = function(req, res) {
   var userUpdates = req.body;
-  console.log(req);
   if(req.user.id != userUpdates.id) {
     res.status(403);
     return res.end();

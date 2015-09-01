@@ -5,7 +5,6 @@ exports.createPublishDate = function (req, res, next) {
   models.PublishDate.create(userData).then(function(publishDate) {
     return res.send(publishDate);
   }).catch(function(err) {
-    console.log(err);
     res.status(400);
     return res.send({reason: err.errors[0].message});
   });

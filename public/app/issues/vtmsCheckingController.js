@@ -1,21 +1,18 @@
 angular.module('vtms').controller('vtmsCheckingController', function($scope, vtmsLesson, vtmsIssue, $routeParams, vtmsIdentity, vtmsNotifier, $sce, $q) {
   var ctrl = this;
 
-  console.log($routeParams);
-
   ctrl.lessonId = $routeParams.id;
 
   ctrl.issuesConfig = {
     title: 'Issues for lesson',
     update: function() {
-      console.log('lessonId', ctrl.lessonId);
       return vtmsIssue.getListForLesson({id: ctrl.lessonId});
     },
     lessonId: ctrl.lessonId,
     actions: {
       delete: true,
       add: true,
-      reassign: false,
+      reassign: true,
       getTime: true
     },
     columns: {
@@ -24,7 +21,7 @@ angular.module('vtms').controller('vtmsCheckingController', function($scope, vtm
       timecode: true,
       issue: true,
       status: true,
-      creator: false
+      creator: true
     }
   };
 

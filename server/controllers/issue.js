@@ -8,7 +8,6 @@ var getList = function(req, res, query) {
       res.status(404).send({error: 'No issues were found.'});
     }
   }).catch(function(err) {
-    console.log(err);
     res.status(500).send({error: err});
   });
 };
@@ -31,7 +30,6 @@ exports.createIssue = function (req, res, next) {
     issue.dataValues.id = issue.null;
     return res.send(issue);
   }).catch(function(err) {
-      console.log(err);
       res.status(400);
       return res.send({reason: err});
     });

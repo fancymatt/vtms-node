@@ -1,5 +1,7 @@
 angular.module('vtms').controller('vtmsRenderQueueController', function($scope, vtmsLesson) {
 
+  $scope.pageTitle = 'Render';
+
   $scope.lessonsToRenderConfig = {
     title: 'Lessons to Render',
     type: 'lessonsToRender',

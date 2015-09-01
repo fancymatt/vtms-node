@@ -44,7 +44,6 @@ exports.createShot = function (req, res, next) {
     shot.dataValues.id = shot.null;
     return res.send(shot);
   }).catch(function(err) {
-      console.log(err);
       res.status(400);
       return res.send({reason: err.errors[0].message});
     });

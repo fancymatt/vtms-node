@@ -69,7 +69,6 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
   LessonResource.prototype.updateBenchmarks = function(tasks) {
     var dfd = $q.defer();
-    console.log("Updating benchmarks for lesson...");
     var completionValue = 0;
     var maxCompletionValue = 0;
 

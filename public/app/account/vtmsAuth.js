@@ -18,10 +18,8 @@ angular.module('vtms').factory('vtmsAuth', function($http, vtmsIdentity, $q, vtm
     createUser: function(newUserData) {
       var newUser = new vtmsUser(newUserData);
       var dfd = $q.defer();
-      console.log("user created");
 
       newUser.$save().then(function() {
-        console.log("user saved");
         vtmsIdentity.currentUser = newUser;
         dfd.resolve();
       }, function(response) {

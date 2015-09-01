@@ -26,7 +26,6 @@ angular.module('vtms').directive('issuesList', function() {
           $scope.issuesList = $scope.config.update($scope.task.id);
         } else if($scope.lesson) {
           // For use in lesson-issues-list
-          console.log($scope.lesson);
           $scope.issuesList = $scope.config.update($scope.lesson.id);
         } else {
           $scope.issuesList = $scope.config.update();
@@ -41,7 +40,6 @@ angular.module('vtms').directive('issuesList', function() {
       if($scope.config.actions.reassign) {
         $scope.taskList = $scope.taskList = vtmsTask.getList({id: $scope.lessonId});
       }
-
 
       /**
        * Private Functions
@@ -60,7 +58,6 @@ angular.module('vtms').directive('issuesList', function() {
       };
 
       var updateIncompleteIssuesCount = function(issue) {
-        console.log("updateIncompleteIssuesCount called");
         var incompleteIssues = 0;
         var lessonId = issue.task ? issue.task.fkLesson : issue.fkLesson;
         vtmsLesson.get({id: lessonId}, function(lesson) {
@@ -75,10 +72,8 @@ angular.module('vtms').directive('issuesList', function() {
       };
 
       var setAsMostRecentIssue = function(issue) {
-        console.log("setAsMostRecentIssue called");
         var lessonId = issue.task ? issue.task.fkLesson : issue.fkLesson;
         vtmsLesson.get({id: lessonId}, function(lesson) {
-          console.log(lesson);
           lesson.update({fkLastIssue: issue.id, lastIssueTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')}).then(function(lesson) {
           });
         });

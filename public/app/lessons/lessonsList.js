@@ -19,7 +19,6 @@ angular.module('vtms').directive('lessonsList', function() {
       $scope.refresh();
 
       $scope.identity = vtmsIdentity.currentUser;
-      console.log($scope.identity);
 
       var findIdOnList = function(id, list) {
         for(var i = 0; i < list.length; i++) {

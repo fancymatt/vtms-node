@@ -1,7 +1,6 @@
 var models = require('../models/models');
 
 exports.getTeamMemberById = function(req, res) {
-  console.log("Searching for a Team Member with ID of " + req.params.id);
   models.TeamMember.findOne({
     where: {id: req.params.id}
   }).then(function(teamMember) {
@@ -41,6 +40,6 @@ exports.updateLesson = function(req, res) {
         res.status(400);
         return res.send({reason: err.toString()});
       });
-  
+
   });
 };

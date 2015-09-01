@@ -6,7 +6,6 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
   ctrl.teamMember = vtmsTeamMember.get({id: ctrl.identity.fkTeamMember});
 
   ctrl.beginFixingIssues = function(task) {
-    console.log('task', task);
     // create a new activity
     $rootScope.$broadcast('activity:toBeAdded');
     var newActivity = new vtmsActivity();

@@ -9,7 +9,6 @@ var getList = function(req, res, query) {
       res.status(404).send({error: 'No activities were found.'});
     }
   }).catch(function(err) {
-    console.log(err);
     res.status(500).send({reason: err.toString()});
   });
 };

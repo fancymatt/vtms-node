@@ -13,7 +13,6 @@
   .panel.panel-primary
     .panel-heading.text-center {{ctrl.lesson.languageSery.title + " #" + ctrl.lesson.number + " - " + ctrl.lesson.title}}
     .panel-body.text-center
-      h4.pull-left Back to Lesson Page
       video-player(config="ctrl.config")
 .container(ng-show="ctrl.identity.isAdmin()")
   .btn-group(role="group")

@@ -18,7 +18,6 @@ angular.module('vtms').factory('vtmsPublishDate', function($resource, $q, vtmsNo
       isDelivered: true,
       deliveredTime: moment(Date.now()).utc().format('YYYY-MM-DD HH:mm:ss')
     }).then(function(newData) {
-      console.log(newData);
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
