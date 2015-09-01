@@ -257,7 +257,7 @@ exports.getActionableTasksForTeamMemberWithId = function(req, res) {
       {
         model: models.Lesson,
         include: [{model: models.PublishDate,
-                   where: {date: {$lt: moment(Date.now()).utc().add(3, 'months').format('YYYY-MM-DD')}},
+                   where: {date: {$lt: moment(Date.now()).utc().add(6, 'months').format('YYYY-MM-DD')}},
                    required: true},
                   models.LanguageSeries]
       }
