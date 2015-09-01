@@ -1,7 +1,7 @@
 .container-fluid
   h1 {{ctrl.teamMember.nameFull}}
 .container-fluid.col-md-6
-  activity-list(config="ctrl.activityListConfig", user-id="ctrl.userId")
+  activity-list(config="ctrl.activityListConfig", user-id="ctrl.teamMember.id")
 .container-fluid.col-md-6
   team-member-issues-list(config="ctrl.teamMemberIssuesListConfig")
   task-list(config="ctrl.undeliveredTasksConfig")
