@@ -1,4 +1,8 @@
 .container-fluid
   h1 {{ctrl.teamMember.nameFull}}
-.container-fluid
+.container-fluid.col-md-6
+  activity-list(config="ctrl.activityListConfig", user-id="ctrl.userId")
+.container-fluid.col-md-6
+  team-member-issues-list(config="ctrl.teamMemberIssuesListConfig")
+  task-list(config="ctrl.undeliveredTasksConfig")
   task-list(config="ctrl.actionableTasksConfig")

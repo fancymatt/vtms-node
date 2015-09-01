@@ -95,7 +95,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       series: true,
       lesson: true,
       task: true
-    },
+    }
 
   };
 
