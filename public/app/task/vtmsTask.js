@@ -189,11 +189,13 @@ angular.module('vtms').factory('vtmsTask', function($resource, $q, $rootScope, v
     var taskString = this.toString();
     var notification = 'You\'ve marked ' + taskString + ' as incomplete';
 
+    var that = this;
+
     this.update({
       isCompleted: false,
       timeActual: 0
     }).then(function(newData) {
-      $rootScope.$broadcast('task:incompleted', incompletedTask);
+      $rootScope.$broadcast('task:incompleted', that);
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
     }, function(response) {
