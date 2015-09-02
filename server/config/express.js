@@ -12,13 +12,14 @@ module.exports = function(app, config) {
   app.set('view engine', 'jade');
   app.set('views', config.path + 'server/views/');
   app.use(logger('dev'));
-  app.use(cookieParser());
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(session({
+    proxy: true,
     secret: 'matt is so secretive',
-    resave: true,
+    resave: false,
     saveUninitialized: true,
+    cookie: {},
     store: new SequelizeStore({
       db: sequelize
     })
