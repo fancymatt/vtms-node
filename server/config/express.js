@@ -15,6 +15,7 @@ module.exports = function(app, config) {
   app.use(logger('dev'));
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
+  app.use(cookieParser());
   app.use(session({
     proxy: true,
     secret: 'matt is so secretive',
