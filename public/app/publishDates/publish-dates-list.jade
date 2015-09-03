@@ -28,6 +28,7 @@
         th(ng-show="config.columns.title") Title
         th(ng-show="config.columns.platform") Platform
         th(ng-show="config.columns.date") Publish Date
+        th(ng-show="config.columns.date && identity.isAdmin()") Edit
         th(ng-show="config.columns.deliveredOn") Delivered
         th(ng-show="config.columns.status") Status
         th(ng-show="config.columns.lessonStatus") Lesson Status
@@ -49,6 +50,8 @@
           a(ng-href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.title}}
         td(ng-show="config.columns.platform") {{publishDate.platform.name }}
         td(ng-show="config.columns.date") {{publishDate.date | date: 'MMM d, yyyy'}}
+        td(ng-show="config.columns.date && identity.isAdmin()")
+          input.form-control(ng-model="publishDate.date", mo-date-input="YYYY-MM-DD", ng-blur="updatePublishDate(publishDate, $event)")
         td(ng-show="config.columns.deliveredOn") {{publishDate.deliveredTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.status") {{publishDate.isDelivered ? "Delivered" : "Not Delivered"}}
         td(ng-show="config.columns.lessonStatus")

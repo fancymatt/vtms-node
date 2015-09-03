@@ -5,7 +5,7 @@ angular.module('vtms').directive('publishDatesList', function() {
     scope: {
       config: '='
     },
-    controller: function($scope, $rootScope, vtmsPublishDate, vtmsIdentity) {
+    controller: function($scope, $rootScope, vtmsPublishDate, vtmsIdentity, vtmsNotifier) {
 
       $scope.refresh = function() {
         $scope.publishDateList = $scope.config.update();
@@ -44,7 +44,7 @@ angular.module('vtms').directive('publishDatesList', function() {
         }
       };
 
-      $scope.sortOptions = [];
+      $scope.sortOptions = [{value: "status", text: "Sort by Status"}];
 
       if($scope.config.sortOptions) {
         if($scope.config.sortOptions.date) $scope.sortOptions.push({value: "date", text: "Sort by Date"});
@@ -64,6 +64,20 @@ angular.module('vtms').directive('publishDatesList', function() {
           angular.extend(publishDate, newData);
           $rootScope.$broadcast('publishDate:delivered', publishDate);
         });
+      };
+
+      $scope.updatePublishDate = function(date, event) {
+        for(var i = 0; i < event.target.classList.length; i++) {
+          if(event.target.classList[i] === 'ng-dirty') {
+            if(moment(date.date).isValid()) {
+              date.update({date: moment(date.date).format('YYYY-MM-DD')}).then(function() {
+                vtmsNotifier.success("Updated Publish Date to: " + moment(date.date).format('ddd, MMMM Do YYYY'));
+              });
+            } else {
+              vtmsNotifier.error('Please supply a valid date.');
+            }
+          }
+        }
       };
 
       $scope.delete = function(deletedPublishDate) {
