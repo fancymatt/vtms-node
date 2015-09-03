@@ -4,7 +4,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    passport = require('passport');
+    passport = require('passport'),
+    shortid = require('shortid');
 
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -18,7 +19,10 @@ module.exports = function(app, config) {
     proxy: true,
     secret: 'matt is so secretive',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    genid: function(req) {
+      return shortid.generate();
+    },
     cookie: {},
     store: new SequelizeStore({
       db: sequelize
