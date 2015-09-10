@@ -56,7 +56,8 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     var notification = "Removed " + lessonString + " from the render queue.";
 
     this.update({
-      isQueued: false
+      isQueued: false,
+      queuedTime: null
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
