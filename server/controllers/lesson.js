@@ -247,8 +247,8 @@ exports.getReadyToRenderLessons = function (req, res) {
       var renderQueueLessons = [];
       for(var i = 0; i < lessons.length; i++) {
         // Cannot insert value as null, so this catches lessons that were unqueued
-        if(lessons[i].queuedTime === '0000-00-00') lessons[i].queuedTime = null;
-        if(lessons[i].lastTaskTime > lessons[i].queuedTime || lessons[i].lastIssueTime > lessons[i].queuedTime || lessons[i].queuedTime === '0000-00-00') {
+        if(lessons[i].queuedTime === '0000-00-00 00:00:00') lessons[i].queuedTime = null;
+        if(lessons[i].lastTaskTime > lessons[i].queuedTime || lessons[i].lastIssueTime > lessons[i].queuedTime || lessons[i].queuedTime === '0000-00-00 00:00:00') {
           if(lessons[i].checkedLanguage) {
             // if it's checked language, then we shouldn't export again until all tasks are completed
             if(lessons[i].allTasksCompleted) {
