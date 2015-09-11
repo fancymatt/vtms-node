@@ -57,7 +57,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
     this.update({
       isQueued: false,
-      queuedTime: '0000-00-00 00:00:00'
+      queuedTime: ''
     }).then(function(newData) {
       vtmsNotifier.notify(notification);
       dfd.resolve(newData);
