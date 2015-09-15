@@ -140,6 +140,12 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsCheckingController',
       controllerAs: 'ctrl',
       resolve: routeRoleChecks.user
+    })
+    .when('/lesson/:id/shooting', {
+      templateUrl: '/partials/lessons/lesson-shooting',
+      controller: 'vtmsLessonShootingController',
+      controllerAs: 'ctrl',
+      resolve: routeRoleChecks.user
   });
 });
 

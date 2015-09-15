@@ -6,7 +6,7 @@
       a(href="/series/{{ctrl.lesson.languageSery.series.id}}") {{ctrl.lesson.languageSery.series.title}}
     li
       a(href="/language-series/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
-    li.active {{ctrl.lesson.title}}
+    li.active {{"#" + ctrl.lesson.number}} {{ctrl.lesson.title}}
 .container
   h1
     a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
@@ -20,4 +20,6 @@
 .container-fluid
   activity-list(activities="ctrl.activityList", config="ctrl.activityListConfig", update-fn="ctrl.updateActivities()")
 .container-fluid
+  h3
+    a(ng-href='/lesson/{{ctrl.lesson.id}}/shooting') Shooting
   shot-list(lesson="ctrl.lesson", config="ctrl.shotsConfig", update-fn="ctrl.updateShots()")

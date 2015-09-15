@@ -40,7 +40,7 @@ exports.getLessonById = function (req, res) {
   models.Lesson.findOne({
     where: {id: req.params.id},
     include: [
-      {model: models.LanguageSeries, include: [ models.Series] } ]
+      {model: models.LanguageSeries, include: [ models.Series, models.Language] } ]
   }).then(function (lesson) {
     if (lesson) {
       res.send(lesson);

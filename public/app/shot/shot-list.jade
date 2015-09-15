@@ -4,10 +4,13 @@
       span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
     .pull-right(ng-show="config.sortable")
-      form.form-inline
+      form.form-inline(ng-show="!config.shooting")
         .form-group
           select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
-  table.table.table-hover.table-striped.table-condensed#shots
+      form.form-inline(ng-show="config.shooting")
+        .form-group
+          select.form-control(ng-model="filteredAsset", ng-options="asset.taskGlobal.name for asset in assetList")
+  table.table.table-hover.table-striped.table-condensed#shots(ng-hide="config.shooting")
     thead
       tr
         th Asset
@@ -25,7 +28,7 @@
         td {{shot.script}}
         td(ng-show="identity.isAdmin()")
           button.btn.btn-xs(ng-click="deleteShot(shot)") X
-      tr(ng-show="identity.isAdmin()")
+      tr(ng-show="identity.isAdmin() && !config.shooting")
         td
           select(ng-model="newShotValues.fkAsset" convert-to-number)
             option(ng-repeat="asset in assetList", value="{{asset.id}}") {{asset.taskGlobal.name}}
@@ -39,3 +42,14 @@
           textarea(ng-model="newShotValues.script")
         td
           button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
+    div(ng-show="config.shooting")
+      span {{lesson.languageSery.language.name + " " + lesson.languageSery.series.title + " " + lesson.number}}
+      span  {{" - "}}
+      span {{(filteredAsset ? filteredAsset.taskGlobal.name : 'all shots' )}}
+      br
+      div(ng-repeat="shot in shotList | filter: {fkAsset: filteredAsset.id} | orderBy: sortOrder")
+        span {{'[' + shot.section + ' ' + shot.shot + ' ' + shot.type + ']'}}
+        br
+        span {{shot.script}}
+        br
+        br

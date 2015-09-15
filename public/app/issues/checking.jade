@@ -7,7 +7,7 @@
     li
       a(href="/language-series/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
     li
-      a(href="/lesson/{{ctrl.lesson.id}}") {{ctrl.lesson.title}}
+      a(href="/lesson/{{ctrl.lesson.id}}") {{"#" + ctrl.lesson.number}} {{ctrl.lesson.title}}
     li.active Checking
 .container(ng-if="ctrl.lesson")
   .panel.panel-primary

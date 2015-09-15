@@ -1,0 +1,14 @@
+.container-fluid
+  ol.breadcrumb
+    li
+      a(href="/series") Series List
+    li
+      a(href="/series/{{ctrl.lesson.languageSery.series.id}}") {{ctrl.lesson.languageSery.series.title}}
+    li
+      a(href="/language-series/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
+    li
+      a(href="/lesson/{{ctrl.lesson.id}}") {{"#" + ctrl.lesson.number}} {{ctrl.lesson.title}}
+.container-fluid
+  h1 {{ctrl.lesson.title}}
+.container-fluid
+  shot-list(lesson="ctrl.lesson", config="ctrl.shotsConfig", update-fn="ctrl.updateShots()", shooting-list)

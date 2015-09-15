@@ -5,7 +5,7 @@ angular.module('vtms').directive('shotList', function() {
     scope: {
       config: '='
     },
-    controller: function($scope, $window, vtmsShot, vtmsTask, vtmsNotifier, vtmsIdentity) {
+    controller: function($scope, $window, vtmsShot, vtmsLesson, vtmsTask, vtmsNotifier, vtmsIdentity) {
 
       $scope.assetList = vtmsTask.getAssets({id: $scope.config.lessonId});
 
@@ -33,6 +33,8 @@ angular.module('vtms').directive('shotList', function() {
           return false;
         }
       };
+
+      $scope.lesson = vtmsLesson.get({id: $scope.config.lessonId});
 
       $scope.newShotValues = {
         shot: 1,
