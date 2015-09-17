@@ -50,7 +50,7 @@
         td(ng-show="config.columns.title")
           a(ng-href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.title}}
         td(ng-show="config.columns.shortLesson")
-          a(href="/lesson/{{task.lesson.id}}") {{publishDate.lesson.languageSery.language.name}} {{publishDate.lesson.languageSery.series.title}} ({{publishDate.lesson.languageSery.level.code}}) {{"#" + publishDate.lesson.number}}
+          a(href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.languageSery.language.name}} {{publishDate.lesson.languageSery.series.title}} ({{publishDate.lesson.languageSery.level.code}}) {{"#" + publishDate.lesson.number}}
         td(ng-show="config.columns.platform") {{publishDate.platform.name }}
         td(ng-show="config.columns.date") {{publishDate.date | date: 'MMM d, yyyy'}}
         td(ng-show="config.columns.date && identity.isAdmin()")
