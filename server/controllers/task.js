@@ -60,7 +60,7 @@ exports.getTaskById = function(req, res) {
   models.Task.findOne({
     where: {id: req.params.id},
     include: [
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, models.PublishDate] },
       {model: models.TeamMember},
       {model: models.TaskGlobal}]
   }).then(function(task) {
@@ -88,7 +88,16 @@ exports.getActiveTasks = function(req, res) {
   models.Task.findAll({
     where: {isActive: true},
     include: [
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {
+        model: models.Lesson,
+        include: [
+          {
+            model: models.LanguageSeries,
+            include: [models.Language, models.Level, models.Series]
+          },
+          models.PublishDate
+        ]
+      },
       {model: models.TeamMember},
       {model: models.TaskGlobal}]
   }).then(function(tasks) {
@@ -109,7 +118,7 @@ exports.getActiveTasksForTeamMemberWithId = function(req,  res) {
       fkTeamMember: req.params.id
     },
     include: [
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, models.PublishDate] },
       {model: models.TaskGlobal}
     ]
   }).then(function(tasks) {
@@ -149,7 +158,7 @@ exports.getRecentTasks = function(req, res) {
     where: {isCompleted: true},
     order: [['timeCompleted', 'DESC']],
     include: [
-      {model: models.Lesson, include: [models.LanguageSeries, models.PublishDate] },
+      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Language]}, models.PublishDate] },
       {model: models.TeamMember},
       {model: models.TaskGlobal}],
     limit: 50
@@ -209,7 +218,7 @@ exports.getTasksForTeamMemberWithIssues = function(req, res) {
     include: [
       models.TaskGlobal,
       {model: models.Issue, where: {isCompleted: false}, required: true},
-      {model: models.Lesson, include: [{model: models.LanguageSeries}, {model: models.PublishDate, required: true}]}
+      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, {model: models.PublishDate, required: true}]}
     ]
   }).then(function(tasks) {
     if(tasks) {
@@ -230,7 +239,7 @@ exports.getUndeliveredTasks = function(req, res) {
     },
     include: [
       {model: models.TaskGlobal, where: {isAsset: true}},
-      {model: models.Lesson, include: [{model: models.LanguageSeries}, {model: models.PublishDate, required: true}]}
+      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, {model: models.PublishDate, required: true}]}
     ]
   });
 };
@@ -244,7 +253,7 @@ exports.getUndeliveredTasksForTeamMember = function(req, res) {
     },
     include: [
       {model: models.TaskGlobal, where: {isAsset: true}},
-      {model: models.Lesson, include: [{model: models.LanguageSeries}, {model: models.PublishDate, required: true}]}
+      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, {model: models.PublishDate, required: true}]}
     ]
   });
 };
@@ -259,7 +268,7 @@ exports.getActionableTasksForTeamMemberWithId = function(req, res) {
         include: [{model: models.PublishDate,
                    where: {date: {$lt: moment(Date.now()).utc().add(6, 'months').format('YYYY-MM-DD')}},
                    required: true},
-                  models.LanguageSeries]
+                  {model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}]
       }
     ]
   }).then(function(tasks) {

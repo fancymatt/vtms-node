@@ -12,6 +12,7 @@
       tr
         th(ng-show="identity.isLoggedIn()") Actions
         th(ng-show="config.columns.lesson") Lesson
+        th(ng-show="config.columns.shortLesson") Lesson
         th(ng-show="config.columns.task") Task
         th(ng-show="config.columns.teamMember") Team Member
         th(ng-show="config.columns.status") Status
@@ -38,6 +39,8 @@
                 a(href="#", ng-click="assignTaskToTeamMember(task, teamMember)") Assign to {{teamMember.nameFirst}}
         td(ng-show="config.columns.lesson")
           a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.title}} {{"#" + task.lesson.number}}: {{task.lesson.title}}
+        td(ng-show="config.columns.shortLesson")
+          a(href="/lesson/{{task.lesson.id}}") {{task.lesson.languageSery.language.name}} {{task.lesson.languageSery.series.title}} ({{task.lesson.languageSery.level.code}}) {{"#" + task.lesson.number}}
         td(ng-show="config.columns.task") {{task.taskGlobal.name}}
         td(ng-show="config.columns.teamMember") {{task.teamMember.nameFull}}
         td(ng-show="config.columns.status")

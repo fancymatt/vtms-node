@@ -40,7 +40,7 @@ exports.getLessonById = function (req, res) {
   models.Lesson.findOne({
     where: {id: req.params.id},
     include: [
-      {model: models.LanguageSeries, include: [ models.Series, models.Language] } ]
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] } ]
   }).then(function (lesson) {
     if (lesson) {
       res.send(lesson);
@@ -55,7 +55,7 @@ exports.getLessonById = function (req, res) {
 exports.getLessonsWithUnassignedIssues = function (req, res) {
   models.Lesson.findAll({
     include: [
-      models.LanguageSeries,
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       models.PublishDate,
       {
         model: models.Issue,
@@ -92,11 +92,17 @@ exports.updateLesson = function (req, res) {
 
 exports.getUpcomingLessons = function (req, res) {
     models.Lesson.findAll({
-      include: {
-        model: models.PublishDate,
-        required: true,
+      include: [
+        {
+          model: models.PublishDate,
+          required: true,
         //attributes: ['date', [sequelize.literal('MIN(date)')]]
-      },
+        },
+        {
+          model: models.LanguageSeries,
+          include: [ models.Series, models.Level, models.Language]
+        }
+      ],
       where: { filesMoved: false },
       groupBy: models.Lesson,
       limit: 50
@@ -122,7 +128,7 @@ exports.getQaLessons = function (req, res) {
       }
     },
     include: [
-      {model: models.LanguageSeries, include: [models.Language]},
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
@@ -148,7 +154,7 @@ exports.getVideoCheckableLessons = function (req, res) {
     include: [
       {model: models.Issue, as: 'lastIssue'},
       {model: models.Task, as: 'lastTask', include: [models.TaskGlobal, models.TeamMember]},
-      {model: models.LanguageSeries},
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
@@ -179,7 +185,7 @@ exports.getArchiveableLessons = function (req, res) {
       filesMoved: false
     },
     include: [
-      models.LanguageSeries,
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
@@ -200,7 +206,7 @@ exports.getQueuedLessons = function (req, res) {
       isQueued: true
     },
     include: [
-      {model: models.LanguageSeries, include: [models.Level]},
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
@@ -239,7 +245,7 @@ exports.getReadyToRenderLessons = function (req, res) {
     include: [
       {model: models.Issue, as: 'lastIssue'},
       {model: models.Task, as: 'lastTask', include: [models.TaskGlobal, models.TeamMember]},
-      {model: models.LanguageSeries, include: [models.Level]},
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       {model: models.PublishDate, required: true}
     ]
   }).then(function (lessons) {
@@ -272,11 +278,12 @@ exports.getLessonsForSeries = function(req, res) {
    getList(req, res, {
      include: [
        {
-          model: models.LanguageSeries,
-          include: [models.Series],
-          where: {
-            fkSeries: req.params.id
-          }
+         model: models.LanguageSeries,
+         include: [
+           {model: models.Series, where: {fkSeries: req.params.id}},
+           models.Level,
+           models.Language
+         ]
        }
       ]
    });
@@ -285,7 +292,7 @@ exports.getLessonsForSeries = function(req, res) {
 exports.getLessonsForTeamMemberWithIssues = function(req, res) {
   getList(req, res, {
     include: [
-      models.LanguageSeries,
+      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] },
       {
         model: models.Task,
         where: {fkTeamMember: req.params.id},

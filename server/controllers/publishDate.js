@@ -34,7 +34,7 @@ exports.getIncompletePublishDates = function(req, res) {
       models.Platform,
       {
         model: models.Lesson,
-        include: [models.LanguageSeries]
+        include: [{model: models.LanguageSeries, include: [models.Language, models.Series, models.Level]}]
       }]}).then(function(publishDates) {
     if(publishDates) {
       res.send(publishDates);
@@ -64,7 +64,7 @@ exports.getSurroundingDeliveredPublishDates = function(req, res) {
       models.Platform,
       {
         model: models.Lesson,
-        include: [models.LanguageSeries]
+        include: [{model: models.LanguageSeries, include: [models.Language, models.Series, models.Level]}]
       }
     ]
   }).then(function(publishDates) {
@@ -96,7 +96,7 @@ exports.getSurroundingUndeliveredPublishDates = function(req, res) {
       models.Platform,
       {
         model: models.Lesson,
-        include: [models.LanguageSeries]
+        include: [{model: models.LanguageSeries, include: [models.Language, models.Series, models.Level]}]
       }
     ]
   }).then(function(publishDates) {
@@ -122,7 +122,7 @@ exports.getReadyToDeliverPublishDates = function(req, res) {
         where: {
           filesMoved: true
         },
-        include: [models.LanguageSeries]
+        include: [{model: models.LanguageSeries, include: [models.Language, models.Series, models.Level]}]
       }
     ]
   })
@@ -185,7 +185,7 @@ exports.getPublishDatesForLessonWithId = function(req, res) {
       models.Platform,
       {
         model: models.Lesson,
-        include: [models.LanguageSeries]
+        include: [{model: models.LanguageSeries, include: [models.Language, models.Series, models.Level]}]
       }]}). then(function (publishDates) {
     if(publishDates) {
       res.send(publishDates);

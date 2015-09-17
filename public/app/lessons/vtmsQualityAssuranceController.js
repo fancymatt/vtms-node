@@ -28,9 +28,7 @@ angular.module('vtms').controller('vtmsQualityAssuranceController', function($sc
     },
     columns: {
       actions: true,
-      series: true,
-      number: true,
-      title: false,
+      shortLesson: true,
       lastRender: false,
       lastAction: false,
       queuedTime: false,

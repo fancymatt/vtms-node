@@ -30,7 +30,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       incomplete: false,
     },
     columns : {
-      lesson: true,
+      shortLesson: true,
       task: true,
       teamMember: false,
       status: false,
@@ -51,7 +51,7 @@ angular.module('vtms').controller('vtmsTeamMemberTaskListController', function($
       incomplete: false,
     },
     columns : {
-      lesson: true,
+      shortLesson: true,
       task: true,
       teamMember: false,
       status: false,

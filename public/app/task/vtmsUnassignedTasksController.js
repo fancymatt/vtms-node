@@ -14,7 +14,7 @@ angular.module('vtms').controller('vtmsUnassignedTasksController', function($sco
       incomplete: false,
     },
     columns : {
-      lesson: true,
+      shortLesson: true,
       task: true,
       teamMember: false,
       status: false,

@@ -14,6 +14,7 @@
         th(ng-show="config.columns.series") Series
         th(ng-show="config.columns.level") Level
         th(ng-show="config.columns.number") Number
+        th(ng-show="config.columns.shortLesson") Lesson
         th(ng-show="config.columns.title") Title
         th(ng-show="config.columns.lastRender") Last Render
         th(ng-show="config.columns.lastAction") Last Action
@@ -50,6 +51,8 @@
         td(ng-show="config.columns.series") {{lesson.languageSery.title}}
         td(ng-show="config.columns.level") {{lesson.languageSery.level.name}}
         td(ng-show="config.columns.number") {{lesson.number}}
+        td(ng-show="config.columns.shortLesson")
+          a(href="/lesson/{{lesson.id}}") {{lesson.languageSery.language.name}} {{lesson.languageSery.series.title}} ({{lesson.languageSery.level.code}}) {{"#" + lesson.number}}
         td(ng-show="config.columns.title")
           a(ng-href="/lesson/{{lesson.id}}") {{lesson.title}}
         td(ng-show="config.columns.lastRender") {{lesson.lastRender | date: 'MMM d, yyyy, h:mm a'}}

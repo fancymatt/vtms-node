@@ -14,9 +14,7 @@ angular.module('vtms').controller('vtmsVideoCheckArchivalController', function($
     },
     columns: {
       actions: true,
-      series: true,
-      number: true,
-      title: true,
+      shortLesson: true,
       dueDate: true,
       status: true
     }
@@ -34,9 +32,7 @@ angular.module('vtms').controller('vtmsVideoCheckArchivalController', function($
     },
     columns: {
       actions: true,
-      series: true,
-      number: true,
-      title: true,
+      shortLesson: true,
       dueDate: true
     }
   };

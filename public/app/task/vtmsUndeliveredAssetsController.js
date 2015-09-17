@@ -1,5 +1,5 @@
 angular.module('vtms').controller('vtmsUndeliveredAssetsController', function($scope, vtmsTask) {
-  
+
   $scope.undeliveredTasksConfig = {
     title: 'Your Undelivered Assets',
     type: 'undeliveredAssets',
@@ -13,12 +13,12 @@ angular.module('vtms').controller('vtmsUndeliveredAssetsController', function($s
       incomplete: false,
     },
     columns : {
-      lesson: true,
+      shortLesson: true,
       task: true,
       teamMember: false,
       status: false,
       dueDate: true
     }
   };
-  
+
 });

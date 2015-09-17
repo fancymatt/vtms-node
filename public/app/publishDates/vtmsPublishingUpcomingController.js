@@ -16,8 +16,7 @@ angular.module('vtms').controller('vtmsPublishingUpcomingController', function($
     },
     columns: {
       actions: true,
-      series: true,
-      number: true,
+      shortLesson: true,
       platform: true,
       date: true,
       lessonStatus: true,
