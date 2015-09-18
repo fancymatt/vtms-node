@@ -19,7 +19,7 @@ angular.module('vtms').controller('vtmsTeamMemberDetailsController', function($s
       reassign: true
     },
     columns: {
-      lesson: true,
+      shortLesson: true,
       task: true,
       teamMember: false,
       status: false,
@@ -40,7 +40,7 @@ angular.module('vtms').controller('vtmsTeamMemberDetailsController', function($s
       incomplete: false,
     },
     columns : {
-      lesson: true,
+      shortLesson: true,
       task: true,
       teamMember: false,
       status: false,
