@@ -7,9 +7,8 @@
     li
       a(href="/language-series/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
     li.active {{"#" + ctrl.lesson.number}} {{ctrl.lesson.title}}
-.container
-  h1
-    a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
+.container-fluid
+  h1 {{ctrl.lesson.title}}
 .container-fluid
   task-list(config="ctrl.tasksConfig")
 .container-fluid
