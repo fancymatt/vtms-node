@@ -38,7 +38,9 @@
         td(ng-show="config.columns.creator") {{issue.creator}}
         td(ng-show="config.columns.timecode") {{issue.timecode}}
         td(ng-show="config.columns.issue") {{issue.body}}
-        td(ng-show="config.columns.status") {{issue.isCompleted ? "Completed" : "Incomplete"}}
+        td(ng-show="config.columns.status")
+          span {{issue.isCompleted ? "Completed ": "Incomplete"}}
+          span {{issue.isCompleted ? (issue.timeCompleted | date: 'MMM d, yyyy'): ""}}
       tr(ng-show="config.actions.add")
         td
           button.btn.btn-primary.btn-sm(ng-show="config.actions.getTime", ng-click="getCurrentTime()") Get Time
