@@ -20,6 +20,7 @@
         th(ng-show="config.columns.lastAction") Last Action
         th(ng-show="config.columns.queuedTime") Queued Time
         th(ng-show="config.columns.trt") TRT
+        th(ng-show="config.columns.trtEdit") TRT
         th(ng-show="config.columns.qaLog") QA Log
         th(ng-show="config.columns.qaUrl") QA Url
         th(ng-show="config.columns.dueDate") Due Date
@@ -62,6 +63,8 @@
             li(ng-show="lesson.fkLastIssue > 0") Issues fixed {{lesson.lastIssueTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.queuedTime") {{lesson.queuedTime | date: 'MMM d, yyyy, h:mm a'}}
         td(ng-show="config.columns.trt") {{lesson.trt | secondsToDateTime | date:'m:ss' }}
+        td(ng-show="config.columns.trtEdit")
+          input.form-control(ng-model="lesson.trt", ng-blur="updateTRT(lesson, $event)")
         td(ng-show="config.columns.qaLog")
           input.form-control(ng-model="lesson.qaLog", ng-blur="updateQaLog(lesson, $event)")
         td(ng-show="config.columns.qaUrl")

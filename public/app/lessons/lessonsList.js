@@ -135,6 +135,30 @@ angular.module('vtms').directive('lessonsList', function() {
         }
       };
 
+      $scope.updateTRT = function(lesson, event) {
+        var timeInSeconds = 0;
+        var theTrt = lesson.trt;
+        for(var i = 0; i < event.target.classList.length; i++) {
+          if(event.target.classList[i] === 'ng-dirty') {
+            var seconds = parseInt(theTrt.substring(theTrt.length-2, theTrt.length));
+            var timeInSeconds = 0;
+            var minutes = 0;
+            if(theTrt.length > 2) {
+              minutes = parseInt(theTrt.substring(theTrt.length-4, theTrt.length-2));
+              timeInSeconds = (minutes * 60) + seconds;
+            } else {
+              timeInSeconds = seconds;
+            }
+
+            if(parseInt(timeInSeconds) === timeInSeconds) {
+              lesson.update({trt: timeInSeconds}).then(function() {
+                vtmsNotifier.success("Updated TRT to " + minutes + ":" + seconds);
+              });
+            }
+          }
+        }
+      };
+
 
       /**
        * Listeners

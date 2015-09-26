@@ -120,6 +120,11 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsRenderQueueController',
       resolve: routeRoleChecks.admin
     })
+    .when('/no-trt', {
+      templateUrl: '/partials/lessons/no-trt-lessons',
+      controller: 'vtmsNoTRTLessonsController',
+      resolve: routeRoleChecks.admin
+    })
     .when('/database-migration', {
       templateUrl: '/partials/admin/database-migration',
       controller: 'vtmsDatabaseMigrationController',

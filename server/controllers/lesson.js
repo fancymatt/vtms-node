@@ -296,6 +296,7 @@ exports.getLessonsWithNoTRT = function(req, res) {
       trt: 0
     },
     include: [
+      models.PublishDate,
        {
          model: models.LanguageSeries,
          include: [

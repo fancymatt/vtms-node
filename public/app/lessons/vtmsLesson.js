@@ -10,6 +10,7 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
     getVideoCheckLessons: {method: 'GET', url: '/api/lessons/video-checkable', isArray: true},
     getArchivableLessons: {method: 'GET', url: '/api/lessons/archivable', isArray: true},
     getQaLessons: {method: 'GET', url: '/api/lessons/qa', isArray: true},
+    getNoTRTLessons: {method: 'GET', url: '/api/lessons/no-trt', isArray: true},
     getLessonsWithUnassignedIssues: {method: 'GET', url: '/api/issues/lessons/unassigned', isArray: true}
   });
 
