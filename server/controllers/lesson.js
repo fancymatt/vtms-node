@@ -289,6 +289,25 @@ exports.getLessonsForSeries = function(req, res) {
    });
 };
 
+exports.getLessonsWithNoTRT = function(req, res) {
+  getList(req, res, {
+    where: {
+      filesMoved: true,
+      trt: 0
+    },
+    include: [
+       {
+         model: models.LanguageSeries,
+         include: [
+           models.Series,
+           models.Level,
+           models.Language
+         ]
+       }
+      ]
+  });
+};
+
 exports.getLessonsForTeamMemberWithIssues = function(req, res) {
   getList(req, res, {
     include: [
