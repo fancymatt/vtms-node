@@ -45,12 +45,16 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
 
   ctrl.shotsConfig = {
     title: 'Shots',
-    sortable: false,
     lessonId: ctrl.lessonId,
     update: function() {
       return vtmsShot.getList({id: ctrl.lessonId});
     },
     actions: {},
+    sortOptions: {
+      chronological: true,
+      asset: true,
+      type: true
+    },
     columns: {
       actions: true
     }
@@ -65,7 +69,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       delete: true
     },
     sortOptions: {
-      date: false
+      date: true
     },
     columns: {
       actions: true,

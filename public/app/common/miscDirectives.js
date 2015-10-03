@@ -56,5 +56,37 @@ angular.module('vtms')
             });
         }
     };
-});
+})
+.factory('vtmsList', function() {
 
+  var findIdOnList = function(id, list) {
+    for(var i = 0; i < list.length; i++) {
+      if(id === list[i].id) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  return {
+
+    removeFromList: function(item, list) {
+      var indexToDelete = findIdOnList(item.id, list);
+      if(indexToDelete > -1) {
+        list.splice(indexToDelete, 1);
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    addToList: function(item, list) {
+      if(findIdOnList(item.id, list) > -1) {
+        return false;
+      } else {
+        list.push(item);
+        return true;
+      }
+    }
+  };
+});

@@ -1,58 +1,65 @@
 angular.module('vtms').directive('shotList', function() {
   return {
-    templateUrl: "/partials/shot/shot-list",
-    restrict: "E",
+    templateUrl: '/partials/shot/shot-list',
+    restrict: 'E',
     scope: {
       config: '='
     },
-    controller: function($scope, $window, vtmsShot, vtmsLesson, vtmsTask, vtmsNotifier, vtmsIdentity) {
-
-      $scope.assetList = vtmsTask.getAssets({id: $scope.config.lessonId});
+    controller: function($scope, $window, vtmsShot, vtmsLesson, vtmsTask, vtmsNotifier, vtmsIdentity, vtmsList) {
 
       $scope.refresh = function() {
         $scope.shotList = $scope.config.update();
       };
 
-      $scope.refresh();
+      var sortOptions = [
+        {key: 'chronological', value: ['section', 'shot'], display: 'Sort Chronologically'},
+        {key: 'section', value: 'section', display: 'Sort by Section'},
+        {key: 'shot', value: 'shot', display: 'Sort by Shot'},
+        {key: 'type', value: 'type', display: 'Sort by Type'},
+        {key: 'script', value: 'script', display: 'Sort by Script'},
+        {key: 'asset', value: 'asset', display: 'Sort by Asset'}
+      ];
 
-      $scope.identity = vtmsIdentity.currentUser;
+      var initializeSortOptions = function(sortOptionsConfig) {
+        $scope.sortOptions = [];
 
-      function deleteFromList(item, list) {
-        var index = list.indexOf(item);
-        var itemToDelete = list[index];
-        itemToDelete.delete().then(function() {
-          list.splice(index, 1);
-        });
+        // If sort option is set in config, add object to sortOptions array
+        if(sortOptionsConfig) {
+          sortOptions.forEach(function(sortOption) {
+            if(sortOption.key in sortOptionsConfig) { $scope.sortOptions.push(sortOption); }
+          });
+        } else {
+          // By default, use the top option in sortOptions array
+          $scope.sortOptions.push(sortOptions[0]);
+        }
+
+        $scope.sortOrder = $scope.sortOptions[0].value;
       };
+
+      var initialize = function() {
+        $scope.refresh();
+        initializeSortOptions($scope.config.sortOptions);
+        $scope.identity = vtmsIdentity.currentUser;
+        $scope.lesson = vtmsLesson.get({id: $scope.config.lessonId});
+        $scope.assetList = vtmsTask.getAssets({id: $scope.config.lessonId});
+      };
+
+      initialize();
 
       $scope.getNameFromTaskId = function(id) {
         if($scope.assetList.length) {
           for(var i = 0; i < $scope.assetList.length; i++) {
-            if($scope.assetList[i].id === id) return $scope.assetList[i].taskGlobal.name;
+            if($scope.assetList[i].id === id) { return $scope.assetList[i].taskGlobal.name; }
           }
           return false;
         }
       };
 
-      $scope.lesson = vtmsLesson.get({id: $scope.config.lessonId});
-
       $scope.newShotValues = {
         shot: 1,
-        script: "",
-        type: ""
+        script: '',
+        type: ''
       };
-
-      $scope.sortOptions = [{value: ['section', 'shot'], text: "Sort Chronologically"}];
-
-      if($scope.config.sortOptions) {
-        if($scope.config.sortOptions.section) $scope.sortOptions.push({value: "section", text: "Sort by Section"});
-        if($scope.config.sortOptions.shot) $scope.sortOptions.push({value: "shot", text: "Sort by Shot"});
-        if($scope.config.sortOptions.type) $scope.sortOptions.push({value: "type", text: "Sort by Type"});
-        if($scope.config.sortOptions.script) $scope.sortOptions.push({value: "script", text: "Sort by Script"});
-        if($scope.config.sortOptions.asset) $scope.sortOptions.push({value: "asset", text: "Sort by Asset"});
-      }
-
-      $scope.sortOrder = $scope.sortOptions[0].value;
 
       $scope.newShot = function() {
         $scope.newShotValues.fkLesson = $scope.config.lessonId;
@@ -61,19 +68,19 @@ angular.module('vtms').directive('shotList', function() {
           $scope.shotList[$scope.shotList.length] = shot;
         });
 
-        $window.document.getElementById("newShot").focus();
+        $window.document.getElementById('newShot').focus();
         $scope.newShotValues = {
           shot: $scope.newShotValues.shot + 1,
-          script: "",
-          type: ""
-        }
-        vtmsNotifier.notify("Added new shot.");
+          script: '',
+          type: ''
+        };
+        vtmsNotifier.notify('Added new shot.');
       };
 
       $scope.deleteShot = function(shot) {
-        deleteFromList(shot, $scope.shotList);
-        vtmsNotifier.notify("Deleted a shot.");
+        vtmsList.deleteFromList(shot, $scope.shotList);
+        vtmsNotifier.notify('Deleted a shot.');
       };
     }
-  }
+  };
 });

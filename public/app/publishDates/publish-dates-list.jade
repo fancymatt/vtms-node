@@ -3,10 +3,10 @@
     a.pull-right(href="#", ng-click="refresh()")
       span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
-    .pull-right(ng-show="config.sortable")
+    .pull-right(ng-show="sortOptions.length > 1")
       form.form-inline
         .form-group
-          select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
+          select.form-control(ng-model="sortOrder", ng-options="item.value as item.display for item in sortOptions")
     .input-group(ng-if="config.filter.platform")
       label(ng-repeat="platform in platforms")
         input(type="radio", name="selectedPlatform", ng-model="$parent.selectedPlatform", ng-value="platform")
@@ -34,7 +34,7 @@
         th(ng-show="config.columns.status") Status
         th(ng-show="config.columns.lessonStatus") Lesson Status
     tbody
-      tr(ng-repeat="publishDate in publishDateList | orderBy: sortOrder")
+      tr(ng-repeat="publishDate in list | orderBy: sortOrder")
         td(ng-show="config.columns.actions && identity.isLoggedIn()")
           div.btn-group
             button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")

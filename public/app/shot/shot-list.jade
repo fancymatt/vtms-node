@@ -3,10 +3,10 @@
     a.pull-right(href="#", ng-click="refresh()")
       span.glyphicon.glyphicon-refresh(aria-hidden="true")
   .panel-body
-    .pull-right(ng-show="config.sortable")
+    .pull-right(ng-show="sortOptions.length > 1")
       form.form-inline(ng-show="!config.shooting")
         .form-group
-          select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
+          select.form-control(ng-model="sortOrder", ng-options="item.value as item.display for item in sortOptions")
       form.form-inline(ng-show="config.shooting")
         .form-group
           select.form-control(ng-model="filteredAsset", ng-options="asset.taskGlobal.name for asset in assetList")

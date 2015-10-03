@@ -5,59 +5,47 @@ angular.module('vtms').directive('publishDatesList', function() {
     scope: {
       config: '='
     },
-    controller: function($scope, $rootScope, vtmsPublishDate, vtmsIdentity, vtmsNotifier) {
+
+    controller: function($scope, $rootScope, vtmsPublishDate, vtmsIdentity, vtmsNotifier, vtmsList) {
 
       $scope.refresh = function() {
-        $scope.publishDateList = $scope.config.update();
+        $scope.list = $scope.config.update();
       };
 
-      $scope.refresh();
+      var sortOptions = [
+        {key: 'status', value: 'status', text: 'Sort by Status'},
+        {key: 'date', value: 'date', display: 'Sort by Date'},
+        {key: 'series', value: 'lesson.languageSery.series.title', display: 'Sort by Series'},
+        {key: 'number', value: 'lesson.number', display: 'Sort by Lesson Number'},
+        {key: 'title', value: 'lesson.title', display: 'Sort by Lesson Title'},
+        {key: 'platform', value: ['platform.name', 'date'], display: 'Sort by Platform'},
+        {key: 'deliveredOnPlatform', value: ['platform.name', '-deliveredTime'], display: 'Sort by Platform'},
+        {key: 'deliveredOn', value: '-deliveredTime', display: 'Delivered Time'}
+      ];
 
-      $scope.identity = vtmsIdentity.currentUser;
+      var initializeSortOptions = function(sortOptionsConfig) {
+        $scope.sortOptions = [];
 
-
-      var findIdOnList = function(id, list) {
-        for(var i = 0; i < list.length; i++) {
-          if(id === list[i].id) {
-            return i;
-          }
-        }
-        return -1;
-      };
-
-      var removeFromList = function(item, list) {
-        var indexToDelete = findIdOnList(item.id, list);
-        if(indexToDelete > -1) {
-          list.splice(indexToDelete, 1);
-          return true;
+        // If sort option is set in config, add object to sortOptions array
+        if(sortOptionsConfig) {
+          sortOptions.forEach(function(sortOption) {
+            if(sortOption.key in sortOptionsConfig) { $scope.sortOptions.push(sortOption); }
+          });
         } else {
-          return false;
+          // By default, use the top option in sortOptions array
+          $scope.sortOptions.push(sortOptions[0]);
         }
+
+        $scope.sortOrder = $scope.sortOptions[0].value;
       };
 
-      var addToList = function(item, list) {
-        if(findIdOnList(item.id, list) > -1) {
-          return false;
-        } else {
-          list.push(item);
-          return true;
-        }
+      var initialize = function() {
+        $scope.refresh();
+        initializeSortOptions($scope.config.sortOptions);
+        $scope.identity = vtmsIdentity.currentUser;
       };
 
-      $scope.sortOptions = [{value: "status", text: "Sort by Status"}];
-
-      if($scope.config.sortOptions) {
-        if($scope.config.sortOptions.date) $scope.sortOptions.push({value: "date", text: "Sort by Date"});
-        if($scope.config.sortOptions.series) $scope.sortOptions.push({value: "lesson.languageSery.series.title", text: "Sort by Series"});
-        if($scope.config.sortOptions.number) $scope.sortOptions.push({value: "lesson.number", text: "Sort by Lesson Number"});
-        if($scope.config.sortOptions.title) $scope.sortOptions.push({value: "lesson.title", text: "Sort by Lesson Title"});
-        if($scope.config.sortOptions.platform) $scope.sortOptions.push({value: ["platform.name", "date"], text: "Sort by Platform"});
-        if($scope.config.sortOptions.status) $scope.sortOptions.push({value: "status", text: "Sort by Status"});
-        if($scope.config.sortOptions.deliveredOnPlatform) $scope.sortOptions.push({value: ["platform.name", "-deliveredTime"], text: "Sort by Platform"});
-        if($scope.config.sortOptions.deliveredOn) $scope.sortOptions.push({value: "-deliveredTime", text: "Delivered Time"});
-      }
-
-      $scope.sortOrder = $scope.sortOptions[0].value;
+      initialize();
 
       $scope.deliver = function(publishDate) {
         publishDate.deliver().then(function(newData) {
@@ -71,7 +59,7 @@ angular.module('vtms').directive('publishDatesList', function() {
           if(event.target.classList[i] === 'ng-dirty') {
             if(moment(date.date).isValid()) {
               date.update({date: moment(date.date).format('YYYY-MM-DD')}).then(function() {
-                vtmsNotifier.success("Updated Publish Date to: " + moment(date.date).format('ddd, MMMM Do YYYY'));
+                vtmsNotifier.success('Updated Publish Date to: ' + moment(date.date).format('ddd, MMMM Do YYYY'));
               });
             } else {
               vtmsNotifier.error('Please supply a valid date.');
@@ -82,45 +70,12 @@ angular.module('vtms').directive('publishDatesList', function() {
 
       $scope.delete = function(deletedPublishDate) {
         deletedPublishDate.delete().then(function() {
-          removeFromList(deletedPublishDate, $scope.publishDateList);
+          vtmsList.removeFromList(deletedPublishDate, $scope.list);
         });
       };
-
-      /*
-      $scope.addToRenderQueue = function(addedLesson) {
-        addedLesson.addToRenderQueue().then(function(newData) {
-          angular.extend(addedLesson, newData);
-          $rootScope.$broadcast('lesson:addedToRenderQueue', addedLesson);
-        });
-      };
-
-      $scope.removeFromRenderQueue = function(removedLesson) {
-        removedLesson.removeFromRenderQueue().then(function(newData) {
-          angular.extend(removedLesson, newData);
-          $rootScope.$broadcast('lesson:removedFromRenderQueue', removedLesson);
-        });
-      };
-
-      $scope.markAsExported = function(exportedLesson) {
-        exportedLesson.markAsExported().then(function(newData) {
-          angular.extend(exportedLesson, newData);
-          $rootScope.$broadcast('lesson:exported', exportedLesson);
-        });
-      };
-
-      $scope.deleteLesson = function(deletedLesson) {
-        deletedLesson.delete().then(function() {
-          $rootScope.$broadcast('lesson:deleted', deletedLesson);
-        });
-      };
-      */
-
-      /**
-       * Listeners
-       */
 
       $rootScope.$on('publishDate:delivered', function(event, publishDate) {
-        if($scope.config.type === 'readyToPublish') removeFromList(publishDate, $scope.publishDateList);
+        if($scope.config.type === 'readyToPublish') { vtmsList.removeFromList(publishDate, $scope.list); }
       });
 
     }
