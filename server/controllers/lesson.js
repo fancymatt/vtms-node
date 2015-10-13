@@ -147,6 +147,7 @@ exports.getVideoCheckableLessons = function (req, res) {
     where: {
       filesMoved: false,
       checkedLanguage: true,
+      checkedVideo: false,
       allTasksCompleted: true,
       isQueued: false,
       incompleteIssues: {$lt: 1}
