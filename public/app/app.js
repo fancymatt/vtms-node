@@ -115,6 +115,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controller: 'vtmsIssueAssignmentController',
       resolve: routeRoleChecks.admin
     })
+    .when('/channels', {
+      templateUrl: '/partials/channels/channel-list',
+      controller: 'vtmsChannelListController'
+    })
     .when('/render-queue', {
       templateUrl: '/partials/lessons/render-queue',
       controller: 'vtmsRenderQueueController',

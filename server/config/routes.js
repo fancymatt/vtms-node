@@ -121,6 +121,9 @@ module.exports = function(app) {
   app.get('/api/taskGlobals', controllers.taskGlobal.getTaskGlobals);
   app.get('/api/taskGlobals/:id', controllers.taskGlobal.getTaskGlobalById);
 
+  app.get('/api/channels', controllers.channel.getChannels);
+  app.get('/api/channels/:id', controllers.channel.getChannelById);
+
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/' + req.params[0]);
   });

@@ -1,9 +1,9 @@
 var models = require('../models/models');
 
 exports.getChannels = function(req, res) {
-  models.Channel.findAll().then(function(channels) {
+  models.Channel.findAll({order: [['name', 'asc']]}).then(function(channels) {
     if(channels) {
-      res.send({channels: channels});
+      res.send(channels);
     } else {
       res.status(404).send({error: "No channels were found."})
     }
@@ -15,7 +15,7 @@ exports.getChannels = function(req, res) {
 exports.getChannelById = function(req, res) {
   models.Channel.findOne({where: {id: req.params.id}}).then(function(channel) {
     if(channel) {
-      res.send({activity: channel});
+      res.send(channel);
     } else {
       res.status(404).send({error: "No channel was found with that ID."})
     }
