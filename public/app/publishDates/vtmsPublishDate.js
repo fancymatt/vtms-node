@@ -5,7 +5,8 @@ angular.module('vtms').factory('vtmsPublishDate', function($resource, $q, vtmsNo
     getListForLesson: {method: 'GET', isArray: true, url:'/api/lessons/:id/publish-dates'},
     getUpcoming: {method: 'GET', isArray: true, url: '/api/publish-dates/upcoming'},
     getDelivered: {method: 'GET', isArray: true, url: '/api/publish-dates/delivered'},
-    getReadyToDeliverPublishDates: {method: 'GET', isArray: true, url: '/api/publish-dates/ready'}
+    getReadyToDeliverPublishDates: {method: 'GET', isArray: true, url: '/api/publish-dates/ready'},
+    getUpcomingPublishDatesForChannel: {method: 'GET', isArray: true, url: '/api/channels/:id/publish-dates'}
   });
 
   PublishDateResource.prototype.deliver = function() {

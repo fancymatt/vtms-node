@@ -52,7 +52,7 @@
         td(ng-show="config.columns.shortLesson")
           a(href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.languageSery.language.name}} {{publishDate.lesson.languageSery.series.title}} ({{publishDate.lesson.languageSery.level.code}}) {{"#" + publishDate.lesson.number}}
         td(ng-show="config.columns.platform") {{publishDate.platform.name }}
-        td(ng-show="config.columns.date") {{publishDate.date | date: 'MMM d, yyyy'}}
+        td(ng-show="config.columns.date") {{publishDate.date | date: 'EEE, MMM d, yyyy'}}
         td(ng-show="config.columns.date && identity.isAdmin()")
           input.form-control(ng-model="publishDate.date", mo-date-input="YYYY-MM-DD", ng-blur="updatePublishDate(publishDate, $event)")
         td(ng-show="config.columns.deliveredOn") {{publishDate.deliveredTime | date: 'MMM d, yyyy, h:mm a'}}

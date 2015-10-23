@@ -138,6 +138,34 @@ exports.getReadyToDeliverPublishDates = function(req, res) {
   });
 };
 
+exports.getUpcomingPublishDatesForChannel = function(req, res) {
+  models.PublishDate.findAll({
+    where: {fkPlatform: 2},
+    include: [
+      models.Platform,
+      {
+        model: models.Lesson,
+        include: [
+          {
+            model: models.LanguageSeries,
+            where: {fkChannel: req.params.id},
+            include: [models.Language, models.Series, models.Level]
+          }
+        ]
+      }
+    ]
+  }).then(function(publishDates) {
+    if(publishDates) {
+      res.send(publishDates);
+    } else {
+      res.status(404).send({error: 'No publish dates were found.'});
+    }
+  })
+  .catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
 exports.getPublishDateById = function(req, res) {
   models.PublishDate.findOne({where: {id: req.params.id}}).then(function(publishDate) {
     if(publishDate) {
