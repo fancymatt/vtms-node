@@ -65,8 +65,10 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     update: function() {
       return vtmsPublishDate.getListForLesson({id: ctrl.lessonId});
     },
+    lessonId: ctrl.lessonId,
     actions: {
-      delete: true
+      delete: true,
+      create: true
     },
     sortOptions: {
       date: true
@@ -86,7 +88,7 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
       return vtmsActivity.getListForLesson({id: ctrl.lessonId});
     },
     actions: {
-      delete: true,
+      delete: true
     },
     columns: {
       actions: true,

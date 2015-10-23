@@ -63,3 +63,19 @@
           span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="publishDate.lesson.checkedVideo")
           span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="publishDate.lesson.filesMoved")
           span.glyphicon.glyphicon-cloud-upload(aria-hidden="true", ng-show="publishDate.lesson.isDetected")
+      tr(ng-show="identity.isAdmin() && config.actions.create")
+        td(ng-show="config.columns.actions && identity.isLoggedIn()")
+          button.btn.btn-primary.btn-sm(ng-click="newDate()") Add Date
+        td(ng-show="config.columns.series")
+        td(ng-show="config.columns.number")
+        td(ng-show="config.columns.title")
+        td(ng-show="config.columns.shortLesson")
+        td(ng-show="config.columns.platform")
+          select(ng-model="newDateValues.fkPlatform")
+            option(value="1") pod101
+            option(value="2") youtube
+        td(ng-show="config.columns.date")
+        td(ng-show="config.columns.date && identity.isAdmin()")
+        td(ng-show="config.columns.deliveredOn")
+        td(ng-show="config.columns.status")
+        td(ng-show="config.columns.lessonStatus")

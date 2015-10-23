@@ -12,6 +12,14 @@ angular.module('vtms').directive('publishDatesList', function() {
         $scope.list = $scope.config.update();
       };
 
+      $scope.newDateValues = {
+        fkLesson: null,
+        fkPlatform: 1,
+        date: moment(),
+        isDelivered: 0
+      }
+      $scope.newDatePlatform = 1;
+
       var sortOptions = [
         {key: 'status', value: 'status', text: 'Sort by Status'},
         {key: 'date', value: 'date', display: 'Sort by Date'},
@@ -66,6 +74,16 @@ angular.module('vtms').directive('publishDatesList', function() {
             }
           }
         }
+      };
+
+      $scope.newDate = function() {
+        $scope.newDateValues.fkLesson = $scope.config.lessonId;
+        var newDate = new vtmsPublishDate($scope.newDateValues);
+        newDate.$save().then(function(date) {
+          $scope.refresh();
+        });
+
+        vtmsNotifier.notify('Added new date.');
       };
 
       $scope.delete = function(deletedPublishDate) {
