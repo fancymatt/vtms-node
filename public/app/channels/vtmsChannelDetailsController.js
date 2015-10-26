@@ -8,13 +8,14 @@ angular.module('vtms').controller('vtmsChannelDetailsController', function($scop
       return vtmsPublishDate.getUpcomingPublishDatesForChannel({id: $scope.channelId});
     },
     actions: {
-      deliver: false,
+      deliver: true,
       delete: true
+      //undeliver: true
     },
     sortable: true,
     sortOptions: {
       date: true,
-      series: true
+      languageSeries: true
     },
     columns: {
       actions: true,
