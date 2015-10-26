@@ -23,7 +23,7 @@ angular.module('vtms').directive('publishDatesList', function() {
       var sortOptions = [
         {key: 'status', value: 'status', text: 'Sort by Status'},
         {key: 'date', value: 'date', display: 'Sort by Date'},
-        {key: 'series', value: []'lesson.languageSery.series.title', 'lesson.number'], display: 'Sort by Series'},
+        {key: 'series', value: ['lesson.languageSery.series.title', 'lesson.number'], display: 'Sort by Series'},
         {key: 'number', value: 'lesson.number', display: 'Sort by Lesson Number'},
         {key: 'title', value: 'lesson.title', display: 'Sort by Lesson Title'},
         {key: 'platform', value: ['platform.name', 'date'], display: 'Sort by Platform'},
