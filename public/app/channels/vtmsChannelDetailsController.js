@@ -3,7 +3,7 @@ angular.module('vtms').controller('vtmsChannelDetailsController', function($scop
   $scope.channel = vtmsChannel.get({id: $scope.channelId});
 
   $scope.upcomingPublishDateListConfig = {
-    title: 'Upcoming Publish Dates',
+    title: 'YouTube Publishing Schedule',
     update: function() {
       return vtmsPublishDate.getUpcomingPublishDatesForChannel({id: $scope.channelId});
     },
@@ -14,7 +14,7 @@ angular.module('vtms').controller('vtmsChannelDetailsController', function($scop
     sortable: true,
     sortOptions: {
       date: true,
-      platform: true
+      series: true
     },
     columns: {
       actions: true,
