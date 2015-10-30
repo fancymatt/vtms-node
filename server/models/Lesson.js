@@ -5,10 +5,11 @@ var db = require('../config/sequelize.js'),
     Series = require('./Series.js'),
     TaskGlobal = require('./TaskGlobal.js'),
     Sequelize = require('sequelize');
-  
+
 var Lesson = db.define('lesson', {
   id: {
     type: Sequelize.INTEGER,
+    autoIncrement: true,
     primaryKey: true
   },
   fkLanguageSeries: {

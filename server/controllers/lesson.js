@@ -52,6 +52,16 @@ exports.getLessonById = function (req, res) {
   });
 };
 
+exports.createNewLesson = function (req, res) {
+  var userData = req.body;
+  models.Lesson.create(userData).then(function(lesson) {
+    return res.send(lesson);
+  }).catch(function(err) {
+    res.status(400);
+    return res.send({reason: err.errors[0].message});
+  });
+};
+
 exports.getLessonsWithUnassignedIssues = function (req, res) {
   models.Lesson.findAll({
     include: [

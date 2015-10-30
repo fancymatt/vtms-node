@@ -22,7 +22,7 @@ module.exports = function(app) {
   //app.delete('/api/languageSeries/:id', controllers.languageSeries.deleteLanguageSeries); // not implemented
 
   app.get('/api/lessons', controllers.lesson.getLessons);
-  //app.post('/api/lessons', controllers.lesson.newLesson); // not implemented
+  app.post('/api/lessons', controllers.lesson.createNewLesson);
   app.get('/api/lessons/upcoming', controllers.lesson.getUpcomingLessons);
   app.get('/api/lessons/qa', controllers.lesson.getQaLessons);
   app.get('/api/lessons/video-checkable', controllers.lesson.getVideoCheckableLessons);
@@ -59,6 +59,7 @@ module.exports = function(app) {
   //app.get('/api/teamMembers/:id/shifts', controllers.teamMember.getShiftsForTeamMemberWithId);
 
   app.get('/api/tasks', controllers.task.getTasks);
+  app.post('/api/tasks', controllers.task.createNewTask);
   app.get('/api/tasks/active', controllers.task.getActiveTasks);
   app.get('/api/tasks/actionable', controllers.task.getActionableTasks);
   app.get('/api/tasks/undelivered', controllers.task.getUndeliveredTasks);

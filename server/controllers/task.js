@@ -38,6 +38,16 @@ exports.getTasks = function(req, res) {
   });
 };
 
+exports.createNewTask = function (req, res) {
+  var userData = req.body;
+  models.Task.create(userData).then(function(task) {
+    return res.send(task);
+  }).catch(function(err) {
+    res.status(400);
+    return res.send({reason: err.errors[0].message});
+  });
+};
+
 exports.getAssetsForLessonWithId = function(req, res) {
   models.Task.findAll({
     where: {fkLesson: req.params.id},

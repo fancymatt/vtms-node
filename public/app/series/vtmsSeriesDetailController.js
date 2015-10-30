@@ -1,6 +1,7 @@
-angular.module('vtms').controller('vtmsSeriesDetailController', function($scope, vtmsSeries, vtmsIdentity, vtmsLanguage, vtmsLanguageSeries, vtmsNotifier, $routeParams) {
+angular.module('vtms').controller('vtmsSeriesDetailController', function($scope, vtmsSeries, vtmsGlobalTask, vtmsIdentity, vtmsLanguage, vtmsLanguageSeries, vtmsNotifier, vtmsTask, vtmsLesson, $routeParams) {
   $scope.series = vtmsSeries.get({id: $routeParams.id});
   $scope.languageSeriesList = vtmsLanguageSeries.getList({id: $routeParams.id});
+  $scope.globalTaskList = vtmsGlobalTask.getListForSeries({id: $routeParams.id});
 
   $scope.sortOptions = [
     {value: ["title", "level.number"], text: "Sort by Title"},
@@ -47,7 +48,17 @@ angular.module('vtms').controller('vtmsSeriesDetailController', function($scope,
         // Create lessons
         for(var i = 0; i < lessonsToCreate; i++) {
           var lessonNumber = i + 1;
-          console.log("Create lesson #" + lessonNumber + " for language series " + languageSeriesId);
+          var newLesson = new vtmsLesson({fkLanguageSeries: languageSeriesId, number: lessonNumber, title: "Lesson " + lessonNumber});
+          newLesson.$save().then(function(lesson) {
+            var taskList = $scope.globalTaskList;
+            for (var j = 0; j < taskList.length; j++) {
+              var newTask = new vtmsTask({fkLesson: lesson.id, fkTaskGlobal: taskList[j].id, fkTeamMember: taskList[j].defaultTeamMember});
+              newTask.$save();
+            }
+
+            console.log("Lesson created!");
+            console.log(lesson);
+          });
         }
       });
 
