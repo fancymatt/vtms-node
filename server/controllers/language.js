@@ -3,7 +3,7 @@ var models = require('../models/models');
 exports.getLanguages = function(req, res) {
   models.Language.findAll().then(function(languages) {
     if(languages) {
-      res.send({languages: languages});
+      res.send(languages);
     } else {
       res.status(404).send({error: "No languages were found."})
     }

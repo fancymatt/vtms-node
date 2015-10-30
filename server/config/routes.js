@@ -15,7 +15,7 @@ module.exports = function(app) {
   app.get('/api/series/:id/globalTasks', controllers.taskGlobal.getGlobalTasksForSeries);
 
   app.get('/api/languageSeries', controllers.languageSeries.getLanguageSeries);
-  //app.post('/api/languageSeries', controllers.languageSeries.newLanguageSeries); // not implemented
+  app.post('/api/languageSeries', controllers.languageSeries.createNewLanguageSeries);
   app.get('/api/languageSeries/:id', controllers.languageSeries.getLanguageSeriesById);
   app.put('/api/languageSeries/:id', controllers.languageSeries.updateLanguageSeries);
   app.get('/api/languageSeries/:id/lessons', controllers.languageSeries.getLessonsForLanguageSeriesWithId);

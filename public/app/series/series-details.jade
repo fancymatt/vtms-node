@@ -14,12 +14,29 @@
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
+        th(ng-show="identity.isAdmin()") Actions
         th Language
         th Title
         th Level
+        th(ng-show="identity.isAdmin()")
     tbody
       tr(ng-repeat="langSery in languageSeriesList | filter:searchText | orderBy: selectedSortOption")
+        td(ng-show="identity.isAdmin()")
         td {{langSery.language.name}}
         td
           a(href="/language-series/{{langSery.id}}") {{langSery.title}}
         td {{langSery.level.name}}
+        td(ng-show="identity.isAdmin()")
+      tr(ng-show="identity.isAdmin()")
+        td
+          button.btn.btn-primary.btn-sm(ng-click="createNewLanguageSeries()") Add Language
+        td
+          select(ng-model="newLanguageSeries.values.fkLanguage")
+            option(ng-repeat="language in newLanguageSeries.possibleValues.languages", value="{{language.id}}") {{language.name}}
+        td
+          input.form-control(ng-model="newLanguageSeries.values.title")
+        td
+          select(ng-options="id as name for (id, name) in newLanguageSeries.possibleValues.levels", ng-model="newLanguageSeries.values.fkLevel")
+        td
+          select(ng-model="newLanguageSeries.numberOfLessons")
+            option(ng-repeat="number in newLanguageSeries.possibleValues.numberOfLessons", value="{{number}}") {{number}}

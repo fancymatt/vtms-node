@@ -12,6 +12,17 @@ exports.getLanguageSeries = function(req, res) {
   });
 };
 
+exports.createNewLanguageSeries = function(req, res) {
+  var userData = req.body;
+  models.LanguageSeries.create(userData).then(function(languageSeries) {
+    return res.send(languageSeries);
+  }).catch(function(err) {
+    res.status(400);
+    return res.send({reason: err.errors[0].message});
+  });
+};
+
+
 exports.getLanguageSeriesById = function(req, res) {
   models.LanguageSeries.find({
     where: {id: req.params.id},

@@ -1,10 +1,11 @@
 var db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
-  
+
 var LanguageSeries = db.define('languageSeries', {
   id: {
     type: Sequelize.INTEGER,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   fkLanguage: {
     type: Sequelize.INTEGER
