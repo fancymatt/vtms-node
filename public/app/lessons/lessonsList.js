@@ -48,7 +48,7 @@ angular.module('vtms').directive('lessonsList', function() {
         }
       };
 
-      $scope.sortOptions = [{value: "dueDate()", text: "Sort by Due Date"}];
+      $scope.sortOptions = [{value: ['dueDate()', 'languageSery.language.name', 'languageSery.title', 'number'], text: "Sort by Due Date"}];
 
       if($scope.config.sortOptions) {
         if($scope.config.sortOptions.number) $scope.sortOptions.push({value: 'number', text: 'Sory by Number'});
