@@ -80,6 +80,19 @@ angular.module('vtms')
       }
     },
 
+    deleteFromList: function(item, list) {
+      var indexToDelete = findIdOnList(item.id, list);
+      var itemToDelete = list[indexToDelete];
+      if(indexToDelete > -1) {
+        itemToDelete.delete().then(function() {
+          list.splice(indexToDelete, 1);
+        });
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     addToList: function(item, list) {
       if(findIdOnList(item.id, list) > -1) {
         return false;
