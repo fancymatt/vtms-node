@@ -78,7 +78,7 @@ angular.module('vtms').directive('shotList', function() {
       };
 
       $scope.deleteShot = function(shot) {
-        vtmsList.removeFromList(shot, $scope.shotList);
+        vtmsList.deleteFromList(shot, $scope.shotList);
         vtmsNotifier.notify('Deleted a shot.');
       };
     }
