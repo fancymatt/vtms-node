@@ -33,13 +33,13 @@
           select(ng-model="newShotValues.fkAsset" convert-to-number)
             option(ng-repeat="asset in assetList", value="{{asset.id}}") {{asset.taskGlobal.name}}
         td
-          input(ng-model="newShotValues.section")
+          input.form-control(ng-model="newShotValues.section")
         td
-          input(ng-model="newShotValues.shot")
+          input.form-control(ng-model="newShotValues.shot")
         td
-          input(ng-model="newShotValues.type", id="newShot")
+          input.form-control(ng-model="newShotValues.type", id="newShot")
         td
-          textarea(ng-model="newShotValues.script")
+          textarea.form-control(ng-model="newShotValues.script")
         td
           button.btn.btn-primary.btn-sm(ng-click="newShot()") Add shot
     div(ng-show="config.shooting")

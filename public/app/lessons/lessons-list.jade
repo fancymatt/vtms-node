@@ -42,9 +42,9 @@
               li(ng-show="config.actions.delete && identity.isAdmin()")
                 a(href="#", ng-click="deleteLesson(lesson)") Delete
               li(ng-show="config.actions.markAsVideoChecked")
-                a(href="#", ng-click="markAsVideoChecked(lesson) && identity.isAdmin()") Mark as Video Checked
+                a(href="#", ng-click="markAsVideoChecked(lesson) && identity.isAdmin()") Mark as Video Approved
               li(ng-show="config.actions.markAsLanguageChecked && identity.isAdmin()")
-                a(href="#", ng-click="markAsLanguageChecked(lesson)") Mark as Language Checked
+                a(href="#", ng-click="markAsLanguageChecked(lesson)") Mark as Language Approved
               li(ng-show="config.actions.markAsArchived && identity.isAdmin()")
                 a(href="#", ng-click="markAsArchived(lesson)") Mark as Archived
               li(ng-show="config.actions.goToCheckingInterface")
