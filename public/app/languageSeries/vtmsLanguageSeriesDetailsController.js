@@ -41,9 +41,9 @@ angular.module('vtms').controller('vtmsLanguageSeriesDetailController', function
 
   $scope.update = function(newData) {
 
-    angular.extend(thisLanguageSeries, newData);
+    angular.extend($scope.languageSeries, newData);
 
-    languageSeries.update(newData).then(function() {
+    $scope.languageSeries.update(newData).then(function() {
       var string = "Updated Language Series: ";
       for(var key in newData) {
         string += key + " changed to \"" + newData[key] + "\" ";
