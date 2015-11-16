@@ -1,4 +1,4 @@
-angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsIssue, vtmsShot, vtmsTask, vtmsPublishDate, vtmsActivity, $routeParams) {
+angular.module('vtms').controller('vtmsLessonDetailsController', function($scope, vtmsLesson, vtmsIssue, vtmsShot, vtmsTask, vtmsPublishDate, vtmsActivity, vtmsNotifier, $routeParams) {
   var ctrl = this;
   ctrl.lessonId = $routeParams.id;
   ctrl.lesson = vtmsLesson.get({id: ctrl.lessonId});
@@ -100,6 +100,21 @@ angular.module('vtms').controller('vtmsLessonDetailsController', function($scope
     activityDetail: {
       task: true
     }
+  };
+
+  $scope.update = function(newData) {
+
+    angular.extend(ctrl.lesson, newData);
+
+    ctrl.lesson.update(newData).then(function() {
+      var string = "Updated Lesson: ";
+      for(var key in newData) {
+        string += key + " changed to \"" + newData[key] + "\" ";
+      }
+      vtmsNotifier.notify(string);
+    }, function(reason) {
+      vtmsNotifier.error(reason);
+    });
   };
 
 });
