@@ -7,6 +7,9 @@ var LanguageSeries = db.define('languageSeries', {
     primaryKey: true,
     autoIncrement: true
   },
+  code: {
+    type: Sequelize.STRING
+  },
   fkLanguage: {
     type: Sequelize.INTEGER
   },

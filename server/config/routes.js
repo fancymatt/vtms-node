@@ -19,6 +19,7 @@ module.exports = function(app) {
   app.get('/api/languageSeries/:id', controllers.languageSeries.getLanguageSeriesById);
   app.put('/api/languageSeries/:id', controllers.languageSeries.updateLanguageSeries);
   app.get('/api/languageSeries/:id/lessons', controllers.languageSeries.getLessonsForLanguageSeriesWithId);
+  app.get('/api/language-series/:id/xml', controllers.publishDate.getXmlForLanguageSeriesWithId);
   //app.delete('/api/languageSeries/:id', controllers.languageSeries.deleteLanguageSeries); // not implemented
 
   app.get('/api/lessons', controllers.lesson.getLessons);

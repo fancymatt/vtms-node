@@ -1,4 +1,5 @@
 var models = require('../models/models');
+var xml = require('xml');
 
 exports.createPublishDate = function (req, res, next) {
   var userData = req.body;
@@ -217,6 +218,71 @@ exports.getPublishDatesForLessonWithId = function(req, res) {
       }]}). then(function (publishDates) {
     if(publishDates) {
       res.send(publishDates);
+    } else {
+      res.status(404).send({error: 'No publish dates have been set for a lesson with this ID.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
+exports.getXmlForLanguageSeriesWithId = function(req, res) {
+    models.PublishDate.findAll({
+      where: {fkPlatform: 1, isDelivered: 1},
+      include: [
+        models.Platform,
+        {
+          model: models.Lesson,
+          order: [['number', 'ASC']],
+          include: [
+            {
+              model: models.LanguageSeries,
+              where: {id: req.params.id},
+              include: [models.Language, models.Series]
+            }
+          ]
+        }
+      ]
+    }).then(function (publishDates) {
+    if(publishDates) {
+      var seriesXml = [{rss: [{_attr: {'xmlns:media': 'http://search.yahoo.com/mrss/','xmlns:creativeCommons': 'http://backend.userland.com/creativeCommonsRssModule',version: '2.0'}},{channel: [{title: publishDates[0].lesson.languageSery.title,link: '&nbsp',description: '&nbsp'}]},],},];
+
+      for (var i = 0; i < publishDates.length; i++ ) {
+        var lessonCode = publishDates[i].lesson.languageSery.code + "_L" + publishDates[i].lesson.number;
+        var item = {
+          item: [
+            {
+              title: publishDates[i].lesson.title
+            },
+            {
+              guid: [{_attr: {'isPermaLink': 'false'}}, lessonCode]
+            },
+            {
+              description: 'description'
+            },
+            {
+              'media:group' : [
+                {
+                  'media:content' : 'value'
+                },
+                {
+                  'media:content' : 'value'
+                },
+                {
+                  'media:content' : 'value'
+                }
+              ]
+            },
+            {
+              'media:thumbnail' : 'value'
+            }
+          ]
+        };
+
+        seriesXml[0].rss[1].channel.push(item);
+      }
+
+      res.send(xml(seriesXml, true));
     } else {
       res.status(404).send({error: 'No publish dates have been set for a lesson with this ID.'});
     }
