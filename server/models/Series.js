@@ -5,7 +5,7 @@ var db = require('../config/sequelize.js'),
     Task = require('./Task.js'),
     config = require('../config/config.js');
     TaskGlobal = require('./TaskGlobal.js');
-  
+
 var Series = db.define('series', {
   id: {
     type: Sequelize.INTEGER,
@@ -30,7 +30,7 @@ var Series = db.define('series', {
     type: Sequelize.STRING
   },
   levelSignificant: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.INTEGER
   }
 }, {
   timestamps: false
