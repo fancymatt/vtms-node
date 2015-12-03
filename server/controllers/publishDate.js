@@ -303,6 +303,7 @@ exports.getXmlForLanguageSeriesWithId = function(req, res) {
       res.status(404).send({error: 'No publish dates have been set for a lesson with this ID.'});
     }
   }).catch(function(err) {
+    console.log(res);
     res.status(500).send({error: err});
   });
 };
