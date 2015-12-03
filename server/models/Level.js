@@ -1,6 +1,6 @@
 var db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
-  
+
 var Level = db.define('level', {
   id: {
     type: Sequelize.INTEGER,

@@ -233,48 +233,64 @@ exports.getXmlForLanguageSeriesWithId = function(req, res) {
         models.Platform,
         {
           model: models.Lesson,
-          order: [['number', 'ASC']],
           include: [
             {
               model: models.LanguageSeries,
               where: {id: req.params.id},
-              include: [models.Language, models.Series]
+              include: [models.Language, models.Series, models.Level]
             }
           ]
         }
-      ]
+      ],
+      order: [[models.Lesson, 'number', 'ASC']]
     }).then(function (publishDates) {
     if(publishDates) {
       var seriesXml = [{rss: [{_attr: {'xmlns:media': 'http://search.yahoo.com/mrss/','xmlns:creativeCommons': 'http://backend.userland.com/creativeCommonsRssModule',version: '2.0'}},{channel: [{title: publishDates[0].lesson.languageSery.title,link: '&nbsp',description: '&nbsp'}]},],},];
 
+      var urlBase = 'http://media.libsyn.com/media/' + publishDates[0].lesson.languageSery.language.siteUrl + '/' + publishDates[0].lesson.languageSery.code;
+
+      var vtmsLanguageCode = publishDates[0].lesson.languageSery.language.code;
+      var vtmsSeriesCode = publishDates[0].lesson.languageSery.series.code;
+      var vtmsLevelCode = publishDates[0].lesson.languageSery.level.code;
+      var vtmsLevelNecessary = publishDates[0].lesson.languageSery.series.levelSignificant;
+      var vtmsLanguageSeriesCode = vtmsLanguageCode + '_' + vtmsSeriesCode;
+      if(vtmsLevelNecessary) { vtmsLanguageSeriesCode += '-' + vtmsLevelCode; }
+
       for (var i = 0; i < publishDates.length; i++ ) {
-        var lessonCode = publishDates[i].lesson.languageSery.code + "_L" + publishDates[i].lesson.number;
+
+        var thisLesson = publishDates[i].lesson
+
+        var urlFull = urlBase + '_L' + thisLesson.number + '_' + thisLesson.languageSery.language.siteCode + '_video-';
+        var paddedLessonNumber = thisLesson.number < 10 ? '0' + thisLesson.number : thisLesson.number;
+        var vtmsCode = vtmsLanguageSeriesCode + '_' + paddedLessonNumber
+        var thumbnailUrlBase = 'http://products.innovativelanguage.com/roku/images/thumbs/' + thisLesson.languageSery.language.name.toLowerCase() + '/';
+
         var item = {
           item: [
             {
-              title: publishDates[i].lesson.title
+              title: thisLesson.title
             },
             {
-              guid: [{_attr: {'isPermaLink': 'false'}}, lessonCode]
+              guid: [{_attr: {'isPermaLink': 'false'}}, vtmsCode]
             },
             {
-              description: 'description'
+              description: ''
             },
             {
               'media:group' : [
                 {
-                  'media:content' : 'value'
+                  'media:content' : [{_attr: {'url': urlFull + 'h.mp4','bitrate' : '1500', 'duration': thisLesson.trt, 'medium': 'video', 'type':'video/quicktime'}}]
                 },
                 {
-                  'media:content' : 'value'
+                  'media:content' : [{_attr: {'url': urlFull + 'm.mp4','bitrate' : '1000', 'duration': thisLesson.trt, 'medium': 'video', 'type':'video/quicktime'}}]
                 },
                 {
-                  'media:content' : 'value'
+                  'media:content' : [{_attr: {'url': urlFull + 'l.mp4','bitrate' : '500', 'duration': thisLesson.trt, 'medium': 'video', 'type':'video/quicktime'}}]
                 }
               ]
             },
             {
-              'media:thumbnail' : 'value'
+              'media:thumbnail' : [{_attr: {'url': thumbnailUrlBase + vtmsCode + '-thumb.png'}}]
             }
           ]
         };

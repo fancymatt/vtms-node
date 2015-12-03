@@ -1,6 +1,6 @@
 var db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
-  
+
 var Language = db.define('language', {
   id: {
     type: Sequelize.INTEGER,
@@ -10,6 +10,13 @@ var Language = db.define('language', {
     type: Sequelize.STRING
   },
   code: {
+    type: Sequelize.STRING
+  },
+  siteUrl: {
+    type: Sequelize.STRING,
+    field: 'siteUrlShort'
+  },
+  siteCode: {
     type: Sequelize.STRING
   }
 }, {
