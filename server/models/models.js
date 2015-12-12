@@ -1,7 +1,8 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
 
-var models = {};
+let models = {};
 
 models.Sequelize = Sequelize;
 

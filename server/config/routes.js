@@ -1,4 +1,5 @@
-var auth = require('./auth'),
+'use strict';
+let auth = require('./auth'),
     controllers = require('../controllers/controllers'),
     models = require('../models/models');
 
@@ -125,7 +126,7 @@ module.exports = function(app) {
 
   app.get('/api/channels', controllers.channel.getChannels);
   app.get('/api/channels/:id', controllers.channel.getChannelById);
-  app.get('/api/channels/:id/publish-dates', controllers.publishDate.getUpcomingPublishDatesForChannel)
+  app.get('/api/channels/:id/publish-dates', controllers.publishDate.getUpcomingPublishDatesForChannel);
 
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/' + req.params[0]);

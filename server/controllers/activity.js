@@ -1,7 +1,8 @@
-var models = require('../models/models');
-var moment = require('moment-timezone');
+'use strict';
+let models = require('../models/models');
+let moment = require('moment-timezone');
 
-var getList = function(req, res, query) {
+let getList = function(req, res, query) {
   models.Activity.findAll(query).then(function(activities) {
     if(activities) {
       res.send(activities);
@@ -13,7 +14,7 @@ var getList = function(req, res, query) {
   });
 };
 
-var getOne = function(req, res, query) {
+let getOne = function(req, res, query) {
   models.Activity.findOne(query).then(function(activity) {
     if(activity) {
       res.send(activity);

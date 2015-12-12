@@ -1,11 +1,12 @@
-var models = require('../models/models');
+'use strict';
+let models = require('../models/models');
 
 exports.getLanguageSeries = function(req, res) {
   models.LanguageSeries.findAll().then(function(languageSeries) {
     if(languageSeries) {
       res.send(languageSeries);
     } else {
-      res.status(404).send({error: "No language series were found."})
+      res.status(404).send({error: 'No language series were found.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -31,7 +32,7 @@ exports.getLanguageSeriesById = function(req, res) {
     if(languageSeries) {
       res.send(languageSeries);
     } else {
-      res.status(404).send({error: "No language series was found with that ID."});
+      res.status(404).send({error: 'No language series was found with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -47,7 +48,7 @@ exports.getLessonsForLanguageSeriesWithId = function(req, res) {
     if(languageSeries) {
       res.send(languageSeries);
     } else {
-      res.status(404).send({error: "No language series were found with a series of that ID."});
+      res.status(404).send({error: 'No language series were found with a series of that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});

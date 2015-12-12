@@ -1,8 +1,9 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Lesson = require('./Lesson.js'),
     Sequelize = require('sequelize');
 
-var PublishDate = db.define('publishDate', {
+let PublishDate = db.define('publishDate', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,

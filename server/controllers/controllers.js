@@ -1,4 +1,5 @@
-var controllers = {};
+'use strict';
+let controllers = {};
 
 controllers.activity = require('./activity');
 controllers.channel = require('./channel');
@@ -13,7 +14,7 @@ controllers.shift = require('./shift');
 controllers.shot = require('./shot');
 controllers.talent = require('./talent');
 controllers.issue = require('./issue');
-controllers.taskGlobal = require('./taskGlobal')
+controllers.taskGlobal = require('./taskGlobal');
 controllers.task = require('./task');
 controllers.teamMember = require('./teamMember');
 controllers.user = require('./user');

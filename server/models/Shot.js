@@ -1,7 +1,8 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
-  
-var Shot = db.define('shot', {
+
+let Shot = db.define('shot', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true

@@ -1,4 +1,5 @@
-var models = require('../models/models');
+'use strict';
+let models = require('../models/models');
 
 exports.getTeamMemberById = function(req, res) {
   models.TeamMember.findOne({
@@ -7,7 +8,7 @@ exports.getTeamMemberById = function(req, res) {
     if(teamMember) {
       res.send(teamMember);
     } else {
-      res.status(404).send({error: "No team member found with that ID."});
+      res.status(404).send({error: 'No team member found with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -21,7 +22,7 @@ exports.getTeamMembers = function(req, res) {
     if(teamMembers) {
       res.send(teamMembers);
     } else {
-      res.status(404).send({error: "No team members found"});
+      res.status(404).send({error: 'No team members found'});
     }
   });
 };

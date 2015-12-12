@@ -1,8 +1,9 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Sequelize = require('sequelize'),
     encrypt = require('../utilities/encryption');
-  
-var User = db.define('user', {
+
+let User = db.define('user', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -23,8 +24,9 @@ var User = db.define('user', {
   salt: {
     type: Sequelize.STRING
   },
-  hashed_pwd: {
-    type: Sequelize.STRING
+  hashedPassword: {
+    type: Sequelize.STRING,
+    field: 'hashed_pwd'
   },
   role: {
     type: Sequelize.STRING
@@ -36,13 +38,13 @@ var User = db.define('user', {
   timestamps: true,
   instanceMethods: {
     authenticate: function(passwordToMatch) {
-      return encrypt.hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
+      return encrypt.hashPwd(this.salt, passwordToMatch) === this.hashedPassword;
     },
     hasRole: function(role) {
       return this.role === role;
     }
   }
-  
+
 });
 
 module.exports = User;

@@ -1,7 +1,8 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
-  
-var TeamMember = db.define('teamMember', {
+
+let TeamMember = db.define('teamMember', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true
@@ -18,7 +19,7 @@ var TeamMember = db.define('teamMember', {
   }
 }, {
   getterMethods: {
-    nameFull: function(){ return this.nameFirst + " " + this.nameLast; }
+    nameFull: function(){ return `${this.nameFirst} ${this.nameLast}`; }
   },
   timestamps: false,
   freezeTableName: true

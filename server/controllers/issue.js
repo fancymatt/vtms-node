@@ -1,6 +1,7 @@
-var models = require('../models/models');
+'use strict';
+let models = require('../models/models');
 
-var getList = function(req, res, query) {
+let getList = function(req, res, query) {
   models.Issue.findAll(query).then(function(issues) {
     if(issues) {
       res.send(issues);
@@ -12,7 +13,7 @@ var getList = function(req, res, query) {
   });
 };
 
-var getOne = function(req, res, query) {
+let getOne = function(req, res, query) {
   models.Issue.findOne(query).then(function(issue) {
     if(issue) {
       res.send(issue);

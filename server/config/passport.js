@@ -1,9 +1,10 @@
-var models = require('../models/models.js'),
+'use strict';
+let models = require('../models/models.js'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function() {
-  
+
   passport.use(new LocalStrategy(
     function(username, password, done) {
       models.User.find({ where: {username: username}}).then(function(user) {
@@ -12,10 +13,10 @@ module.exports = function() {
         } else {
           return done(null, false);
         }
-      })
+      });
     }
   ));
-  
+
   passport.serializeUser(function(user, done) {
     if(user) {
       done(null, user.id);

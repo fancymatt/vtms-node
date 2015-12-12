@@ -1,6 +1,7 @@
-var models = require('../models/models');
+'use strict';
+let models = require('../models/models');
 
-var getList = function(req, res, query) {
+let getList = function(req, res, query) {
   models.Lesson.findAll(query).then(function(lessons) {
     if(lessons) {
       res.send(lessons);
@@ -29,7 +30,7 @@ exports.getLessons = function (req, res) {
     if (lessons) {
       res.send(lessons);
     } else {
-      res.send(404).send({error: "No lessons found."});
+      res.send(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
@@ -45,7 +46,7 @@ exports.getLessonById = function (req, res) {
     if (lesson) {
       res.send(lesson);
     } else {
-      res.status(404).send({error: "There is no lesson with that ID."});
+      res.status(404).send({error: 'There is no lesson with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -81,7 +82,7 @@ exports.getLessonsWithUnassignedIssues = function (req, res) {
     if (lessons) {
       res.send(lessons);
     } else {
-      res.status(404).send({error: "No pending unclassified issues."})
+      res.status(404).send({error: 'No pending unclassified issues.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -120,7 +121,7 @@ exports.getUpcomingLessons = function (req, res) {
     if (lessons) {
       res.send(lessons);
     } else {
-      res.send(404).send({error: "No lessons found."});
+      res.send(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
@@ -145,7 +146,7 @@ exports.getQaLessons = function (req, res) {
     if (lessons) {
       res.send(lessons);
     } else {
-      res.send(404).send({error: "No lessons found."});
+      res.send(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
@@ -178,7 +179,7 @@ exports.getVideoCheckableLessons = function (req, res) {
       }
       res.send(checkableLessons);
     } else {
-      res.status(404).send({error: "No lessons found."});
+      res.status(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send(err);
@@ -203,7 +204,7 @@ exports.getArchiveableLessons = function (req, res) {
     if (lessons) {
       res.send(lessons);
     } else {
-      res.send(404).send({error: "No lessons found."});
+      res.send(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
@@ -224,7 +225,7 @@ exports.getQueuedLessons = function (req, res) {
     if (lessons.length > 0) {
       res.send(lessons);
     } else {
-      res.status(404).send({error: "No lessons found."});
+      res.status(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
@@ -238,7 +239,7 @@ exports.deleteLesson = function (req, res) {
         res.status(200).end();
       });
     } else {
-      res.status(404).send({error: "No lesson was found with that ID."})
+      res.status(404).send({error: 'No lesson was found with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -264,7 +265,7 @@ exports.getReadyToRenderLessons = function (req, res) {
       var renderQueueLessons = [];
       for(var i = 0; i < lessons.length; i++) {
         // Cannot insert value as null, so this catches lessons that were unqueued
-        if(lessons[i].queuedTime === '0000-00-00 00:00:00') lessons[i].queuedTime = null;
+        if(lessons[i].queuedTime === '0000-00-00 00:00:00') { lessons[i].queuedTime = null; }
         if(lessons[i].lastTaskTime > lessons[i].queuedTime || lessons[i].lastIssueTime > lessons[i].queuedTime || lessons[i].queuedTime === '0000-00-00 00:00:00') {
           if(lessons[i].checkedLanguage) {
             // if it's checked language, then we shouldn't export again until all tasks are completed
@@ -278,7 +279,7 @@ exports.getReadyToRenderLessons = function (req, res) {
       }
       res.send(renderQueueLessons);
     } else {
-      res.status(404).send({error: "No lessons found."});
+      res.status(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
     res.status(500).send(err);

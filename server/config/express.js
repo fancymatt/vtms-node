@@ -1,4 +1,5 @@
-var express = require('express'),
+'use strict';
+let express = require('express'),
     sequelize = require('./sequelize.js'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
@@ -6,7 +7,7 @@ var express = require('express'),
     passport = require('passport'),
     shortid = require('shortid');
 
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+let SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 module.exports = function(app, config) {
   app.set('view engine', 'jade');

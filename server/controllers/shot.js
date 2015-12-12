@@ -1,11 +1,12 @@
-var models = require('../models/models');
+'use strict';
+let models = require('../models/models');
 
 exports.getShots = function(req, res) {
   models.Shot.findAll().then(function(shots) {
     if(shots) {
       res.send({shots: shots});
     } else {
-      res.status(404).send({error: "No shots were found."})
+      res.status(404).send({error: 'No shots were found.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -17,7 +18,7 @@ exports.getShotById = function(req, res) {
     if(shot) {
       res.send({shot: shot});
     } else {
-      res.status(404).send({error: "No shot was found with that ID."})
+      res.status(404).send({error: 'No shot was found with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -31,7 +32,7 @@ exports.getShotsForLessonWithId = function (req, res) {
     if(shots) {
       res.send(shots);
     } else {
-      res.status(404).send({error: "There are no shots for the lesson with that ID."});
+      res.status(404).send({error: 'There are no shots for the lesson with that ID.'});
     }
   }).catch(function (err) {
     res.status(500).send({error: err});
@@ -68,7 +69,7 @@ exports.deleteShot = function (req, res) {
         res.status(200).end();
       });
     } else {
-      res.status(404).send({error: "No shot was found with that ID."})
+      res.status(404).send({error: 'No shot was found with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});

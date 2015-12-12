@@ -1,7 +1,8 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Sequelize = require('sequelize');
-  
-var TaskGlobal = db.define('taskGlobal', {
+
+let TaskGlobal = db.define('taskGlobal', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true

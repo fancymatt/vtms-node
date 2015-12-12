@@ -1,8 +1,9 @@
-var models = require('../models/models'),
+'use strict';
+let models = require('../models/models'),
     sequelize = require('../config/sequelize'),
     moment = require('moment-timezone');
 
-var getList = function(req, res, query) {
+let getList = function(req, res, query) {
   models.Task.findAll(query).then(function(tasks) {
     if(tasks) {
       res.send(tasks);
@@ -31,10 +32,10 @@ exports.getTasks = function(req, res) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(404).send({error: "No tasks were found."});
+      res.status(404).send({error: 'No tasks were found.'});
     }
   }).catch(function(err) {
-    res.status(500).send({error: err})
+    res.status(500).send({error: err});
   });
 };
 
@@ -59,25 +60,45 @@ exports.getAssetsForLessonWithId = function(req, res) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(404).send({error: "No tasks were found."});
+      res.status(404).send({error: 'No tasks were found.'});
     }
   }).catch(function(err) {
-    res.status(500).send({error: err})
+    res.status(500).send({error: err});
   });
 };
 
 exports.getTaskById = function(req, res) {
   models.Task.findOne({
-    where: {id: req.params.id},
-    include: [
-      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, models.PublishDate] },
-      {model: models.TeamMember},
-      {model: models.TaskGlobal}]
+    where:{
+      id:req.params.id
+    },
+    include:[
+      {
+        model:models.Lesson,
+        include:[
+          {
+            model:models.LanguageSeries,
+            include:[
+              models.Series,
+              models.Level,
+              models.Language
+            ]
+          },
+          models.PublishDate
+        ]
+      },
+      {
+        model:models.TeamMember
+      },
+      {
+        model:models.TaskGlobal
+      }
+    ]
   }).then(function(task) {
     if(task) {
       res.send(task);
     } else {
-      res.status(404).send({error: "No task was found with that ID."});
+      res.status(404).send({error: 'No task was found with that ID.'});
     }
   });
 };
@@ -114,28 +135,43 @@ exports.getActiveTasks = function(req, res) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(200).send({error: "There are no active tasks."});
+      res.status(200).send({error: 'There are no active tasks.'});
     }
   }).catch(function(err) {
-    res.status(500).send({error: err})
+    res.status(500).send({error: err});
   });
 };
 
 exports.getActiveTasksForTeamMemberWithId = function(req,  res) {
   models.Task.findOne({
-    where: {
-      isActive: true,
-      fkTeamMember: req.params.id
+    where:{
+      isActive:true,
+      fkTeamMember:req.params.id
     },
-    include: [
-      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, models.PublishDate] },
-      {model: models.TaskGlobal}
+    include:[
+      {
+        model:models.Lesson,
+        include:[
+          {
+            model:models.LanguageSeries,
+            include:[
+              models.Series,
+              models.Level,
+              models.Language
+            ]
+          },
+          models.PublishDate
+        ]
+      },
+      {
+        model:models.TaskGlobal
+      }
     ]
   }).then(function(tasks) {
     if(tasks) {
-      res.send(tasks)
+      res.send(tasks);
     } else {
-      res.status(200).send({error: "There are no active tasks."});
+      res.status(200).send({error: 'There are no active tasks.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -156,30 +192,58 @@ exports.getActionableTasks = function(req, res) {
     if(tasks) {
       res.send({tasks: tasks});
     } else {
-      res.status(404).send({error: "There are no actionable tasks."});
+      res.status(404).send({error: 'There are no actionable tasks.'});
     }
   }).catch(function(err) {
-    res.status(500).send({error: err})
+    res.status(500).send({error: err});
   });
 };
 
 exports.getRecentTasks = function(req, res) {
   models.Task.findAll({
-    where: {isCompleted: true},
-    order: [['timeCompleted', 'DESC']],
-    include: [
-      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Language]}, models.PublishDate] },
-      {model: models.TeamMember},
-      {model: models.TaskGlobal}],
-    limit: 50
-  }).then(function(tasks) {
-    if(tasks) {
-      res.send({tasks: tasks});
-    } else {
-      res.status(404).send({error: "There are no recent tasks."});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err})
+    where:{
+      isCompleted:true
+    },
+    order:[
+      [
+        'timeCompleted',
+        'DESC'
+      ]
+    ],
+    include:[
+      {
+        model:models.Lesson,
+        include:[
+          {
+            model:models.LanguageSeries,
+            include:[
+              models.Series,
+              models.Language
+            ]
+          },
+          models.PublishDate
+        ]
+      },
+      {
+        model:models.TeamMember
+      },
+      {
+        model:models.TaskGlobal
+      }
+    ],
+    limit:50
+  }).then(function(tasks){
+  if(tasks)  {
+    res.send(    {
+      tasks:tasks
+    }    );
+  }  else  {
+    res.status(404).send(    {
+      error:'There are no recent tasks.'
+    }    );
+  }
+}).catch(function(err) {
+    res.status(500).send({error: err});
   });
 };
 
@@ -195,7 +259,7 @@ exports.getTasksForLessonWithId = function (req, res) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(404).send({error: "There are no tasks for the lesson with that ID."});
+      res.status(404).send({error: 'There are no tasks for the lesson with that ID.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -215,7 +279,7 @@ exports.getLastTaskForLessonWithId = function (req, res) {
     if(task) {
       res.send(task);
     } else {
-      res.status(200).send({error: "No tasks were completed for this lesson."});
+      res.status(200).send({error: 'No tasks were completed for this lesson.'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
@@ -224,46 +288,113 @@ exports.getLastTaskForLessonWithId = function (req, res) {
 
 exports.getTasksForTeamMemberWithIssues = function(req, res) {
   models.Task.findAll({
-    where: {isCompleted: true, fkTeamMember: req.params.id},
-    include: [
+    where:{
+      isCompleted:true,
+      fkTeamMember:req.params.id
+    },
+    include:[
       models.TaskGlobal,
-      {model: models.Issue, where: {isCompleted: false}, required: true},
-      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, {model: models.PublishDate, required: true}]}
+      {
+        model:models.Issue,
+        where:{
+          isCompleted:false
+        },
+        required:true
+      },
+      {
+        model:models.Lesson,
+        include:[
+          {
+            model:models.LanguageSeries,
+            include:[
+              models.Series,
+              models.Level,
+              models.Language
+            ]
+          },
+          {
+            model:models.PublishDate,
+            required:true
+          }
+        ]
+      }
     ]
   }).then(function(tasks) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(404).send({error: "No tasks found"});
+      res.status(404).send({error: 'No tasks found'});
     }
   }).catch(function(err) {
-    res.status(500).send({error: err})
+    res.status(500).send({error: err});
   });
 };
 
 exports.getUndeliveredTasks = function(req, res) {
   getList(req, res, {
-    where: {
-      isCompleted: true,
-      isDelivered: false
+    where:{
+      isCompleted:true,
+      isDelivered:false
     },
-    include: [
-      {model: models.TaskGlobal, where: {isAsset: true}},
-      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, {model: models.PublishDate, required: true}]}
+    include:[
+      {
+        model:models.TaskGlobal,
+        where:{
+          isAsset:true
+        }
+      },
+      {
+        model:models.Lesson,
+        include:[
+          {
+            model:models.LanguageSeries,
+            include:[
+              models.Series,
+              models.Level,
+              models.Language
+            ]
+          },
+          {
+            model:models.PublishDate,
+            required:true
+          }
+        ]
+      }
     ]
   });
 };
 
 exports.getUndeliveredTasksForTeamMember = function(req, res) {
   getList(req, res, {
-    where: {
-      isCompleted: true,
-      isDelivered: false,
-      fkTeamMember: req.params.id
+    where:{
+      isCompleted:true,
+      isDelivered:false,
+      fkTeamMember:req.params.id
     },
-    include: [
-      {model: models.TaskGlobal, where: {isAsset: true}},
-      {model: models.Lesson, include: [{model: models.LanguageSeries, include: [models.Series, models.Level, models.Language]}, {model: models.PublishDate, required: true}]}
+    include:[
+      {
+        model:models.TaskGlobal,
+        where:{
+          isAsset:true
+        }
+      },
+      {
+        model:models.Lesson,
+        include:[
+          {
+            model:models.LanguageSeries,
+            include:[
+              models.Series,
+              models.Level,
+              models.Language
+            ]
+          },
+          {
+            model:models.PublishDate,
+            required:true
+          }
+        ]
+      }
     ]
   });
 };
@@ -285,10 +416,10 @@ exports.getActionableTasksForTeamMemberWithId = function(req, res) {
     if(tasks) {
       res.send(tasks);
     } else {
-      res.status(404).send({error: "There are no actionable tasks."});
+      res.status(404).send({error: 'There are no actionable tasks.'});
     }
   }).catch(function(err) {
-    res.status(500).send({error: err})
+    res.status(500).send({error: err});
   });
 };
 // Due date = lowest dueDate item - taskGlobal.completionValue

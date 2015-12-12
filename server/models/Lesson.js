@@ -1,4 +1,5 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Task = require('./Task.js'),
     Lesson = require('./Lesson.js'),
     LanguageSeries = require('./LanguageSeries.js'),
@@ -6,7 +7,7 @@ var db = require('../config/sequelize.js'),
     TaskGlobal = require('./TaskGlobal.js'),
     Sequelize = require('sequelize');
 
-var Lesson = db.define('lesson', {
+let LessonModel = db.define('lesson', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -135,4 +136,4 @@ var Lesson = db.define('lesson', {
   freezeTableName: true
 });
 
-module.exports = Lesson;
+module.exports = LessonModel;

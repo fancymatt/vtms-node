@@ -1,12 +1,13 @@
-var db = require('../config/sequelize.js'),
+'use strict';
+let db = require('../config/sequelize.js'),
     Sequelize = require('sequelize'),
     LanguageSeries = require('./LanguageSeries.js'),
     Lesson = require('./Lesson.js'),
     Task = require('./Task.js'),
-    config = require('../config/config.js');
+    config = require('../config/config.js'),
     TaskGlobal = require('./TaskGlobal.js');
 
-var Series = db.define('series', {
+let Series = db.define('series', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true
