@@ -59,7 +59,7 @@ exports.createNewLesson = function (req, res) {
     return res.send(lesson);
   }).catch(function(err) {
     res.status(400);
-    return res.send({reason: err.errors[0].message});
+    return res.send({reason: err});
   });
 };
 
