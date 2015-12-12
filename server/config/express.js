@@ -2,7 +2,6 @@ var express = require('express'),
     sequelize = require('./sequelize.js'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),
     session = require('express-session'),
     passport = require('passport'),
     shortid = require('shortid');
@@ -15,7 +14,6 @@ module.exports = function(app, config) {
   app.use(logger('dev'));
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
-  app.use(cookieParser());
   app.use(session({
     proxy: true,
     secret: 'matt is so secretive',
