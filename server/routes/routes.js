@@ -31,23 +31,23 @@ module.exports = function(app) {
     res.end();
   });
 
-  app.use('/api/users', userRouter);
-  app.use('/api/series', seriesRouter);
+  app.use('/api/activities', activityRouter);
+  app.use('/api/channels', channelsRouter);
+  app.use('/api/global-tasks', globalTaskRouter);
+  app.use('/api/issues', issueRouter);
+  app.use('/api/languages', languageRouter);
   app.use('/api/language-series', languageSeriesRouter);
   app.use('/api/lessons', lessonRouter);
-  app.use('/api/team-members', teamMemberRouter);
-  app.use('/api/tasks', taskRouter);
-  app.use('/api/shifts', shiftsRouter);
-  app.use('/api/channels', channelsRouter);
-  app.use('/api/languages', languageRouter);
   app.use('/api/levels', levelRouter);
-  app.use('/api/publish-dates', publishDateRouter);
   app.use('/api/platforms', platformRouter);
+  app.use('/api/publish-dates', publishDateRouter);
+  app.use('/api/series', seriesRouter);
+  app.use('/api/shifts', shiftsRouter);
   app.use('/api/shots', shotRouter);
   app.use('/api/talents', talentRouter);
-  app.use('/api/issues', issueRouter);
-  app.use('/api/activities', activityRouter);
-  app.use('/api/global-tasks', globalTaskRouter);
+  app.use('/api/tasks', taskRouter);
+  app.use('/api/team-members', teamMemberRouter);
+  app.use('/api/users', userRouter);
 
   app.get('*', function(req, res) {
     res.render('index', {
