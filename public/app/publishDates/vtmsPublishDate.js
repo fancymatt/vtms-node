@@ -1,7 +1,7 @@
 angular.module('vtms').factory('vtmsPublishDate', function($resource, $q, vtmsNotifier) {
-  var PublishDateResource = $resource('/api/publishDates/:id', {id: "@id"}, {
+  var PublishDateResource = $resource('/api/publish-dates/:id', {id: "@id"}, {
     update: {method:'PUT', isArray:false},
-    getIncomplete: {method: 'GET', isArray:true, url:'/api/publishDates/incomplete'},
+    getIncomplete: {method: 'GET', isArray:true, url:'/api/publish-dates/incomplete'},
     getListForLesson: {method: 'GET', isArray: true, url:'/api/lessons/:id/publish-dates'},
     getUpcoming: {method: 'GET', isArray: true, url: '/api/publish-dates/upcoming'},
     getDelivered: {method: 'GET', isArray: true, url: '/api/publish-dates/delivered'},

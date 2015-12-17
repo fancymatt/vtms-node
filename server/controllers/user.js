@@ -15,10 +15,9 @@ exports.createUser = function(req, res, next) {
   models.User.create(userData).then(function(user) {
     req.logIn(user, function(err) {
       if(err) {return next(err);}
-      res.send(user);
+      res.status(201).send(user);
     });
   }).catch(function(err) {
-      // should have handling for duplicate username here
       res.status(400);
       return res.send({reason: err.errors[0].message});
     });

@@ -1,10 +1,10 @@
 angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifier) {
   var LessonResource = $resource('/api/lessons/:id', {id: "@id"}, {
     update: {method:'PUT', isArray: false},
-    getList: {method:'GET', url: '/api/languageSeries/:id/lessons', isArray:true},
+    getList: {method:'GET', url: '/api/language-series/:id/lessons', isArray:true},
     getQueued: {method:'GET', url: '/api/lessons/queued', isArray: true},
     getLessonsForSeries: {method:'GET', url: '/api/series/:id/lessons', isArray: true},
-    getReadyToRender: {method:'GET', url: '/api/lessons/readyToRender', isArray: true},
+    getReadyToRender: {method:'GET', url: '/api/lessons/ready-to-render', isArray: true},
     getIssues: {method:'GET', url: '/api/lessons/issues', isArray: true},
     getLessonsWithIssuesForMember: {method: 'GET', url: '/api/lessons/issues/team-member/:id', isArray: true},
     getVideoCheckLessons: {method: 'GET', url: '/api/lessons/video-checkable', isArray: true},
