@@ -3,24 +3,60 @@ let models = require('../models/models'),
     encrypt = require('../utilities/encryption');
 
 exports.getUsers = function(req, res) {
-  models.User.findAll().then(function(users) {
+
+  var query = {};
+
+  if(req.query.role) {
+    query.role = req.query.role;
+  }
+
+  models.User.findAll({where: query}).then(function(users) {
+    var returnUsers = [];
+    users.forEach(function(element, index, array) {
+      var newUser = element.toJSON();
+      newUser.links = {};
+      newUser.links.self = 'http://' + req.headers.host + '/api/users/' + newUser.id;
+      returnUsers.push(newUser);
+    });
+
+
     res.send(users);
+  });
+};
+
+exports.findUserById = function(req, res, next) {
+  models.User.findOne({where: {id: req.params.id}}).then(function(user) {
+    var returnUser = user.toJSON();
+
+    returnUser.links = {};
+    returnUser.links.filterByThisRole = 'http://' + req.headers.host + '/api/users?role=' + returnUser.role;
+    res.json(returnUser);
   });
 };
 
 exports.createUser = function(req, res, next) {
   var userData = req.body;
-  userData.salt = encrypt.createSalt();
-  userData.hashedPassword = encrypt.hashPwd(userData.salt, userData.password);
-  models.User.create(userData).then(function(user) {
-    req.logIn(user, function(err) {
-      if(err) {return next(err);}
-      res.status(201).send(user);
-    });
-  }).catch(function(err) {
+
+  if(typeof userData.password === 'string') {
+
+    userData.salt = encrypt.createSalt();
+    userData.hashedPassword = encrypt.hashPwd(userData.salt, userData.password);
+
+    models.User.create(userData).then(function(user) {
+      req.logIn(user, function(err) {
+        if(err) {return next(err);}
+        res.status(201).send(user);
+      });
+    }).catch(function(err) {
       res.status(400);
-      return res.send({reason: err.errors[0].message});
+      return res.send({error: err.errors[0].message});
     });
+
+  } else {
+    res.status(400)
+    return res.send({error: 'A password was not supplied'})
+  }
+
 };
 
 exports.updateUser = function(req, res) {
@@ -43,6 +79,6 @@ exports.updateUser = function(req, res) {
     })
     .catch(function(err) {
       res.status(400);
-      return res.send({reason: err.toString()});
+      return res.send({error: err.toString()});
   });
 };
