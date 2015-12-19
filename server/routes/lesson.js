@@ -20,7 +20,7 @@ router.route('/:id/tasks')
 router.route('/:id/tasks/last-completed')
   .get(controllers.task.getLastTaskForLessonWithId);
 router.route('/:id/assets')
-  .get(controllers.task.getAssetsForLessonWithId);
+  .get(controllers.task.getAssetsForLesson);
 router.route('/:id/shots')
   .get(controllers.shot.getShotsForLessonWithId);
 router.route('/:id/activities')

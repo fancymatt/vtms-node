@@ -7,9 +7,9 @@ router.route('/')
 router.route('/:id')
   .get(controllers.teamMember.getTeamMemberById);
 router.route('/:id/tasks/actionable')
-  .get(controllers.task.getActionableTasksForTeamMemberWithId);
+  .get(controllers.task.getActionableTasksForTeamMember);
 router.route('/:id/tasks/active')
-  .get(controllers.task.getActiveTasksForTeamMemberWithId);
+  .get(controllers.task.getActiveTasksForTeamMember);
 router.route('/:id/tasks/issues')
   .get(controllers.task.getTasksForTeamMemberWithIssues);
 router.route('/:id/tasks/undelivered')

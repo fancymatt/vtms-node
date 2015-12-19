@@ -3,12 +3,12 @@ let router = require('express').Router(),
     controllers = require('../controllers/controllers');
 
 router.route('/')
-  .get(controllers.issue.getIssues)
-  .post(controllers.issue.createIssue);
+  .get(controllers.issue.get)
+  .post(controllers.issue.create);
 router.route('/:id')
-  .get(controllers.issue.getIssueById)
-  .put(controllers.issue.updateIssue)
-  .delete(controllers.issue.deleteIssue);
+  .get(controllers.issue.find)
+  .put(controllers.issue.update)
+  .delete(controllers.issue.delete);
 router.route('/lessons/unassigned')
   .get(controllers.lesson.getLessonsWithUnassignedIssues);
 

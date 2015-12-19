@@ -3,11 +3,12 @@ let router = require('express').Router(),
     controllers = require('../controllers/controllers');
 
 router.route('/')
-  .get(controllers.task.getTasks)
-  .post(controllers.task.createNewTask);
+  .get(controllers.task.get)
+  .post(controllers.task.create);
 router.route('/:id')
-  .get(controllers.task.getTaskById)
-  .put(controllers.task.updateTaskById);
+  .get(controllers.task.find)
+  .put(controllers.task.update)
+  .delete(controllers.task.delete);
 router.route('/:id/issues')
   .get(controllers.issue.getIssuesForTask);
 router.route('/active')

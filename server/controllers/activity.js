@@ -1,80 +1,40 @@
 'use strict';
-let models = require('../models/models');
-let moment = require('moment-timezone');
+let models = require('../models/models'),
+    moment = require('moment-timezone'),
+    api = require('./api');
 
-let getList = function(req, res, query) {
-  models.Activity.findAll(query).then(function(activities) {
-    if(activities) {
-      res.send(activities);
-    } else {
-      res.status(404).send({error: 'No activities were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({reason: err.toString()});
+exports.create = function(req, res) {
+  api.create(req, res, models.Activity);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Activity);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Activity, {
+    include: [models.Shift]
   });
 };
 
-let getOne = function(req, res, query) {
-  models.Activity.findOne(query).then(function(activity) {
-    if(activity) {
-      res.send(activity);
-    } else {
-      res.status(200).send({});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Activity, {
+    where: {id:req.params.id}
   });
 };
 
-exports.createActivity = function(req, res) {
-  models.Activity.create(req.body).then(function(activity) {
-    activity.dataValues.id = activity.null; // what is this?
-    return res.send(activity);
-  }).catch(function(err) {
-    res.status(400);
-    return res.status({reason: err});
-  });
-};
-
-exports.updateActivity = function(req, res) {
-  models.Activity.update(req.query, {where: {id: req.params.id}})
-  .then(function() {
-    res.status(200);
-    return res.send();
-  })
-  .catch(function (err) {
-    res.status(400);
-    return res.send({reason: err.toString()});
-  });
-};
-
-exports.deleteActivity = function(req, res) {
-  models.Activity.findById(req.params.id).then(function(activity) {
-    activity.destroy().then(function() {
-      res.status(200).end();
-    });
-  }).catch(function(err) {
-    return res.render('error', {
-      error: err,
-      status: 500
-    });
-  });
-};
-
-exports.getActivities = function(req, res) {
-  getList(req, res, {include: [models.Shift]});
-};
-
-exports.getActivityById = function(req, res) {
-  getOne(req, res, {where: {id: req.params.id}});
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Activity);
 };
 
 exports.getActiveActivities = function(req, res) {
-  getList(req, res, {where: {isActive: true}});
+  api.findAll(req, res, models.Activity, {
+    where: {isActive: true}
+  });
 };
 
 exports.getRecentActivities = function(req, res) {
-  getList(req, res, {
+  api.findAll(req, res, models.Activity, {
     include: [
       {model: models.TeamMember},
       {
@@ -91,14 +51,13 @@ exports.getRecentActivities = function(req, res) {
           models.TaskGlobal
         ]
       }
-    ],
-    limit: 50, order: [['timeStart','desc']]
+    ]
   });
+  //limit: 50, order: [['timeStart','desc']]
 };
 
 exports.getActivitiesForLesson = function(req, res) {
-  getList(req, res, {
-    order: [['timeEnd','asc']],
+  api.findAll(req, res, models.Activity, {
     include: [
       {
         model: models.Task,
@@ -120,10 +79,11 @@ exports.getActivitiesForLesson = function(req, res) {
       }
     ]
   });
+  // order: [['timeEnd','asc']],
 };
 
 exports.getActivitiesForTeamMember = function(req, res) {
-  getList(req, res, {
+  api.findAll(req, res, models.Activity, {
     where: {fkTeamMember: req.params.id},
     include: [
       {
@@ -141,7 +101,7 @@ exports.getActivitiesForTeamMember = function(req, res) {
 };
 
 exports.getRecentActivitiesForTeamMember = function(req, res) {
-  getList(req, res, {
+  api.findAll(req, res, models.Activity, {
     where: {
       fkTeamMember: req.params.id,
       timeStart: {
@@ -164,5 +124,12 @@ exports.getRecentActivitiesForTeamMember = function(req, res) {
 };
 
 exports.getActiveActivityForTeamMember = function(req, res) {
-  getOne(req, res, {where: {fkTeamMember: req.params.id, isActive: true}, order: [['timeStart']]});
+  api.findOne(req, res, models.Activity, {
+    where: {
+      fkTeamMember:
+      req.params.id,
+      isActive: true
+    }
+  });
+  // order: [['timeStart']]});
 };

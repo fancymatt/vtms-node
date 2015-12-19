@@ -5,7 +5,8 @@ let db = require('../config/sequelize.js'),
 let Task = db.define('task', {
   id: {
     type: Sequelize.INTEGER,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   fkTaskGlobal: {
     type: Sequelize.INTEGER
