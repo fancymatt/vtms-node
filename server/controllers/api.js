@@ -14,8 +14,8 @@ module.exports = {
     var queryObject;
     if (query) {
       queryObject = {
-        offset: req.query.offset,
-        limit: query.limit ? query.limit : req.query.limit,
+        offset: req.query.offset ? req.query.offset : 0,
+        limit: req.query.limit ? req.query.limit : 20,
         where: query.where,
         include: query.include,
         order: query.order ? query.order : req.query.order
@@ -27,15 +27,19 @@ module.exports = {
       };
     }
     model.findAll(queryObject).then(function(data) {
+      var url = urlStub(req) + toCamel(model.options.name.plural);
       if(data) {
         var returnObject = {};
         returnObject.count = data.length;
+        returnObject.links = {};
+        returnObject.links.next = url + '?offset=' + (Number(req.query.offset) + Number(req.query.limit)) + '&limit=' + req.query.limit;
+        returnObject.links.prev = url + '?offset=' + (Number(req.query.offset) - Number(req.query.limit)) + '&limit=' + req.query.limit;
         returnObject.data = [];
 
         for(var i = 0, returnElement; i < data.length; i++) {
           returnElement = data[i].dataValues;
           returnElement.links = {};
-          returnElement.links.self = urlStub(req) + toCamel(model.options.name.plural) + '/' + returnElement.id;
+          returnElement.links.self = url + '/' + returnElement.id;
           returnObject.data.push(returnElement);
         }
 
