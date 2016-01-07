@@ -1,42 +1,27 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getLanguageSeries = function(req, res) {
-  models.LanguageSeries.findAll().then(function(languageSeries) {
-    if(languageSeries) {
-      res.send(languageSeries);
-    } else {
-      res.status(404).send({error: 'No language series were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.LanguageSeries);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.LanguageSeries);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.LanguageSeries);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.LanguageSeries, {
+    where: { id: req.params.id }
   });
 };
 
-exports.createNewLanguageSeries = function(req, res) {
-  var userData = req.body;
-  models.LanguageSeries.create(userData).then(function(languageSeries) {
-    return res.send(languageSeries);
-  }).catch(function(err) {
-    res.status(400);
-    return res.send({reason: err.errors[0].message});
-  });
-};
-
-
-exports.getLanguageSeriesById = function(req, res) {
-  models.LanguageSeries.find({
-    where: {id: req.params.id},
-    include: [models.Series]
-  }).then(function(languageSeries) {
-    if(languageSeries) {
-      res.send(languageSeries);
-    } else {
-      res.status(404).send({error: 'No language series was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.LanguageSeries);
 };
 
 exports.getLessonsForLanguageSeriesWithId = function(req, res) {
@@ -52,17 +37,5 @@ exports.getLessonsForLanguageSeriesWithId = function(req, res) {
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
-  });
-};
-
-exports.updateLanguageSeries = function(req, res) {
-  models.LanguageSeries.update(req.query, {where: {id: req.params.id}})
-  .then(function() {
-    res.status(200);
-    return res.send();
-  })
-  .catch(function (err) {
-    res.status(400);
-    return res.send({reason: err.toString()});
   });
 };

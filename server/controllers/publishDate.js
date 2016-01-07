@@ -1,28 +1,28 @@
 'use strict';
-let models = require('../models/models');
-let xml = require('xml');
+let models = require('../models/models'),
+    xml = require('xml'),
+    api = require('./api');
 
-exports.createPublishDate = function (req, res, next) {
-  let userData = req.body;
-  models.PublishDate.create(userData).then(function(publishDate) {
-    return res.send(publishDate);
-  }).catch(function(err) {
-    res.status(400);
-    return res.send({reason: err.errors[0].message});
+exports.create = function(req, res) {
+  api.create(req, res, models.PublishDate);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.PublishDate);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.PublishDate);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.PublishDate, {
+    where: { id: req.params.id }
   });
 };
 
-
-exports.getPublishDates = function(req, res) {
-  models.PublishDate.findAll().then(function(publishDates) {
-    if(publishDates) {
-      res.send(publishDates);
-    } else {
-      res.status(404).send({error: 'No publish dates were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.PublishDate);
 };
 
 exports.getIncompletePublishDates = function(req, res) {
@@ -164,44 +164,6 @@ exports.getUpcomingPublishDatesForChannel = function(req, res) {
     }
   })
   .catch(function(err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.getPublishDateById = function(req, res) {
-  models.PublishDate.findOne({where: {id: req.params.id}}).then(function(publishDate) {
-    if(publishDate) {
-      res.send(publishDate);
-    } else {
-      res.status(404).send({error: 'No level was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.updatePublishDate = function(req, res) {
-  models.PublishDate.update(req.query, {where: {id: req.params.id}})
-  .then(function() {
-    res.status(200);
-    return res.send();
-  })
-  .catch(function (err) {
-    res.status(400);
-    return res.send({reason: err.toString()});
-  });
-};
-
-exports.deletePublishDate = function (req, res) {
-  models.PublishDate.findById(req.params.id).then(function (publishDate) {
-    if(publishDate) {
-      publishDate.destroy().then(function() {
-        res.status(200).end();
-      });
-    } else {
-      res.status(404).send({error: 'No publish date was found with that ID.'});
-    }
-  }).catch(function(err) {
     res.status(500).send({error: err});
   });
 };

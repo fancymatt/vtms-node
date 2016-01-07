@@ -1,26 +1,25 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getLanguages = function(req, res) {
-  models.Language.findAll().then(function(languages) {
-    if(languages) {
-      res.send(languages);
-    } else {
-      res.status(404).send({error: 'No languages were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Language);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Language);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Language);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Language, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getLanguageById = function(req, res) {
-  models.Language.findOne({where: {id: req.params.id}}).then(function(language) {
-    if(language) {
-      res.send({language: language});
-    } else {
-      res.status(404).send({error: 'No language was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Language);
 };

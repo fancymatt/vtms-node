@@ -1,4 +1,13 @@
 'use strict';
+
+var toCamel = function(str) {
+  return str.replace(/([A-Z])/g, function($1){return '-'+$1.toLowerCase();});
+};
+
+var urlStub = function(req) {
+  return 'http://' + req.headers.host + '/api/';
+};
+
 module.exports = {
 
   findAll: function(req, res, model, query) {
@@ -21,7 +30,15 @@ module.exports = {
       if(data) {
         var returnObject = {};
         returnObject.count = data.length;
-        returnObject.data = data;
+        returnObject.data = [];
+
+        for(var i = 0, returnElement; i < data.length; i++) {
+          returnElement = data[i].dataValues;
+          returnElement.links = {};
+          returnElement.links.self = urlStub(req) + toCamel(model.options.name.plural) + '/' + returnElement.id;
+          returnObject.data.push(returnElement);
+        }
+
         res.send(returnObject);
       } else {
         res.status(404).send({error: 'No results returned'});
@@ -40,6 +57,10 @@ module.exports = {
       if(data) {
         var returnObject = {};
         returnObject.data = data;
+
+        returnObject.links = {};
+        returnObject.links.self = urlStub(req) + toCamel(model.options.name.plural) + '/' + data.id;
+
         res.send(returnObject);
       } else {
         res.status(404).send({error: 'not found'});

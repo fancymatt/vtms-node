@@ -3,9 +3,12 @@ let router = require('express').Router(),
     controllers = require('../controllers/controllers');
 
 router.route('/')
-  .get(controllers.teamMember.getTeamMembers);
+  .get(controllers.teamMember.get)
+  .post(controllers.teamMember.create);
 router.route('/:id')
-  .get(controllers.teamMember.getTeamMemberById);
+  .get(controllers.teamMember.find)
+  .put(controllers.teamMember.update)
+  .delete(controllers.teamMember.delete);
 router.route('/:id/tasks/actionable')
   .get(controllers.task.getActionableTasksForTeamMember);
 router.route('/:id/tasks/active')

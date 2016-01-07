@@ -1,26 +1,25 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getChannels = function(req, res) {
-  models.Channel.findAll({order: [['name', 'asc']]}).then(function(channels) {
-    if(channels) {
-      res.send(channels);
-    } else {
-      res.status(404).send({error: 'No channels were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Channel);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Channel);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Channel);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Channel, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getChannelById = function(req, res) {
-  models.Channel.findOne({where: {id: req.params.id}}).then(function(channel) {
-    if(channel) {
-      res.send(channel);
-    } else {
-      res.status(404).send({error: 'No channel was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Channel);
 };

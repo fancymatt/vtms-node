@@ -3,11 +3,12 @@ let router = require('express').Router(),
     controllers = require('../controllers/controllers');
 
 router.route('/')
-  .get(controllers.languageSeries.getLanguageSeries)
-  .post(controllers.languageSeries.createNewLanguageSeries);
+  .get(controllers.languageSeries.get)
+  .post(controllers.languageSeries.create);
 router.route('/:id')
-  .get(controllers.languageSeries.getLanguageSeriesById)
-  .put(controllers.languageSeries.updateLanguageSeries);
+  .get(controllers.languageSeries.find)
+  .put(controllers.languageSeries.update)
+  .delete(controllers.languageSeries.delete);
 router.route('/:id/lessons')
   .get(controllers.languageSeries.getLessonsForLanguageSeriesWithId);
 router.route('/:id/xml')

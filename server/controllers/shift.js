@@ -1,30 +1,25 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getShifts = function(req, res) {
-  models.Shift.findAll({
-    include: [{model: models.Activity}, {model: models.TeamMember}],
-    order: [['clockIn', 'DESC']],
-    limit: 25
-  }).then(function(shifts) {
-    if(shifts) {
-      res.send(shifts);
-    } else {
-      res.status(404).send({error: 'No shifts were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Shift);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Shift);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Shift);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Shift, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getShiftById = function(req, res) {
-  models.Shift.findOne({where: {id: req.params.id}}).then(function(shift) {
-    if(shift) {
-      res.send({activity: shift});
-    } else {
-      res.status(404).send({error: 'No shift was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Shift);
 };

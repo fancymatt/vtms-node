@@ -1,30 +1,27 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getSeries = function(req, res) {
-  models.Series.findAll().then(function(series) {
-    if(series) {
-      res.send(series);
-    } else {
-      res.status(404).send({error: 'No series were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Series);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Series);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Series);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Series, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getSeriesById = function(req, res) {
-  models.Series.find({
-    where: {id: req.params.id}
-  }).then(function(series) {
-    if(series) {
-      res.send(series);
-    } else {
-      res.status(404).send({error: 'No series found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.send(500).send({error: 'No series found.'});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Series);
 };
 
 exports.getLanguageSeriesForSeriesWithId = function(req, res) {

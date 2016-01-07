@@ -1,26 +1,25 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getPlatforms = function(req, res) {
-  models.Platform.findAll().then(function(platforms) {
-    if(platforms) {
-      res.send(platforms);
-    } else {
-      res.status(404).send({error: 'No platforms were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Platform);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Platform);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Platform);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Platform, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getPlatformById = function(req, res) {
-  models.Platform.findOne({where: {id: req.params.id}}).then(function(platform) {
-    if(platform) {
-      res.send(platform);
-    } else {
-      res.status(404).send({error: 'No platform was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Platform);
 };

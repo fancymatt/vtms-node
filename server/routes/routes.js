@@ -6,8 +6,8 @@ let auth = require('../config/auth'),
     lessonRouter = require('./lesson'),
     teamMemberRouter = require('./teamMember'),
     taskRouter = require('./task'),
-    shiftsRouter = require('./shift'),
-    channelsRouter = require('./channel'),
+    shiftRouter = require('./shift'),
+    channelRouter = require('./channel'),
     languageRouter = require('./language'),
     levelRouter = require('./level'),
     publishDateRouter = require('./publishDate'),
@@ -16,7 +16,7 @@ let auth = require('../config/auth'),
     talentRouter = require('./talent'),
     issueRouter = require('./issue'),
     activityRouter = require('./activity'),
-    globalTaskRouter = require('./globalTask');
+    globalTaskRouter = require('./taskGlobal');
 
 module.exports = function(app) {
 
@@ -32,7 +32,7 @@ module.exports = function(app) {
   });
 
   app.use('/api/activities', activityRouter);
-  app.use('/api/channels', channelsRouter);
+  app.use('/api/channels', channelRouter);
   app.use('/api/global-tasks', globalTaskRouter);
   app.use('/api/issues', issueRouter);
   app.use('/api/languages', languageRouter);
@@ -42,7 +42,7 @@ module.exports = function(app) {
   app.use('/api/platforms', platformRouter);
   app.use('/api/publish-dates', publishDateRouter);
   app.use('/api/series', seriesRouter);
-  app.use('/api/shifts', shiftsRouter);
+  app.use('/api/shifts', shiftRouter);
   app.use('/api/shots', shotRouter);
   app.use('/api/talents', talentRouter);
   app.use('/api/tasks', taskRouter);

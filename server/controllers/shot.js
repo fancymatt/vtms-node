@@ -1,28 +1,27 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getShots = function(req, res) {
-  models.Shot.findAll().then(function(shots) {
-    if(shots) {
-      res.send({shots: shots});
-    } else {
-      res.status(404).send({error: 'No shots were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Shot);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Shot);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Shot);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Shot, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getShotById = function(req, res) {
-  models.Shot.findOne({where: {id: req.params.id}}).then(function(shot) {
-    if(shot) {
-      res.send({shot: shot});
-    } else {
-      res.status(404).send({error: 'No shot was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Shot);
 };
 
 exports.getShotsForLessonWithId = function (req, res) {
@@ -35,43 +34,6 @@ exports.getShotsForLessonWithId = function (req, res) {
       res.status(404).send({error: 'There are no shots for the lesson with that ID.'});
     }
   }).catch(function (err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.createShot = function (req, res, next) {
-  var userData = req.body;
-  models.Shot.create(userData).then(function(shot) {
-    shot.dataValues.id = shot.null;
-    return res.send(shot);
-  }).catch(function(err) {
-      res.status(400);
-      return res.send({reason: err.errors[0].message});
-    });
-};
-
-exports.updateShot = function (req, res) {
-  models.Shot.update(req.query, {where: {id: req.params.id}})
-  .then(function() {
-    res.status(200);
-    return res.send();
-  })
-  .catch(function (err) {
-    res.status(400);
-    return res.send({reason: err.toString()});
-  });
-};
-
-exports.deleteShot = function (req, res) {
-  models.Shot.findById(req.params.id).then(function (shot) {
-    if(shot) {
-      shot.destroy().then(function() {
-        res.status(200).end();
-      });
-    } else {
-      res.status(404).send({error: 'No shot was found with that ID.'});
-    }
-  }).catch(function(err) {
     res.status(500).send({error: err});
   });
 };

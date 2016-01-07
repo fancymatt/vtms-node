@@ -1,26 +1,25 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getTalents = function(req, res) {
-  models.Talent.findAll().then(function(talents) {
-    if(talents) {
-      res.send({talents: talents});
-    } else {
-      res.status(404).send({error: 'No talents were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Talent);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Talent);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Talent);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Talent, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getTalentById = function(req, res) {
-  models.Talent.findOne({where: {id: req.params.id}}).then(function(talent) {
-    if(talent) {
-      res.send({talent: talent});
-    } else {
-      res.status(404).send({error: 'No talent was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Talent);
 };

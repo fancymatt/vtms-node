@@ -1,40 +1,23 @@
 'use strict';
 let models = require('../models/models'),
+    api = require('./api'),
     encrypt = require('../utilities/encryption');
 
-exports.getUsers = function(req, res) {
+exports.get = function(req, res) {
+  api.findAll(req, res, models.User);
+};
 
-  var query = {};
-
-  if(req.query.role) {
-    query.role = req.query.role;
-  }
-
-  models.User.findAll({where: query}).then(function(users) {
-    var returnUsers = [];
-    users.forEach(function(element, index, array) {
-      var newUser = element.toJSON();
-      newUser.links = {};
-      newUser.links.self = 'http://' + req.headers.host + '/api/users/' + newUser.id;
-      returnUsers.push(newUser);
-    });
-
-
-    res.send(users);
+exports.find = function(req, res) {
+  api.findOne(req, res, models.User, {
+    where: { id: req.params.id }
   });
 };
 
-exports.findUserById = function(req, res, next) {
-  models.User.findOne({where: {id: req.params.id}}).then(function(user) {
-    var returnUser = user.toJSON();
-
-    returnUser.links = {};
-    returnUser.links.filterByThisRole = 'http://' + req.headers.host + '/api/users?role=' + returnUser.role;
-    res.json(returnUser);
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.User);
 };
 
-exports.createUser = function(req, res, next) {
+exports.create = function(req, res, next) {
   var userData = req.body;
 
   if(typeof userData.password === 'string') {
@@ -53,13 +36,13 @@ exports.createUser = function(req, res, next) {
     });
 
   } else {
-    res.status(400)
-    return res.send({error: 'A password was not supplied'})
+    res.status(400);
+    return res.send({error: 'A password was not supplied'});
   }
 
 };
 
-exports.updateUser = function(req, res) {
+exports.update = function(req, res) {
   var userUpdates = req.body;
   if(req.user.id !== userUpdates.id) {
     res.status(403);

@@ -3,11 +3,11 @@ let router = require('express').Router(),
     controllers = require('../controllers/controllers');
 
 router.route('/')
-  .get(controllers.shot.getShots)
-  .post(controllers.shot.createShot);
+  .get(controllers.shot.get)
+  .post(controllers.shot.create);
 router.route('/:id')
-  .get(controllers.shot.getShotById)
-  .put(controllers.shot.updateShot)
-  .delete(controllers.shot.deleteShot);
+  .get(controllers.shot.find)
+  .put(controllers.shot.update)
+  .delete(controllers.shot.delete);
 
 module.exports = router;

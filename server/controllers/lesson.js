@@ -1,66 +1,27 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-let getList = function(req, res, query) {
-  models.Lesson.findAll(query).then(function(lessons) {
-    if(lessons) {
-      res.send(lessons);
-    } else {
-      res.status(404).send({error: 'No lessons were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Lesson);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Lesson);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Lesson);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Lesson, {
+    where: { id: req.params.id }
   });
 };
 
-var getOne = function(req, res, query) {
-  models.Lesson.findOne(query).then(function(lesson) {
-    if(lesson) {
-      res.send(lesson);
-    } else {
-      res.status(404).send({error: 'No lesson was found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.getLessons = function (req, res) {
-  models.Lesson.findAll().then(function (lessons) {
-    if (lessons) {
-      res.send(lessons);
-    } else {
-      res.send(404).send({error: 'No lessons found.'});
-    }
-  }).catch(function (err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.getLessonById = function (req, res) {
-  models.Lesson.findOne({
-    where: {id: req.params.id},
-    include: [
-      {model: models.LanguageSeries, include: [ models.Series, models.Level, models.Language] } ]
-  }).then(function (lesson) {
-    if (lesson) {
-      res.send(lesson);
-    } else {
-      res.status(404).send({error: 'There is no lesson with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.createNewLesson = function (req, res) {
-  var userData = req.body;
-  models.Lesson.create(userData).then(function(lesson) {
-    return res.send(lesson);
-  }).catch(function(err) {
-    res.status(400);
-    return res.send({reason: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Lesson);
 };
 
 exports.getLessonsWithUnassignedIssues = function (req, res) {
@@ -86,18 +47,6 @@ exports.getLessonsWithUnassignedIssues = function (req, res) {
     }
   }).catch(function(err) {
     res.status(500).send({error: err});
-  });
-};
-
-exports.updateLesson = function (req, res) {
-  models.Lesson.update(req.query, {where: {id: req.params.id}})
-  .then(function() {
-    res.status(200);
-    return res.send();
-  })
-  .catch(function (err) {
-    res.status(400);
-    return res.send({reason: err.toString()});
   });
 };
 
@@ -228,20 +177,6 @@ exports.getQueuedLessons = function (req, res) {
       res.status(404).send({error: 'No lessons found.'});
     }
   }).catch(function (err) {
-    res.status(500).send({error: err});
-  });
-};
-
-exports.deleteLesson = function (req, res) {
-  models.Lesson.findById(req.params.id).then(function (lesson) {
-    if(lesson) {
-      lesson.destroy().then(function() {
-        res.status(200).end();
-      });
-    } else {
-      res.status(404).send({error: 'No lesson was found with that ID.'});
-    }
-  }).catch(function(err) {
     res.status(500).send({error: err});
   });
 };

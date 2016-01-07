@@ -1,26 +1,25 @@
 'use strict';
-let models = require('../models/models');
+let models = require('../models/models'),
+    api = require('./api');
 
-exports.getLevels = function(req, res) {
-  models.Level.findAll().then(function(levels) {
-    if(levels) {
-      res.send({levels: levels});
-    } else {
-      res.status(404).send({error: 'No levels were found.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
+exports.create = function(req, res) {
+  api.create(req, res, models.Level);
+};
+
+exports.update = function(req, res) {
+  api.update(req, res, models.Level);
+};
+
+exports.get = function(req, res) {
+  api.findAll(req, res, models.Level);
+};
+
+exports.find = function(req, res) {
+  api.findOne(req, res, models.Level, {
+    where: { id: req.params.id }
   });
 };
 
-exports.getLevelById = function(req, res) {
-  models.Level.findOne({where: {id: req.params.id}}).then(function(level) {
-    if(level) {
-      res.send({level: level});
-    } else {
-      res.status(404).send({error: 'No level was found with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: err});
-  });
+exports.delete = function (req, res) {
+  api.delete(req, res, models.Level);
 };
