@@ -2,32 +2,32 @@
   ol.breadcrumb
     li
       a(href="/series") Series List
-    li.active {{series.title}}
+    li.active {{vm.series.title}}
 .container-fluid
-  h1 {{series.title}}
+  h1 {{vm.series.title}}
   .pull-right
     form.form-inline
       .form-group
-        input.form-control(ng-model="searchText", placeholder="Filter")
+        input.form-control(ng-model="vm.searchText", placeholder="Filter")
       .form-group
-        select.form-control(ng-model="selectedSortOption", ng-options="item.value as item.text for item in sortOptions")
+        select.form-control(ng-model="vm.selectedSortOption", ng-options="item.value as item.text for item in vm.sortOptions")
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
-        th(ng-show="identity.isAdmin()") Actions
+        th(ng-show="vm.identity.isAdmin()") Actions
         th Language
         th Title
         th Level
-        th(ng-show="identity.isAdmin()")
+        th(ng-show="vm.identity.isAdmin()")
     tbody
-      tr(ng-repeat="langSery in languageSeriesList | filter:searchText | orderBy: selectedSortOption")
-        td(ng-show="identity.isAdmin()")
+      tr(ng-repeat="langSery in vm.languageSeriesList | filter:searchText | orderBy: selectedSortOption")
+        td(ng-show="vm.identity.isAdmin()")
         td {{langSery.language.name}}
         td
           a(href="/language-series/{{langSery.id}}") {{langSery.title}}
         td {{langSery.level.name}}
-        td(ng-show="identity.isAdmin()")
-      tr(ng-show="identity.isAdmin()")
+        td(ng-show="vm.identity.isAdmin()")
+      tr(ng-show="vm.identity.isAdmin()")
         td
           button.btn.btn-primary.btn-sm(ng-click="createNewLanguageSeries()") Add Language
         td

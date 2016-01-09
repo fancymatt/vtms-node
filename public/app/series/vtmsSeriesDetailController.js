@@ -1,16 +1,60 @@
-angular.module('vtms').controller('vtmsSeriesDetailController', function($scope, vtmsSeries, vtmsGlobalTask, vtmsIdentity, vtmsLanguage, vtmsLanguageSeries, vtmsNotifier, vtmsTask, vtmsLesson, $routeParams) {
-  vtmsSeries.get($routeParams.id).then(function(d) {
-    $scope.series = d;
-  });
+angular
+  .module('vtms')
+  .controller('vtmsSeriesDetailController', vtmsSeriesDetailController);
 
-  $scope.languageSeriesList = vtmsLanguageSeries.getList({id: $routeParams.id});
-  $scope.globalTaskList = vtmsGlobalTask.getListForSeries({id: $routeParams.id});
+vtmsSeriesDetailController.$inject = ['$routeParams', 'vtmsIdentity', 'vtmsSeries'];
 
-  $scope.sortOptions = [
-    {value: ["title", "level.number"], text: "Sort by Title"},
-    {value: ["language.name", "level.number"], text: "Sort by Language"}
-  ];
+function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
+  var vm = this;
 
+  vm.getSeries = getSeries;
+  vm.identity = vtmsIdentity.currentUser
+  vm.series = {};
+  vm.globalTasksList = [];
+  vm.languageSeriesList = [];
+  vm.sortOptions = [{value: ["title", "level.number"], text: "Sort by Title"}, {value: ["language.name", "level.number"], text: "Sort by Language"}];
+  vm.sortOrder = vm.sortOptions[0].value;
+  vm.pageTitle = 'Series Detail';
+
+  activate();
+
+  function activate() {
+    getSeries().then(function() {
+      console.log('Returned series data');
+    });
+    getLanguageSeries().then(function() {
+      console.log('Returned language series list');
+    });
+    getGlobalTasks().then(function() {
+      console.log('Returned global task list');
+    });
+  }
+
+  function getSeries() {
+    return vtmsSeries.getById($routeParams.id)
+      .then(function(data) {
+        vm.series = data;
+        return vm.series;
+      });
+  }
+
+  function getGlobalTasks() {
+    return vtmsSeries.getGlobalTasksForSeries($routeParams.id)
+      .then(function(data) {
+        vm.globalTasksList = data;
+        return vm.globalTasksList;
+      });
+  }
+
+  function getLanguageSeries() {
+    return vtmsSeries.getLanguageSeriesForSeries($routeParams.id)
+      .then(function(data) {
+        vm.languageSeriesList = data;
+        return vm.languageSeriesList;
+      });
+  }
+
+  /*
   $scope.newLanguageSeries = {
     numberOfLessons: 5,
     possibleValues: {
@@ -72,6 +116,5 @@ angular.module('vtms').controller('vtmsSeriesDetailController', function($scope,
     }
   }
 
-  $scope.selectedSortOption = $scope.sortOptions[0].value;
-  $scope.identity = vtmsIdentity.currentUser;
-});
+  */
+};

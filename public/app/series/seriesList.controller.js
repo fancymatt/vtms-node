@@ -2,10 +2,12 @@ angular
   .module('vtms')
   .controller('vtmsSeriesListController', vtmsSeriesListController);
 
+vtmsSeriesListController.$inject = ['vtmsSeries'];
+
 function vtmsSeriesListController(vtmsSeries) {
   var vm = this;
 
-  vm.getSeries = getSeries;
+  vm.getAllSeries = getAllSeries;
   vm.series = [];
   vm.sortOptions = [{value: 'title', text: 'Sort by Title'}, {value: 'code', text: 'Sort by Code'}];
   vm.sortOrder = vm.sortOptions[0].value;
@@ -14,13 +16,13 @@ function vtmsSeriesListController(vtmsSeries) {
   activate();
 
   function activate() {
-    return getSeries().then(function() {
+    return getAllSeries().then(function() {
       console.log('Returned series data');
     });
   }
 
-  function getSeries() {
-    return vtmsSeries.query()
+  function getAllSeries() {
+    return vtmsSeries.getAll()
       .then(function(data) {
         vm.series = data;
         return vm.series;
