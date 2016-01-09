@@ -52,7 +52,8 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     })
     .when('/series', {
       templateUrl: '/partials/series/series-list',
-      controller: 'vtmsSeriesListController'
+      controller: 'vtmsSeriesListController',
+      controllerAs: 'vm'
     })
     .when('/series/:id', {
       templateUrl: '/partials/series/series-details',

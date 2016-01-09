@@ -1,18 +1,17 @@
-angular.module('vtms').factory('vtmsTeamMember', function($resource, $q) {
-  var TeamMemberResource = $resource('/api/team-members/:id', {id: "@id"}, {
-    update: {method:'PUT', isArray: false}
-  });
+angular.module('vtms').service('vtmsTeamMember', function($http) {
 
-  TeamMemberResource.prototype.update = function(newData) {
-    var dfd = $q.defer();
+  function handleSuccess(res) {
+    return res.data.data;
+  }
 
-    this.$update(newData).then(function() {
-      dfd.resolve();
-    }, function(response) {
-      dfd.reject(response.data.reason);
-    });
-    return dfd.promise;
+  function handleError(res) {
+    return res.data;
+  }
+
+  this.query = function() {
+    var promise = $http.get('/api/team-members')
+      .then(handleSuccess, handleError);
+    return promise;
   };
 
-  return TeamMemberResource;
 });

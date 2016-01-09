@@ -1,5 +1,8 @@
 angular.module('vtms').controller('vtmsSeriesDetailController', function($scope, vtmsSeries, vtmsGlobalTask, vtmsIdentity, vtmsLanguage, vtmsLanguageSeries, vtmsNotifier, vtmsTask, vtmsLesson, $routeParams) {
-  $scope.series = vtmsSeries.get({id: $routeParams.id});
+  vtmsSeries.get($routeParams.id).then(function(d) {
+    $scope.series = d;
+  });
+
   $scope.languageSeriesList = vtmsLanguageSeries.getList({id: $routeParams.id});
   $scope.globalTaskList = vtmsGlobalTask.getListForSeries({id: $routeParams.id});
 

@@ -5,16 +5,16 @@
   .pull-right
     form.form-inline
       .form-group
-        input.form-control(ng-model="searchText", placeholder="Filter")
+        input.form-control(ng-model="vm.searchText", placeholder="Filter")
       .form-group
-        select.form-control(ng-model="sortOrder", ng-options="item.value as item.text for item in sortOptions")
+        select.form-control(ng-model="vm.sortOrder", ng-options="item.value as item.text for item in vm.sortOptions")
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
         th Title
         th Code
     tbody
-      tr(ng-repeat="sery in series | filter:searchText | orderBy: sortOrder")
+      tr(ng-repeat="sery in vm.series | filter: vm.searchText | orderBy: vm.sortOrder")
         td
           a(href="/series/{{sery.id}}") {{sery.title}}
         td {{sery.code}}
