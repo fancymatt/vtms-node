@@ -11,7 +11,7 @@ function vtmsSeries($http) {
     getById: getById,
     getGlobalTasksForSeries: getGlobalTasksForSeries,
     getLanguageSeriesForSeries: getLanguageSeriesForSeries
-  }
+  };
   return service;
 
   function getAll() {
@@ -62,7 +62,7 @@ function vtmsSeries($http) {
       .catch(handleFailure);
 
     function handleSuccess(response) {
-      return response.data;
+      return response.data.data;
     }
 
     function handleFailure(response) {

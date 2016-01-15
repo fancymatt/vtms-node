@@ -3,11 +3,10 @@
     li
       a(href="/series") Series List
     li
-      a(href="/series/{{languageSeries.series.id}}") {{languageSeries.series.title}}
-    li.active {{languageSeries.title}}
+      a(href="/series/{{vm.languageSeries.series.id}}") {{vm.languageSeries.series.title}}
+    li.active {{vm.languageSeries.title}}
 .container-fluid
-  h1
-    a(href="#", editable-text="languageSeries.title", onbeforesave="update({title: $data})") {{languageSeries.title}}
+  h1 {{vm.languageSeries.title}}
 .container-fluid
   lessons-list(config="lessonsConfig")
   .col-sm-6

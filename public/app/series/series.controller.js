@@ -8,11 +8,11 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
   var vm = this;
 
   vm.getSeries = getSeries;
-  vm.identity = vtmsIdentity.currentUser
+  vm.identity = vtmsIdentity.currentUser;
   vm.series = {};
   vm.globalTasksList = [];
   vm.languageSeriesList = [];
-  vm.sortOptions = [{value: ["title", "level.number"], text: "Sort by Title"}, {value: ["language.name", "level.number"], text: "Sort by Language"}];
+  vm.sortOptions = [{value: ['title', 'level.number'], text: 'Sort by Title'}, {value: ['language.name', 'level.number'], text: 'Sort by Language'}];
   vm.sortOrder = vm.sortOptions[0].value;
   vm.pageTitle = 'Series Detail';
 
@@ -20,13 +20,10 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
 
   function activate() {
     getSeries().then(function() {
-      console.log('Returned series data');
+      console.log('PAGE INITIALIZATION: Returned series');
     });
-    getLanguageSeries().then(function() {
-      console.log('Returned language series list');
-    });
-    getGlobalTasks().then(function() {
-      console.log('Returned global task list');
+    getLanguageSeriesList().then(function() {
+      console.log('PAGE INITIALIZATION: Returned language series list');
     });
   }
 
@@ -46,7 +43,7 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
       });
   }
 
-  function getLanguageSeries() {
+  function getLanguageSeriesList() {
     return vtmsSeries.getLanguageSeriesForSeries($routeParams.id)
       .then(function(data) {
         vm.languageSeriesList = data;
@@ -73,7 +70,7 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
       fkLanguage: -1,
       fkLevel: -1,
       fkSeries: $routeParams.id,
-      title: "New Language Series"
+      title: 'New Language Series'
     }
   };
 
@@ -95,7 +92,7 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
         // Create lessons
         for(var i = 0; i < lessonsToCreate; i++) {
           var lessonNumber = i + 1;
-          var newLesson = new vtmsLesson({fkLanguageSeries: languageSeriesId, number: lessonNumber, title: "Lesson " + lessonNumber});
+          var newLesson = new vtmsLesson({fkLanguageSeries: languageSeriesId, number: lessonNumber, title: 'Lesson ' + lessonNumber});
           newLesson.$save().then(function(lesson) {
             var taskList = $scope.globalTaskList;
             for (var j = 0; j < taskList.length; j++) {
@@ -103,16 +100,16 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
               newTask.$save();
             }
 
-            console.log("Lesson created!");
+            console.log('Lesson created!');
             console.log(lesson);
           });
         }
       });
 
 
-      vtmsNotifier.success("Create " + lessonsToCreate + " lessons of new Language Series");
+      vtmsNotifier.success('Create ' + lessonsToCreate + ' lessons of new Language Series');
     } else {
-      vtmsNotifier.error("Please fill in all fields to create a language series.");
+      vtmsNotifier.error('Please fill in all fields to create a language series.');
     }
   }
 

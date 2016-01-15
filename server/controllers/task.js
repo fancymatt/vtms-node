@@ -5,7 +5,32 @@ let models = require('../models/models'),
     api = require('./api');
 
 exports.create = function(req, res) {
+  var requiredProperties = ['fkTaskGlobal', 'fkTeamMember', 'fkLesson'];
+
+  for (var i = 0; i < requiredProperties.length; i++) {
+    var property = requiredProperties[i];
+    if(!req.body[property]) {
+      res.status(400);
+      return res.send({error: 'Please specify a ' + property + ' property'});
+    }
+  }
+
+  models.Task.create(req.body).then(function(newObject) {
+    models.Task.findOne({where: {id: newObject.id}}).then(function(createdRecord) {
+      var returnObject = {};
+      returnObject.data = createdRecord;
+      return res.status(201).send(returnObject);
+    });
+  }).catch(function(err) {
+    res.status(400);
+    return res.send({reason: err.errors[0].message});
+  });
+
+
+  console.log("Pretend we made a task");
+  console.log(req.body);
   api.create(req, res, models.Task);
+  //api.create(req, res, models.Task);
 };
 
 exports.update = function(req, res) {

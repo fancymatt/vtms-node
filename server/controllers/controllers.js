@@ -1,5 +1,5 @@
 'use strict';
-let controllers = {};
+var controllers = {};
 
 controllers.activity = require('./activity');
 controllers.channel = require('./channel');

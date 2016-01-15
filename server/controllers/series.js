@@ -25,16 +25,8 @@ exports.delete = function (req, res) {
 };
 
 exports.getLanguageSeriesForSeriesWithId = function(req, res) {
-  models.LanguageSeries.findAll({
+  api.findAll(req, res, models.LanguageSeries, {
     where: {fkSeries: req.params.id},
     include: [ models.Level, models.Language, models.Series ]
-  }).then(function(languageSeries) {
-    if(languageSeries) {
-      res.send(languageSeries);
-    } else {
-      res.status(404).send({error: 'No language series found for a series with that ID.'});
-    }
-  }).catch(function(err) {
-    res.status(500).send({error: 'No language series found.'});
-  });
+  })
 };

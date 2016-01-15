@@ -3,7 +3,55 @@ let models = require('../models/models'),
     api = require('./api');
 
 exports.create = function(req, res) {
-  api.create(req, res, models.Lesson);
+  console.log("****OKAY, I'LL CREATE A LESSON");
+
+  var requiredProperties = ['fkLanguageSeries', 'number', 'title'];
+
+  for (var i = 0; i < requiredProperties.length; i++) {
+    var property = requiredProperties[i];
+    if(!req.body[property]) {
+      res.status(400);
+      return res.send({error: 'Please specify a ' + property + ' property'});
+    }
+  }
+
+  models.Lesson.create(req.body).then(function(newObject) {
+    console.log("*****I CREATED A LESSON");
+
+    models.Lesson.findOne({where: {id: newObject.id}}).then(function(createdRecord) {
+
+      // Get global tasks
+      models.Series.findOne({
+        include: [
+          {
+            model: models.LanguageSeries,
+            where: {
+              id: createdRecord.fkLanguageSeries
+            }
+          },
+          models.TaskGlobal
+        ]
+      }).then(function(series) {
+        var globalTasks = series.taskGlobals;
+        for(var i = 0; i < globalTasks.length; i++) {
+          models.Task.create({
+            fkTaskGlobal: globalTasks[i].id,
+            fkLesson: createdRecord.id,
+            fkTeamMember: globalTasks[i].defaultTeamMember
+          });
+        }
+        return res.status(201);
+      }).catch(function(err) {
+        console.log(err);
+        return res.status(400);
+      });
+    });
+
+
+
+  }).catch(function(err) {
+    return res.status(400);
+  });
 };
 
 exports.update = function(req, res) {

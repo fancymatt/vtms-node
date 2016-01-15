@@ -10,7 +10,7 @@
       .form-group
         input.form-control(ng-model="vm.searchText", placeholder="Filter")
       .form-group
-        select.form-control(ng-model="vm.selectedSortOption", ng-options="item.value as item.text for item in vm.sortOptions")
+        select.form-control(ng-model="vm.sortOrder", ng-options="item.value as item.text for item in vm.sortOptions")
   table.table.table-hover.table-striped.table-condensed
     thead
       tr
@@ -20,7 +20,7 @@
         th Level
         th(ng-show="vm.identity.isAdmin()")
     tbody
-      tr(ng-repeat="langSery in vm.languageSeriesList | filter:searchText | orderBy: selectedSortOption")
+      tr(ng-repeat="langSery in vm.languageSeriesList | filter: vm.searchText | orderBy: vm.sortOrder")
         td(ng-show="vm.identity.isAdmin()")
         td {{langSery.language.name}}
         td

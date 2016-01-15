@@ -7,8 +7,8 @@ vtmsSeriesListController.$inject = ['vtmsSeries'];
 function vtmsSeriesListController(vtmsSeries) {
   var vm = this;
 
-  vm.getAllSeries = getAllSeries;
-  vm.series = [];
+  vm.getSeriesList = getSeriesList;
+  vm.seriesList = [];
   vm.sortOptions = [{value: 'title', text: 'Sort by Title'}, {value: 'code', text: 'Sort by Code'}];
   vm.sortOrder = vm.sortOptions[0].value;
   vm.pageTitle = 'Series List';
@@ -16,16 +16,16 @@ function vtmsSeriesListController(vtmsSeries) {
   activate();
 
   function activate() {
-    return getAllSeries().then(function() {
+    return getSeriesList().then(function() {
       console.log('Returned series data');
     });
   }
 
-  function getAllSeries() {
+  function getSeriesList() {
     return vtmsSeries.getAll()
       .then(function(data) {
-        vm.series = data;
-        return vm.series;
+        vm.seriesList = data;
+        return vm.seriesList;
       });
   }
 

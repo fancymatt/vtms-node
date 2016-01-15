@@ -1,9 +1,43 @@
 'use strict';
 let models = require('../models/models'),
+    lesson = require('./lesson'),
     api = require('./api');
 
 exports.create = function(req, res) {
-  api.create(req, res, models.LanguageSeries);
+  var requiredProperties = ['fkLanguage', 'fkLevel', 'fkSeries', 'title', 'count'];
+
+  for (var i = 0; i < requiredProperties.length; i++) {
+    var property = requiredProperties[i];
+    if(!req.body[property]) {
+      res.status(400);
+      return res.send({error: 'Please specify a ' + property + ' property'});
+    }
+  }
+
+  models.LanguageSeries.create(req.body).then(function(newObject) {
+    console.log("**CREATE LANGUAGE SERIES");
+    models.LanguageSeries.findOne({where: {id: newObject.id}}).then(function(createdRecord) {
+      console.log("***LANGUAGE SERIES CREATED");
+      // Create Lessons
+      for(var i = 0; i < req.body.count; i++) {
+        console.log("****PLEASE CREATE A LESSON " + i);
+
+        lesson.create({body: {
+          fkLanguageSeries: createdRecord.id,
+          number: i + 1,
+          title: 'Lesson ' + (i + 1)
+        }}, res);
+
+      }
+
+      var returnObject = {};
+      returnObject.data = createdRecord;
+      return res.status(201).send(returnObject);
+    });
+  }).catch(function(err) {
+    res.status(400);
+    return res.send({reason: err.errors[0].message});
+  });
 };
 
 exports.update = function(req, res) {

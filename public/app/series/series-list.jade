@@ -14,7 +14,7 @@
         th Title
         th Code
     tbody
-      tr(ng-repeat="sery in vm.series | filter: vm.searchText | orderBy: vm.sortOrder")
+      tr(ng-repeat="sery in vm.seriesList | filter: vm.searchText | orderBy: vm.sortOrder")
         td
           a(href="/series/{{sery.id}}") {{sery.title}}
         td {{sery.code}}
