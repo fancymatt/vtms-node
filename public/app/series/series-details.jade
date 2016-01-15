@@ -29,14 +29,15 @@
         td(ng-show="vm.identity.isAdmin()")
       tr(ng-show="vm.identity.isAdmin()")
         td
-          button.btn.btn-primary.btn-sm(ng-click="createNewLanguageSeries()") Add Language
+          button.btn.btn-primary.btn-sm(ng-click="vm.createLanguageSeries()") Add Language
         td
-          select(ng-model="newLanguageSeries.values.fkLanguage")
-            option(ng-repeat="language in newLanguageSeries.possibleValues.languages", value="{{language.id}}") {{language.name}}
+          select(ng-model="vm.newLanguageSeriesLanguage")
+            option(ng-repeat="language in vm.newLanguageSeriesPossibleLanguages", value="{{language.id}}") {{language.name}}
         td
-          input.form-control(ng-model="newLanguageSeries.values.title")
+          input.form-control(ng-model="vm.newLanguageSeriesTitle")
         td
-          select(ng-options="id as name for (id, name) in newLanguageSeries.possibleValues.levels", ng-model="newLanguageSeries.values.fkLevel")
+          select(ng-model="vm.newLanguageSeriesLevel")
+            option(ng-repeat="level in vm.newLanguageSeriesPossibleLevels", value="{{level.id}}") {{level.name}}
         td
-          select(ng-model="newLanguageSeries.numberOfLessons")
-            option(ng-repeat="number in newLanguageSeries.possibleValues.numberOfLessons", value="{{number}}") {{number}}
+          select(ng-model="vm.newLanguageSeriesCount")
+            option(ng-repeat="number in vm.newLanguageSeriesPossibleLessons", value="{{number}}") {{number}}

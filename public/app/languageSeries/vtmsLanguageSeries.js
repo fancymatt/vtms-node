@@ -7,7 +7,8 @@ vtmsLanguageSeries.$inject = ['$http'];
 function vtmsLanguageSeries($http) {
   var endpoint = '/api/language-series';
   var service = {
-    getById: getById
+    getById: getById,
+    create: create
   };
   return service;
 
@@ -22,6 +23,20 @@ function vtmsLanguageSeries($http) {
 
     function handleFailure(response) {
       console.log('Error');
+    }
+  }
+
+  function create(body) {
+    return $http.post(endpoint, body)
+      .then(handleSuccess)
+      .catch(handleFailure)
+
+    function handleSuccess(response) {
+      return response.data.data;
+    }
+
+    function handleFailure(response) {
+      console.log({error: response.data.error});
     }
   }
 

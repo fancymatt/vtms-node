@@ -2,19 +2,27 @@ angular
   .module('vtms')
   .controller('vtmsSeriesDetailController', vtmsSeriesDetailController);
 
-vtmsSeriesDetailController.$inject = ['$routeParams', 'vtmsIdentity', 'vtmsSeries'];
+vtmsSeriesDetailController.$inject = ['$routeParams', 'vtmsIdentity', 'vtmsSeries', 'vtmsLanguage', 'vtmsLanguageSeries'];
 
-function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
+function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries, vtmsLanguage, vtmsLanguageSeries) {
   var vm = this;
 
+  vm.createLanguageSeries = createLanguageSeries;
   vm.getSeries = getSeries;
-  vm.identity = vtmsIdentity.currentUser;
-  vm.series = {};
   vm.globalTasksList = [];
+  vm.identity = vtmsIdentity.currentUser;
   vm.languageSeriesList = [];
+  vm.newLanguageSeriesLanguage = undefined;
+  vm.newLanguageSeriesLevel = undefined;
+  vm.newLanguageSeriesCount = undefined;
+  vm.newLanguageSeriesTitle = undefined;
+  vm.newLanguageSeriesPossibleLanguages = [{id: 1, name: 'Arabic'}, {id: 2, name: 'Bulgarian'}];
+  vm.newLanguageSeriesPossibleLevels = [{id: 8, name: 'Intro'}, {id: 1, name: 'Absolute Beginner'}];
+  vm.newLanguageSeriesPossibleLessons = [0, 5, 10, 12, 13, 15, 20, 25, 50, 100];
+  vm.pageTitle = 'Series Detail';
+  vm.series = {};
   vm.sortOptions = [{value: ['title', 'level.number'], text: 'Sort by Title'}, {value: ['language.name', 'level.number'], text: 'Sort by Language'}];
   vm.sortOrder = vm.sortOptions[0].value;
-  vm.pageTitle = 'Series Detail';
 
   activate();
 
@@ -25,6 +33,9 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
     getLanguageSeriesList().then(function() {
       console.log('PAGE INITIALIZATION: Returned language series list');
     });
+    //getLanguageList().then(function() {
+    //  console.log('PAGE INITIALIZATION: Returned language list');
+    //});
   }
 
   function getSeries() {
@@ -51,19 +62,33 @@ function vtmsSeriesDetailController($routeParams, vtmsIdentity, vtmsSeries) {
       });
   }
 
+  function getLanguageList() {
+    return vtmsLanguage.query()
+      .then(function(data) {
+        vm.newLanguageSeriesPossibleLanguages = data;
+        return vm.newLanguageSeriesPossibleLanguages;
+      });
+  }
+
+  function createLanguageSeries() {
+    return vtmsLanguageSeries.create({
+      fkLanguage: vm.newLanguageSeriesLanguage,
+      fkLevel: vm.newLanguageSeriesLevel,
+      fkSeries: vm.series.id,
+      title: vm.newLanguageSeriesTitle,
+      count: vm.newLanguageSeriesCount
+    })
+      .then(function(data) {
+
+        return activate();
+      });
+  }
+
   /*
   $scope.newLanguageSeries = {
     numberOfLessons: 5,
     possibleValues: {
-      levels: {
-        8: 'Intro',
-        1: 'Absolute Beginner',
-        2: 'Beginner',
-        4: 'Lower Intermediate',
-        5: 'Intermediate',
-        6: 'Upper Intermediate',
-        7: 'Advanced'
-      },
+      levels: ,
       numberOfLessons: [5, 10, 12, 13, 15, 20, 25, 50, 100]
     },
     values: {
