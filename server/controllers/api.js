@@ -83,6 +83,10 @@ module.exports = {
       model.findOne({where: {id: req.params.id}}).then(function(updatedRecord) {
         var returnObject = {};
         returnObject.data = updatedRecord;
+
+        returnObject.links = {};
+        returnObject.links.self = urlStub(req) + toCamel(model.options.name.plural) + '/' + updatedRecord.id;
+
         return res.status(200).send(returnObject);
       });
     })

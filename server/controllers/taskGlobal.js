@@ -35,3 +35,17 @@ exports.getGlobalTasksForSeries = function(req, res) {
     res.status(500).send({error: err});
   });
 };
+
+exports.getGlobalAssetsForSeries = function(req, res) {
+  models.TaskGlobal.findAll({where: {fkSeries: req.params.id, isAsset: true}}).then(function(tasks) {
+    if(tasks) {
+      res.send(tasks);
+    } else {
+      res.status(404).send({error: 'No global tasks were found for a language series with that ID.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
+

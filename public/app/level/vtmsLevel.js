@@ -1,11 +1,11 @@
 angular
   .module('vtms')
-  .factory('vtmsLanguage', vtmsLanguageSeries);
+  .factory('vtmsLevel', vtmsLevel);
 
-vtmsLanguageSeries.$inject = ['$http', 'vtmsNotifier'];
+vtmsLevel.$inject = ['$http', 'vtmsNotifier'];
 
-function vtmsLanguageSeries($http, vtmsNotifier) {
-  var endpoint = '/api/languages';
+function vtmsLevel($http, vtmsNotifier) {
+  var endpoint = '/api/levels';
   var service = {
     getById: getById,
     getAll: getAll
@@ -22,7 +22,7 @@ function vtmsLanguageSeries($http, vtmsNotifier) {
     }
 
     function handleFailure(response) {
-      vtmsNotifier.error('Cannot get language: ' + response.data.error);
+      vtmsNotifier.error('Cannot get level: ' + response.data.error);
     }
   }
 
@@ -36,7 +36,7 @@ function vtmsLanguageSeries($http, vtmsNotifier) {
     }
 
     function handleFailure(response) {
-      vtmsNotifier.error('Cannot get language list: ' + response.data.error);
+      vtmsNotifier.error('Cannot get level list: ' + response.data.error);
     }
   }
 }

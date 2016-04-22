@@ -3,9 +3,6 @@ angular.module('vtms', [
   'ngRoute',
   'xeditable',
   'ui.bootstrap',
-  'ngSanitize',
-  'com.2fdevs.videogular',
-  'com.2fdevs.videogular.plugins.controls'
 ]);
 
 angular.module('vtms').run(function(editableOptions) {
@@ -15,15 +12,15 @@ angular.module('vtms').run(function(editableOptions) {
 angular.module('vtms').config(function($routeProvider, $locationProvider) {
   var routeRoleChecks = {
     admin: {auth: function(vtmsAuth) {
-      return vtmsAuth.authorizeCurrentUserForRoute('admin')
+      return vtmsAuth.authorizeCurrentUserForRoute('admin');
       }},
     user: {auth: function(vtmsAuth) {
-      return vtmsAuth.authorizeAuthenticatedUserForRoute()
+      return vtmsAuth.authorizeAuthenticatedUserForRoute();
       }},
     teamMember: {auth: function(vtmsAuth) {
       return vtmsAuth.authorizeCurrentUserIsTeamMember();
       }}
-    }
+    };
   $locationProvider.html5Mode(true);
   $routeProvider
     .when('/', {
@@ -83,7 +80,7 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
     .when('/lesson/:id', {
       templateUrl: '/partials/lessons/lesson-details',
       controller: 'vtmsLessonDetailsController',
-      controllerAs: 'ctrl'
+      controllerAs: 'vm'
     })
     .when('/tasklist', {
       templateUrl: '/partials/task/team-member-task-list',
@@ -157,10 +154,10 @@ angular.module('vtms').config(function($routeProvider, $locationProvider) {
       controllerAs: 'ctrl',
       resolve: routeRoleChecks.user
     })
-    .when('/lesson/:id/shooting', {
-      templateUrl: '/partials/lessons/lesson-shooting',
-      controller: 'vtmsLessonShootingController',
-      controllerAs: 'ctrl',
+    .when('/lesson/:id/script', {
+      templateUrl: '/partials/lessons/lesson-script',
+      controller: 'lesson.script.controller',
+      controllerAs: 'vm',
       resolve: routeRoleChecks.user
   });
 });

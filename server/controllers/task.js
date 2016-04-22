@@ -26,11 +26,7 @@ exports.create = function(req, res) {
     return res.send({reason: err.errors[0].message});
   });
 
-
-  console.log("Pretend we made a task");
-  console.log(req.body);
   api.create(req, res, models.Task);
-  //api.create(req, res, models.Task);
 };
 
 exports.update = function(req, res) {
@@ -73,6 +69,7 @@ exports.getAssetsForLesson = function(req, res) {
   api.findAll(req, res, models.Task, {
     where: {fkLesson: req.params.id},
     include: [
+      models.TeamMember,
       {
         model: models.TaskGlobal,
         required: true,
@@ -174,13 +171,20 @@ exports.getRecentTasks = function(req, res) {
 //    limit: 50
 };
 
-exports.getTasksForLessonWithId = function (req, res) {
+exports.getTasksForLesson = function(req, res) {
   api.findAll(req, res, models.Task, {
     where: {fkLesson: req.params.id},
     include: [
-      {model: models.Lesson, include: [models.PublishDate]},
-      {model: models.TeamMember},
-      {model: models.TaskGlobal}
+      models.TeamMember,
+      {
+        model: models.TaskGlobal,
+        required: true,
+        where: {isAsset: false}
+      },
+      {
+        model: models.Lesson,
+        include: [models.PublishDate]
+      }
     ]
   });
 };

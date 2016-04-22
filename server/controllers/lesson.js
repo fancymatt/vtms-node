@@ -3,8 +3,6 @@ let models = require('../models/models'),
     api = require('./api');
 
 exports.create = function(req, res) {
-  console.log("****OKAY, I'LL CREATE A LESSON");
-
   var requiredProperties = ['fkLanguageSeries', 'number', 'title'];
 
   for (var i = 0; i < requiredProperties.length; i++) {
@@ -16,7 +14,6 @@ exports.create = function(req, res) {
   }
 
   models.Lesson.create(req.body).then(function(newObject) {
-    console.log("*****I CREATED A LESSON");
 
     models.Lesson.findOne({where: {id: newObject.id}}).then(function(createdRecord) {
 
@@ -64,7 +61,8 @@ exports.get = function(req, res) {
 
 exports.find = function(req, res) {
   api.findOne(req, res, models.Lesson, {
-    where: { id: req.params.id }
+    where: { id: req.params.id },
+    include: [{model: models.LanguageSeries, include: [models.Series, models.Language]}]
   });
 };
 

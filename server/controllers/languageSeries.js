@@ -15,19 +15,13 @@ exports.create = function(req, res) {
   }
 
   models.LanguageSeries.create(req.body).then(function(newObject) {
-    console.log("**CREATE LANGUAGE SERIES");
     models.LanguageSeries.findOne({where: {id: newObject.id}}).then(function(createdRecord) {
-      console.log("***LANGUAGE SERIES CREATED");
-      // Create Lessons
       for(var i = 0; i < req.body.count; i++) {
-        console.log("****PLEASE CREATE A LESSON " + i);
-
         lesson.create({body: {
           fkLanguageSeries: createdRecord.id,
           number: i + 1,
           title: 'Lesson ' + (i + 1)
         }}, res);
-
       }
 
       var returnObject = {};
@@ -68,6 +62,18 @@ exports.getLessonsForLanguageSeriesWithId = function(req, res) {
       res.send(languageSeries);
     } else {
       res.status(404).send({error: 'No language series were found with a series of that ID.'});
+    }
+  }).catch(function(err) {
+    res.status(500).send({error: err});
+  });
+};
+
+exports.getSeriesForLanguageSeriesWithId = function(req, res) {
+  models.LanguageSeries.findOne({where: {id: req.params.id}, include: [models.Series]}).then(function(languageSeries) {
+    if (languageSeries) {
+      res.send(languageSeries.series);
+    } else {
+      res.status(404).send({error: 'No series found for a language series of that ID'});
     }
   }).catch(function(err) {
     res.status(500).send({error: err});

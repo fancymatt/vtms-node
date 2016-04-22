@@ -11,6 +11,8 @@ router.route('/:id')
   .delete(controllers.languageSeries.delete);
 router.route('/:id/lessons')
   .get(controllers.languageSeries.getLessonsForLanguageSeriesWithId);
+router.route('/:id/series')
+  .get(controllers.languageSeries.getSeriesForLanguageSeriesWithId);
 router.route('/:id/xml')
   .get(controllers.publishDate.getXmlForLanguageSeriesWithId);
 

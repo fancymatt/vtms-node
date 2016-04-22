@@ -16,7 +16,7 @@ router.route('/:id/issues/unassigned')
 router.route('/:id/issues/last-completed')
   .get(controllers.issue.getLastIssueForLessonWithId);
 router.route('/:id/tasks')
-  .get(controllers.task.getTasksForLessonWithId);
+  .get(controllers.task.getTasksForLesson);
 router.route('/:id/tasks/last-completed')
   .get(controllers.task.getLastTaskForLessonWithId);
 router.route('/:id/assets')

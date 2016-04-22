@@ -15,5 +15,7 @@ router.route('/:id/lessons')
   .get(controllers.lesson.getLessonsForSeries);
 router.route('/:id/global-tasks')
   .get(controllers.taskGlobal.getGlobalTasksForSeries);
+router.route('/:id/global-assets')
+  .get(controllers.taskGlobal.getGlobalAssetsForSeries);
 
 module.exports = router;

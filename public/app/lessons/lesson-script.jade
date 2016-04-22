@@ -1,0 +1,23 @@
+.container-fluid
+  ol.breadcrumb
+    li
+      a(href="/series") Series List
+    li
+      a(href="/series/{{vm.lesson.languageSery.series.id}}") {{vm.lesson.languageSery.series.title}}
+    li
+      a(href="/language-series/{{vm.lesson.languageSery.id}}") {{vm.lesson.languageSery.title}}
+    li
+      a(href="/lesson/{{vm.lesson.id}}") {{"#" + vm.lesson.number}} {{vm.lesson.title}}
+    li.active Script
+.main
+  .list
+    h3 Script
+    .activity-feed
+      .activity(ng-repeat="shot in vm.shots | orderBy:['section','shot']")
+        .head
+          .name
+            span {{shot.section + ' ' + shot.shot + ' ' + shot.type}}
+          .timestamp
+            span {{vm.getNameFromTaskId(shot.fkAsset)}}
+        .body
+          span {{shot.script}}

@@ -1,3 +1,172 @@
+angular
+  .module('vtms')
+  .factory('vtmsLesson', vtmsLesson);
+
+vtmsLesson.$inject = ['$http', 'vtmsNotifier'];
+
+function vtmsLesson($http, vtmsNotifier) {
+  var Lesson = {};
+
+  var endpoint = 'api/lessons';
+
+  Lesson.prototype.getById = function(id) {
+    return $http.get(endpoint + '/' + id, {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(data) {
+      this.id = data.id;
+      this.allTasksCompleted = data.allTasksCompleted;
+      this.checkedLanguage = data.checkedLanguage;
+      this.checkedLanguageTime = data.checkedLanguageTime;
+      this.checkedVideo = data.checkedVideo;
+      this.checkedVideoTime = data.checkedVideoTime;
+      this.detectedTime = data.detectedTime;
+      this.exportedTime = data.exportedTime;
+      this.filesMoved = data.filesMoved;
+      this.filesMovedTime = data.filesMovedTime;
+      this.fkLanguageSeries = data.fkLanguageSeries;
+      this.fkLastIssue = data.fkLastIssue;
+      this.fkLastTask = data.fkLastTask;
+      this.incompleteIssues = data.incompleteIssues;
+      this.isCheckable = data.isCheckable;
+      this.isDetected = data.isDetected;
+      this.isQueued = data.isQueued;
+      this.isShot = data.isShot;
+      this.lastIssueTime = data.lastIssueTime;
+      this.lastTaskTime = data.lastTaskTime;
+      this.number = data.number;
+      this.qaLog = data.qaLog;
+      this.qaUrl = data.qaUrl;
+      this.queuedTime = data.queuedTime;
+      this.title = data.title;
+      this.trt = data.trt;
+
+      return this;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.getIssues = function() {
+    return $http.get(endpoint + '/' + this.id + '/issues', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(data) {
+
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.getTasks = function() {
+    return $http.get(endpoint + '/' + this.id + '/tasks', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+
+  Lesson.prototype.getAssets = function() {
+    return $http.get(endpoint + '/' + this.id + '/assets', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.getActivities = function() {
+    return $http.get(endpoint + '/' + this.id + '/activities', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.getPublishDates = function() {
+    return $http.get(endpoint + '/' + this.id + '/publish-dates', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.getShots = function() {
+    return $http.get(endpoint + '/' + this.id + '/shots', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.getLanguageSeries = function() {
+    return $http.get(endpoint + '/' + this.id + '/language-series', {cache: true})
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  Lesson.prototype.update = function(data) {
+    return $http.put(endpoint + '/' + this.id, data)
+      .then(handleSuccess)
+      .catch(handleFailure);
+
+    function handleSuccess(response) {
+      return response.data;
+    }
+
+    function handleFailure(response) {
+      console.log('Error');
+    }
+  };
+
+  return Lesson;
+}
+
+/*
 angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifier) {
   var LessonResource = $resource('/api/lessons/:id', {id: "@id"}, {
     update: {method:'PUT', isArray: false},
@@ -225,3 +394,4 @@ angular.module('vtms').factory('vtmsLesson', function($resource, $q, vtmsNotifie
 
   return LessonResource;
 });
+*/

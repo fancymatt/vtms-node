@@ -6,19 +6,22 @@ vtmsLanguageSeriesDetailController.$inject = ['vtmsLanguageSeries', 'vtmsIdentit
 
 function vtmsLanguageSeriesDetailController(vtmsLanguageSeries, vtmsIdentity, $routeParams) {
   var vm = this;
+
   vm.identity = vtmsIdentity.currentUser;
+  vm.languageSeries = {};
+  vm.series = {};
+  vm.lessons = [];
   vm.sortOptions = [{value: 'number', text: 'Sort by Number'},
     {value: 'trt', text: 'Sort by Length'},
     {value: 'title', text: 'Sort by Title'}];
   vm.sortOrder = vm.sortOptions[0].value;
-  vm.languageSeries = {};
 
   activate();
 
   function activate() {
-    return getLanguageSeries().then(function() {
-      console.log('Returned language series data');
-    });
+    getLanguageSeries();
+    getSeries();
+    getLessons();
   }
 
   function getLanguageSeries() {
@@ -28,7 +31,22 @@ function vtmsLanguageSeriesDetailController(vtmsLanguageSeries, vtmsIdentity, $r
     });
   }
 
+  function getLessons() {
+    return vtmsLanguageSeries.getLessons($routeParams.id).then(function(data) {
+      vm.lessons = data;
+      return vm.lessons;
+    });
+  }
+
+  function getSeries() {
+    return vtmsLanguageSeries.getSeries($routeParams.id).then(function(data) {
+      vm.series = data;
+      return vm.series;
+    });
+  }
+
 }
+
 
 /*
   $scope.lessonsConfig = {
