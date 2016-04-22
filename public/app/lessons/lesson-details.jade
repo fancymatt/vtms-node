@@ -3,23 +3,115 @@
     li
       a(href="/series") Series List
     li
-      a(href="/series/{{ctrl.lesson.languageSery.series.id}}") {{ctrl.lesson.languageSery.series.title}}
+      a(href="/series/{{vm.lesson.languageSery.series.id}}") {{vm.lesson.languageSery.series.title}}
     li
-      a(href="/language-series/{{ctrl.lesson.languageSery.id}}") {{ctrl.lesson.languageSery.title}}
-    li.active {{"#" + ctrl.lesson.number}} {{ctrl.lesson.title}}
-.container-fluid
-  h1
-    a(href="#", editable-text="ctrl.lesson.title", onbeforesave="update({title: $data})") {{ctrl.lesson.title}}
-.container-fluid
-  task-list(config="ctrl.tasksConfig")
-.container-fluid
-  h3
-    a(ng-href='/lesson/{{ctrl.lesson.id}}/checking') Checking
-  issues-list(issues="ctrl.issuesList", config="ctrl.issuesConfig", update-fn="ctrl.updateIssues()")
-  publish-dates-list(publish-dates="ctrl.publishDatesList", config="ctrl.publishDatesConfig", update-fn="ctrl.updatePublishDates()")
-.container-fluid
-  activity-list(activities="ctrl.activityList", config="ctrl.activityListConfig", update-fn="ctrl.updateActivities()")
-.container-fluid
-  h3
-    a(ng-href='/lesson/{{ctrl.lesson.id}}/shooting') Shooting
-  shot-list(lesson="ctrl.lesson", config="ctrl.shotsConfig", update-fn="ctrl.updateShots()")
+      a(href="/language-series/{{vm.lesson.languageSery.id}}") {{vm.lesson.languageSery.title}}
+    li.active {{"#" + vm.lesson.number}} {{vm.lesson.title}}
+.sidebar.col-xs-12.col-sm-4
+  .info-box
+    ul
+      li
+        .label
+          span Lesson Title
+        .value
+          span {{vm.lesson.title}}
+      li
+        .label
+          span QA Status
+        .value
+          span(ng-if="!vm.lesson.qaLog") -
+          span(ng-if="vm.lesson.qaLog") {{vm.lesson.qaLog}}
+      li
+        .label
+          span Language Status
+        .value
+          span(ng-if="vm.lesson.checkedLanguage") Approved
+          span(ng-if="!vm.lesson.checkedLanguage") Not Approved
+      li
+        .label
+          span Video Status
+        .value
+          span(ng-if="vm.lesson.checkedVideo") Approved
+          span(ng-if="!vm.lesson.checkedVideo") Not Approved
+      li
+        .label
+          span VTMS Code
+        .value
+          span not made
+      li
+        .label
+          span Pod101 Code
+        .value
+          span not made
+      li
+        .label
+          span At a Glance Status
+        .value
+          span not made
+  .list
+    h3 Assets
+    ul
+      li(ng-repeat="task in vm.assets")
+        .label
+          span {{task.teamMember.nameFirst}}
+        .value
+          span.status.complete(ng-if="task.isCompleted")
+          span.status.incomplete(ng-if="!task.isCompleted")
+          span {{task.taskGlobal.name}}
+  .list
+    h3 Tasks
+    ul
+      li(ng-repeat="task in vm.tasks")
+        .label
+          span {{task.teamMember.nameFirst}}
+        .value
+          span.status.complete(ng-if="task.isCompleted")
+          span.status.incomplete(ng-if="!task.isCompleted")
+          span {{task.taskGlobal.name}}
+  .list
+    h3 Issues
+    ul
+      li(ng-repeat="issue in vm.issues | orderBy:'+timecode'")
+        .label
+          span {{issue.timecode}} {{issue.creator}}
+        .value
+          span.status.complete(ng-if="issue.isCompleted")
+          span.status.incomplete(ng-if="!issue.isCompleted")
+          span {{issue.body}}
+  .list
+    h3 Publish Dates
+    ul
+      li(ng-repeat="publishDate in vm.publishDates | orderBy:'+platform.name'")
+        .label
+          span {{publishDate.platform.name}}
+        .value
+          span.status.complete(ng-if="publishDate.isDelivered")
+          span.status.incomplete(ng-if="!publishDate.isDelivered")
+          span {{publishDate.date | date: 'EEEE, MMM d, yyyy'}}
+  .list
+    h3 Operations
+    ul
+      li
+        a(href="/lesson/{{vm.lesson.id}}/script") View Script
+      li
+        a(href="#", ng-click="vm.toggleLanguageChecked()")
+          span(ng-if="vm.lesson.checkedLanguage") Revoke Language Approval
+          span(ng-if="!vm.lesson.checkedLanguage") Give Language Approval
+      li
+        a(href="#", ng-click="vm.toggleVideoChecked()")
+          span(ng-if="vm.lesson.checkedVideo") Revoke Video Approval
+          span(ng-if="!vm.lesson.checkedVideo") Give Video Approval
+      li Delete Lesson
+.main.col-xs-12.col-sm-8
+  .list
+    h3 Activity
+    .activity-feed
+      .activity(ng-repeat="activity in vm.activities | orderBy:'-timeEnd'")
+        .head
+          .name
+            span {{activity.teamMember.nameFull}}
+          .timestamp
+            span {{activity.timeEnd | date: 'EEEE, MMM d, yyyy'}}
+        .body
+          span {{activity.activity}}
+          span(ng-if='activity.task') : {{activity.task.taskGlobal.name}}

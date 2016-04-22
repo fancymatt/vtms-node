@@ -3,12 +3,41 @@
     li
       a(href="/series") Series List
     li
-      a(href="/series/{{vm.languageSeries.series.id}}") {{vm.languageSeries.series.title}}
+      a(href="/series/{{vm.series.id}}") {{vm.series.title}}
     li.active {{vm.languageSeries.title}}
 .container-fluid
   h1 {{vm.languageSeries.title}}
 .container-fluid
-  lessons-list(config="lessonsConfig")
+  table.table.table-hover.table-striped.table-condensed
+    thead
+      tr
+        th Actions
+        th Number
+        th Title
+        th TRT
+        th Due Date
+        th Status
+    tbody
+      tr(ng-repeat="lesson in vm.lessons | orderBy: vm.sortOrder")
+        td
+          div.btn-group
+            button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+              | Actions
+              span(class="caret")
+            ul(class="dropdown-menu")
+              li
+                a(href="#", ng-click="vm.deleteLesson(lesson)") Delete Lesson
+        td {{lesson.number}}
+        td
+          a(href="/lesson/{{lesson.id}}") {{lesson.title}}
+        td {{lesson.trt | secondsToDateTime | date:'m:ss' }}
+        td {{lesson.dueDate() | date: 'MMM d, yyyy'}}
+        td
+          span.glyphicon.glyphicon-facetime-video(aria-hidden="true", ng-show="lesson.isShot")
+          span.glyphicon.glyphicon-apple(aria-hidden="true", ng-show="lesson.allTasksCompleted")
+          span.glyphicon.glyphicon-font(aria-hidden="true", ng-show="lesson.checkedLanguage")
+          span.glyphicon.glyphicon-ok(aria-hidden="true", ng-show="lesson.checkedVideo")
+          span.glyphicon.glyphicon-floppy-save(aria-hidden="true", ng-show="lesson.filesMoved")
   .col-sm-6
     .panel.panel-default(ng-show="identity.isAdmin()")
       .panel-heading

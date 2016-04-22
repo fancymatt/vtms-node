@@ -1,0 +1,143 @@
+.content {
+  margin: 10px 30px;
+}
+
+.main h3 {
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+  margin-top: 0px;
+}
+
+
+/* Breadcrumbs */
+
+.breadcrumb {
+  font-size: 14px;
+  font-family: "Helvetica Neue";
+}
+
+
+/* Sidebar */
+
+.sidebar h3 {
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.info-box {
+  border: 1px #d4d4d4 solid;
+  border-radius: 3px;
+  line-height: 18px;
+  font-family: "Helvetica Neue";
+  font-size: 12px;
+}
+
+.info-box ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.info-box ul li {
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.info-box ul li .label {
+  color: #575757;
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.label {
+  font-family: "Helvetica Neue";
+  color: black;
+  width: 100px;
+  text-align: right;
+  float: left;
+  padding-left: 0px;
+  font-size: 12px;
+}
+
+.value {
+  font-weight: bold;
+  display: table;
+  word-break: break-word;
+}
+
+.info-box li:hover {
+  background: #fafafa;
+}
+
+span.status {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  margin: 3px 5px 0px 0px;
+  float: left;
+}
+
+span.complete {
+  background: #41af1c;
+}
+
+span.incomplete {
+  background: #d4d4d4;
+}
+
+
+/* List */
+
+.list {
+  line-height: 18px;
+  font-family: "Helvetica Neue";
+  font-size: 12px;
+}
+
+.list ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.list ul li {
+
+}
+
+.list ul li .label {
+  text-align: left;
+}
+
+
+/* activity */
+
+.activity-feed {
+
+}
+
+.activity {
+  border-bottom: 1px #d4d4d4 solid;
+  line-height: 18px;
+  margin: 0px 0px;
+  padding: 7px 0px;
+}
+
+.activity .head {
+  display: list-item;
+  list-style: none;
+}
+
+.activity .head .name span {
+  font-weight: bold;
+  float: left;
+}
+
+.activity .head .timestamp span {
+  font-style: italic;
+  font-weight: normal;
+  color: grey;
+  float: right;
+}
+
+.activity .body {
+  clear: both;
+}
