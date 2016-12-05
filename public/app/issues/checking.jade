@@ -14,6 +14,8 @@
     .panel-heading.text-center {{ctrl.lesson.languageSery.title + " #" + ctrl.lesson.number + " - " + ctrl.lesson.title}}
     .panel-body.text-center
       video-player(config="ctrl.config")
+.container.text-right
+    a(href="{{ctrl.lesson.qaUrl}}") Watch on Dropbox
 .container(ng-show="ctrl.identity.isAdmin()")
   .btn-group(role="group")
     button.btn.btn-default(ng-hide="ctrl.lesson.checkedLanguage", type="button", ng-click="ctrl.markAsLanguageApproved()") Mark as Language Approved
