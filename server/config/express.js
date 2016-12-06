@@ -7,7 +7,7 @@ var express = require('express'),
     passport = require('passport'),
     shortid = require('shortid');
 
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var RedisStore = require('connect-redis')(session);
 
 module.exports = function(app, config) {
   app.set('view engine', 'jade');
@@ -25,8 +25,9 @@ module.exports = function(app, config) {
       return shortid.generate();
     },
     cookie: {},
-    store: new SequelizeStore({
-      db: sequelize
+    store: new RedisStore({
+       host: 'localhost',
+       port: 9382
     })
   }));
   app.use(passport.initialize());
