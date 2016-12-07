@@ -1,5 +1,8 @@
 .DS_Store
+httpd-app.conf
+npm-debug.log
 public/.DS_Store
 node_modules
 bower_components
 server/config/config.js
+.idea
