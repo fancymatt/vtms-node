@@ -10,3 +10,13 @@
     a(href="#", editable-text="languageSeries.title", onbeforesave="update({title: $data})") {{languageSeries.title}}
 .container-fluid
   lessons-list(config="lessonsConfig")
+  .col-sm-6
+    .panel.panel-default(ng-show="identity.isAdmin()")
+      .panel-heading
+        h3.panel-title Create Lessons in Series
+      .panel-body
+        .input-group
+          select.form-control(ng-model="newLessons.selectedNumber")
+            option(ng-repeat="number in newLessons.possibleValues", value="{{number}}") {{number}}
+          span.input-group-btn
+            button.btn.btn-default(type="button", ng-click="createNewLessons()") Add {{newLessons.selectedNumber}} Lessons
