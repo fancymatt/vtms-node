@@ -26,8 +26,9 @@ module.exports = function(app, config) {
     },
     cookie: {},
     store: new RedisStore({
-       host: 'localhost',
-       port: 9382
+       //host: 'localhost',
+       //port: 9382
+       socket: '/opt/bitnami/redis/var/run/redis.sock'
     })
   }));
   app.use(passport.initialize());
