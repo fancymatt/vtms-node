@@ -25,8 +25,8 @@
         th(ng-show="config.columns.actions && identity.isLoggedIn()") Actions
         th(ng-show="config.columns.series") Series
         th(ng-show="config.columns.number") Number
-        th(ng-show="config.columns.title") Title
         th(ng-show="config.columns.shortLesson") Lesson
+        th(ng-show="config.columns.title") Title
         th(ng-show="config.columns.platform") Platform
         th(ng-show="config.columns.date") Publish Date
         th(ng-show="config.columns.date && identity.isAdmin()") Edit
@@ -47,10 +47,10 @@
                 a(href="#", ng-click="delete(publishDate)") Delete
         td(ng-show="config.columns.series") {{publishDate.lesson.languageSery.title}}
         td(ng-show="config.columns.number") {{publishDate.lesson.number}}
-        td(ng-show="config.columns.title")
-          a(ng-href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.title}}
         td(ng-show="config.columns.shortLesson")
           a(href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.languageSery.language.name}} {{publishDate.lesson.languageSery.series.title}} ({{publishDate.lesson.languageSery.level.code}}) {{"#" + publishDate.lesson.number}}
+        td(ng-show="config.columns.title")
+          a(ng-href="/lesson/{{publishDate.lesson.id}}") {{publishDate.lesson.title}}
         td(ng-show="config.columns.platform") {{publishDate.platform.name }}
         td(ng-show="config.columns.date") {{publishDate.date | date: 'EEE, MMM d, yyyy'}}
         td(ng-show="config.columns.date && identity.isAdmin()")

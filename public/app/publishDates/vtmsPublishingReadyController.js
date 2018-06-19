@@ -17,6 +17,7 @@ angular.module('vtms').controller('vtmsPublishingReadyController', function($sco
     },
     columns: {
       actions: true,
+      title: true,
       shortLesson: true,
       platform: true,
       date: true,
