@@ -129,7 +129,24 @@ exports.getReadyToDeliverPublishDates = function(req, res) {
   })
   .then(function(publishDates) {
     if(publishDates) {
-     res.send(publishDates);
+      // for each youtube publish date
+      // check to see if there is a site publish date
+      // if so, hide the youtube publish date
+      var siteReadyToPublishLessons = [];
+      publishDates.forEach(function(publishDate) {
+        if (publishDate.platform.name === 'pod101') {
+          siteReadyToPublishLessons.push(publishDate.lesson.id);
+        }
+      });
+      publishDates.forEach(function(publishDate) {
+        for (var i = 0; i < siteReadyToPublishLessons.length; i++) {
+          if (publishDate.lesson.id === siteReadyToPublishLessons[i] && publishDate.platform.name == 'youtube') {
+            publishDate.lesson.title = "**Publish on Site First** " + publishDate.lesson.title;
+            console.log('Lesson with id ' + publishDate.lesson.id + ' has a YouTube publish date, removing site publish date...');
+          }
+        }
+      });
+      res.send(publishDates);
     } else {
       res.status(404).send({error: 'No publish dates were found.'});
     }
